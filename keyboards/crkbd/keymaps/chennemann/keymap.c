@@ -17,34 +17,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-#include "features/achordion.h"
-
-
-bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-  if (!process_achordion(keycode, record)) { return false; }
-  
-  // Your macros ...
-
-  return true;
-}
-
-
-void matrix_scan_user(void) {
-  // Setup Achordion (Mod-Tap Fix)
-  achordion_task();
-}
-
 
 
 // HOME ROW MODS 
-#define HOME_A MT(KC_LGUI, KC_A)
+#define HOME_A MT(MOD_LGUI, KC_A)
 #define HOME_S MT(MOD_LALT, KC_S)
 #define HOME_D MT(MOD_LSFT, KC_D)
 #define HOME_F MT(MOD_LCTL, KC_F)
 #define HOME_J MT(MOD_RCTL, KC_J)
 #define HOME_K MT(MOD_RSFT, KC_K)
 #define HOME_L MT(MOD_LALT, KC_L)
-#define HOME__ MT(KC_RGUI, KC_SCLN)
+#define HOME__ MT(MOD_RGUI, KC_SCLN)
 
 
 
