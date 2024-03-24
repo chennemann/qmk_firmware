@@ -16,10 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include QMK_KEYBOARD_H
-#include "keymap_german.h"
-#include "sendstring_german.h"
+#include "keymap.h"
 #include "features/achordion.h"
+#include "features/overrides.c"
+
+#ifdef CAPS_WORD_ENABLE
+    #include "features/caps_word.h"
+#endif // CAPS_WORD_ENABLE
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
@@ -56,16 +59,6 @@ void matrix_scan_user(void) {
 #define QHOME_K MT(MOD_RSFT, DE_K)
 #define QHOME_L MT(MOD_LALT, DE_L)
 #define QHOME__ MT(MOD_RGUI, DE_SCLN)
-
-
-enum layers {
-  QWERTZ,
-  BASE,
-  NUM,
-  SYM,
-  NAV
-};
-
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -137,18 +130,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )*/
 };
 
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
-
-// This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
-    NULL // Null terminate the array of overrides!
-};
-
 const uint16_t caps_word1[] PROGMEM = { LSFT_T(DE_D), KC_SPC, COMBO_END};
 const uint16_t caps_word2[] PROGMEM = { RSFT_T(DE_K), KC_SPC, COMBO_END};
 
-const uint16_t escape[] PROGMEM = { DE_I, DE_O, COMBO_END};
+const uint16_t escape[] PROGMEM = { RCTL_T(DE_J), RSFT_T(DE_K), COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(caps_word1, CW_TOGG),
