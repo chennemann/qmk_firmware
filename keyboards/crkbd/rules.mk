@@ -13,6 +13,9 @@ RGB_MATRIX_SUPPORTED = no
 # COMBO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 
+# Enable Bilateral Combinations (Sunaku & Manna Harbour https://github.com/manna-harbour/qmk_firmware/pull/56#user-content-flowchart)
+DEFERRED_EXEC_ENABLE = yes
+
 CONVERT_TO=promicro_rp2040
 
 

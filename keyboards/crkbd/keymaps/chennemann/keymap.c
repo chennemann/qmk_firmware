@@ -17,21 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-#include "features/achordion.h"
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-  if (!process_achordion(keycode, record)) { return false; }
   
   // Your macros ...
 
   return true;
-}
-
-
-void matrix_scan_user(void) {
-  // Setup Achordion (Mod-Tap Fix)
-  achordion_task();
 }
 
 
