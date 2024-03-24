@@ -17,29 +17,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+#include "features/achordion.h"
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  if (!process_achordion(keycode, record)) { return false; }
+  
+  // Your macros ...
+
+  return true;
+}
+
+
+void matrix_scan_user(void) {
+  // Setup Achordion (Mod-Tap Fix)
+  achordion_task();
+}
+
 
 
 // HOME ROW MODS 
-#define LGUI_MT MT(KC_A, KC_LGUI)
-#define LALT_MT MT(MOD_LALT, KC_S)
-#define LSFT_MT MT(MOD_LSFT, KC_D)
-#define LCTL_MT MT(MOD_LCTL, KC_F)
-#define RCTL_MT MT(MOD_LCTL, KC_F)
-#define RSFT_MT MT(MOD_LSFT, KC_D)
-#define RGUI_MT MT(KC_SCLN, KC_LGUI)
+#define HOME_A MT(KC_LGUI, KC_A)
+#define HOME_S MT(MOD_LALT, KC_S)
+#define HOME_D MT(MOD_LSFT, KC_D)
+#define HOME_F MT(MOD_LCTL, KC_F)
+#define HOME_J MT(MOD_RCTL, KC_J)
+#define HOME_K MT(MOD_RSFT, KC_K)
+#define HOME_L MT(MOD_LALT, KC_L)
+#define HOME__ MT(KC_RGUI, KC_SCLN)
 
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Z,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, LGUI_MT, LALT_MT, LSFT_MT, LCTL_MT,    KC_G,                         KC_H,    RCTL_MT,    RSFT_MT,    LALT_MT, RGUI_MT, KC_QUOT,
+      KC_LCTL,  HOME_A,  HOME_S,  HOME_D,  HOME_F,    KC_G,                         KC_H,  HOME_J,  HOME_K,  HOME_L, HOME__,  KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Y,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(1),  KC_ENT,     KC_SPC,   MO(2), KC_RALT
+                                          KC_ENT,   MO(1),  KC_SPC,     KC_SPC,   MO(2), KC_RALT
                                       //`--------------------------'  `--------------------------'
 
   ),
