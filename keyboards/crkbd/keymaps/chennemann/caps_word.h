@@ -6,7 +6,7 @@ typedef enum {
     CWMODE_NUM_LOCK,
     CWMODE_ARROW_SHIFT,
     CWMODE_CONSTANT_CASE,  // CONSTANT_CASE
-    CWMODE_CAMEL_CASE      // camelCase
+    CWMODE_CAMEL_CASE,      // camelCase
     CWMODE_SPACE_SUB       // will substitute space with a predefined character. can be used for
                            // kebab-case, snake_case, slash/case (path/to/file), or others.
 } caps_word_mode_t;
