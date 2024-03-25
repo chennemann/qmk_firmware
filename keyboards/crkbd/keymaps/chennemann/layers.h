@@ -1,7 +1,7 @@
 #pragma once
 
 enum layers {
-  QWERTZ,
+  QWERTZ = 0,
   BASE,
   NUM,
   SYM,
