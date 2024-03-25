@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "keymap.h"
+#include "sendstring_german.h"
 #include "features/achordion.h"
-#include "features/overrides.c"
 
 #ifdef CAPS_WORD_ENABLE
     #include "features/caps_word.h"
@@ -39,26 +39,24 @@ void matrix_scan_user(void) {
   achordion_task();
 }
 
-
-
 // HOME ROW MODS 
-#define HOME_C MT(MOD_LGUI, DE_C)
-#define HOME_I MT(MOD_LALT, DE_I)
-#define HOME_E MT(MOD_LSFT, DE_E)
-#define HOME_A MT(MOD_LCTL, DE_A)
-#define HOME_H MT(MOD_RCTL, DE_H)
-#define HOME_T MT(MOD_RSFT, DE_T)
-#define HOME_S MT(MOD_LALT, DE_S)
-#define HOME_N MT(MOD_RGUI, DE_N)
+#define HOME_C MT_LG(DE_C)
+#define HOME_I MT_L(DE_I)
+#define HOME_E MT_L(DE_E)
+#define HOME_A MT_L(DE_A)
+#define HOME_H MT(RCTL, DE_H)
+#define HOME_T MT(RSFT, DE_T)
+#define HOME_S MT(LALT, DE_S)
+#define HOME_N MT(RGUI, DE_N)
 
-#define QHOME_A MT(MOD_LGUI, DE_A)
-#define QHOME_S MT(MOD_LALT, DE_S)
-#define QHOME_D MT(MOD_LSFT, DE_D)
-#define QHOME_F MT(MOD_LCTL, DE_F)
-#define QHOME_J MT(MOD_RCTL, DE_J)
-#define QHOME_K MT(MOD_RSFT, DE_K)
-#define QHOME_L MT(MOD_LALT, DE_L)
-#define QHOME__ MT(MOD_RGUI, DE_SCLN)
+#define QHOME_A MT_LG(DE_A)
+#define QHOME_S MT_LA(DE_S)
+#define QHOME_D MT_LS(DE_D)
+#define QHOME_F MT_LC(DE_F)
+#define QHOME_J MT_RC(DE_J)
+#define QHOME_K MT_RS(DE_K)
+#define QHOME_L MT_LA(DE_L)
+#define QHOME__ MT_RG(DE_SCLN)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -72,9 +70,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    DE_Y,    DE_X,    DE_C,    DE_V,    DE_B,                         DE_N,    DE_M, DE_COMM,  DE_DOT, DE_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT,  CW_TOGG,  KC_SPC,     KC_SPC, XXXXXXX, KC_RALT
+                                          KC_ENT, CW_TOGG, KC_SPC,  KC_SPC, XXXXXXX, KC_RALT
                                       //`--------------------------'  `--------------------------'
 
+  ),
+  
+
+    [NUM] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_7,    DE_8,    DE_9, XXXXXXX, KC_BSPC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_4,    DE_5,    DE_6, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_1,    DE_2,    DE_3, DE_COMM,  DE_DOT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                           KC_ESC,  KC_ESC,   KC_ESC,    KC_SPC,    DE_0,    DE_0
+                                      //`--------------------------'  `--------------------------'
   )
 
 
@@ -90,19 +101,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           KC_ENT,  QK_CAPS_WORD_TOGGLE,  KC_SPC,     KC_SPC, XXXXXXX, KC_RALT
                                       //`--------------------------'  `--------------------------'
 
-  ),
-  
-
-    [NUM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       _______,    DE_1,    DE_2,    DE_3,    DE_4,    DE_5,                         DE_6,    DE_7,    DE_8,    DE_9,    DE_0, DE_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      DE_LEFT, DE_DOWN,   DE_UP,DE_RIGHT, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          DE_LGUI, _______,  _______,     _______,   MO(3), DE_RALT
-                                      //`--------------------------'  `--------------------------'
   ),
 
     [SYM] = LAYOUT_split_3x6_3(
