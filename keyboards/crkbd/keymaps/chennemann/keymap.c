@@ -17,20 +17,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "keymap.h"
+#include "leader.h"
 #include "sendstring_german.h"
-#include "features/achordion.h"
+#include "achordion.h"
 
 #ifdef CAPS_WORD_ENABLE
-    #include "features/caps_word.h"
+    #include "caps_word.h"
 #endif // CAPS_WORD_ENABLE
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   
+  // Process Leader Sequences before Home-Row-Mods
+  if (!process_leader(keycode, record))    { return false; }
+  
   // Enable Achordion Home-Row Mods
   if (!process_achordion(keycode, record)) { return false; }
   
   switch (keycode) {
+    case UKC_LEADER:
+        if (record->event.pressed) {
+            start_leading();
+            return false;
+        }
     case UKC_NUM_LOCK:
         if (record->event.pressed) {
             toggle_caps_word_mode(CWMODE_NUM_LOCK);
@@ -85,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    DE_Y,    DE_X,    DE_C,    DE_V,    DE_B,                         DE_N,    DE_M, DE_COMM,  DE_DOT, DE_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT, UKC_NUM_LOCK, KC_SPC,  KC_SPC, KC_RALT, QK_LEAD
+                                          KC_ENT, UKC_NUM_LOCK, KC_SPC,  KC_SPC, KC_RALT, UKC_LEADER 
                                       //`--------------------------'  `--------------------------'
 
   ),

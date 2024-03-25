@@ -167,6 +167,7 @@ void caps_word_set_user(bool active) {
         // Go back to make sure that when it turns on next without any sepcification (ex. through
         // the CAPS_WORD key), it's in the default caps_word mode
         g_caps_word_mode = CAPS_WORD_MODE_DEFAULT;
+        g_caps_word_space_substitute = CAPS_WORD_SPACE_SUB_DEFAULT;
     }
 }
 
@@ -190,4 +191,11 @@ bool toggle_caps_word_mode(caps_word_mode_t new_mode) {
         }
     }
     return is_caps_word_on();
+}
+
+// Sets up caps word where every space is substituted with the provided key code. This can be used
+// for kebab-case (dash/hyphen), snake_case (underscore), or others.
+bool toggle_caps_word_space_sub(uint16_t sub_keycode) {
+    g_caps_word_space_substitute = sub_keycode;
+    return toggle_caps_word_mode(CWMODE_SPACE_SUB);
 }
