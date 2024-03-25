@@ -8,7 +8,7 @@ caps_word_mode_t g_caps_word_mode = CAPS_WORD_MODE_DEFAULT;
 bool g_caps_word_last_key_was_space = false;
 uint16_t g_caps_word_space_substitute = CAPS_WORD_SPACE_SUB_DEFAULT;
 
-bool caps_word_press_user(uint16_t keycode) {
+bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
 
     if (keycode == KC_NO) {
         return true;
@@ -20,16 +20,28 @@ bool caps_word_press_user(uint16_t keycode) {
         return false;
     }
 
-
     if (keycode == KC_SPC) {
         if (!g_caps_word_last_key_was_space) {
-            // If the last key was NOT a space, then register it having been pressed and
-            // move on as normal
-            if (g_caps_word_mode == CWMODE_NUM_LOCK) {
-                layer_off(NUM);
-            } else if (g_caps_word_mode == CWMODE_SPACE_SUB) {            
-                tap_code16(g_caps_word_space_substitute);
+
+            switch (g_caps_word_mode) {
+                case CWMODE_NUM_LOCK:
+                    layer_off(NUM);
+                    break;
+                case CWMODE_CONSTANT_CASE:
+                    tap_code16(DE_UNDS);
+                    *interrupted = true;
+                    break;
+                case CWMODE_CAMEL_CASE:
+                    add_oneshot_mods(MOD_LSFT);
+                    *interrupted = true;
+                    break;
+                case CWMODE_SPACE_SUB:
+                    tap_code16(g_caps_word_space_substitute);
+                    *interrupted = true;
+                default:
+                    break;
             }
+
             g_caps_word_last_key_was_space = true;
             return true;
         } else {
@@ -121,26 +133,8 @@ bool caps_word_press_user(uint16_t keycode) {
                 case DE_A ... DE_Z:
                 case DE_1 ... DE_0:
                 case KC_BACKSPACE:
-                    // If we're continuing on after a space, then we need to "address" that prior
-                    // space in some way. The way we do that depends on what mode we're in. But
-                    // in all cases, first we need to remove that space and then replace it with
-                    // another character or another operating mode (ex. OSM)
+                    // If we're continuing on after a space, then we need to resume the handling normally
                     if (g_caps_word_last_key_was_space) {
-                        tap_code16(KC_BACKSPACE);
-                        switch (g_caps_word_mode) {
-                            case CWMODE_CONSTANT_CASE:
-                                tap_code16(DE_UNDS);
-                                break;
-                            case CWMODE_CAMEL_CASE:
-                                add_oneshot_mods(MOD_LSFT);
-                                break;
-                            case CWMODE_SPACE_SUB:
-                                //tap_code16(g_caps_word_space_substitute);
-                                break;
-                            default:
-                                break;
-
-                        }
                         g_caps_word_last_key_was_space = false;
                     }
                     // If we're in CONSTANT_CASE, then we need to upper case letters
