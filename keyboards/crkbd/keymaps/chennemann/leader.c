@@ -24,22 +24,11 @@ bool is_leading(void) {
 void start_leading(void) {
     leading = true;
     leader_func = leader_start_func;
-#ifdef LEADER_DISPLAY_STR
-    memset(leader_display, 0, sizeof(leader_display));
-    leader_display[0] = 'L';
-    leader_display[1] = 'D';
-    leader_display[2] = 'R';
-    leader_display[3] = '-';
-    leader_display_size = 3;
-#endif
 }
 // Stop leader sequence
 void stop_leading(void) {
     leading = false;
     leader_func = NULL;
-#ifdef LEADER_DISPLAY_STR
-    leader_display[leader_display_size] = ' ';
-#endif
 }
 
 // Process keycode for leader sequences

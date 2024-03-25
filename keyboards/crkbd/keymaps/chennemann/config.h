@@ -29,6 +29,7 @@
 // -----------------
 
 #define CAPS_WORD_IDLE_TIMEOUT 5000  // 5 seconds.
+#define CAPS_WORD_INVERT_ON_SHIFT
 
 
 

@@ -18,7 +18,45 @@ bool caps_word_press_user(uint16_t keycode) {
         // Prematurely exit the mode while preventing any unwanted keystrokes
         tap_code16(KC_NO);
         return false;
+    }
 
+
+    if (keycode == KC_SPC) {
+        if (!g_caps_word_last_key_was_space) {
+            // If the last key was NOT a space, then register it having been pressed and
+            // move on as normal
+            if (g_caps_word_mode == CWMODE_NUM_LOCK) {
+                layer_off(NUM);
+            } else if (g_caps_word_mode == CWMODE_SPACE_SUB) {            
+                tap_code16(g_caps_word_space_substitute);
+            }
+            g_caps_word_last_key_was_space = true;
+            return true;
+        } else {
+            // if this is the second space in a row, delete one and exit Caps Word
+            tap_code16(KC_BACKSPACE);
+            return false;
+        }
+    }
+
+    if (g_caps_word_last_key_was_space) {
+        if (keycode == KC_BSPC) {
+            // if a Backspace is registered after we pressed space
+            // we delete the added space and resume the Caps_Word_Mode
+            if (g_caps_word_mode == CWMODE_NUM_LOCK) {
+                layer_on(NUM);
+            }
+            g_caps_word_last_key_was_space = false;
+            return true;
+        }
+
+        switch(g_caps_word_mode) {
+            case CWMODE_NORMAL:
+            case CWMODE_NUM_LOCK:
+                return false;  // Deactivate Caps Word.
+            default:
+                break;
+        }
     }
 
     switch(g_caps_word_mode) {
@@ -35,41 +73,23 @@ bool caps_word_press_user(uint16_t keycode) {
                 case DE_MINS:
                 case DE_UNDS:
                     return true;
-
                 default:
                     return false;  // Deactivate Caps Word.
             }
         case CWMODE_NUM_LOCK:
-            if (g_caps_word_last_key_was_space) {
-                if (keycode == KC_SPC) {
-                    tap_code16(KC_BACKSPACE);
-                    return false;
-                } else if (keycode != KC_BSPC) {
-                    return false;
-                } else {
-                    g_caps_word_last_key_was_space = false;
-                    layer_on(NUM);
+            switch (keycode) {
+                // Keycodes that continue Num Lock.
+                case DE_1 ... DE_0:
+                case DE_DOT:
+                case DE_COMM:
+                case DE_PLUS:
+                case DE_MINS:
+                case DE_SLSH:
+                case DE_ASTR:
+                case KC_BSPC:
                     return true;
-                }
-            } else {
-                switch (keycode) {
-                    // Keycodes that continue Num Lock.
-                    case DE_1 ... DE_0:
-                    case DE_DOT:
-                    case DE_COMM:
-                    case DE_PLUS:
-                    case DE_MINS:
-                    case DE_SLSH:
-                    case DE_ASTR:
-                    case KC_BSPC:
-                        return true;
-                    case KC_SPACE:                
-                        g_caps_word_last_key_was_space = true;
-                        layer_off(NUM);
-                        return true;
-                    default:
-                        return false;  // Deactivate Caps Word.
-                }
+                default:
+                    return false;  // Deactivate Caps Word.
             }
         case CWMODE_ARROW_SHIFT:
             switch (keycode) {
@@ -97,22 +117,9 @@ bool caps_word_press_user(uint16_t keycode) {
         case CWMODE_SPACE_SUB:
             switch (keycode) {
                 case KC_SPACE:
-                    // If the last key was NOT a space, then register it having been pressed and
-                    // move on as normal
-                    if (!g_caps_word_last_key_was_space) {
-                        g_caps_word_last_key_was_space = true;
-                        return true;
-                    }
-                    // if this is the second space in a row, delete one and exit Caps Word
-                    else {
-                        tap_code16(KC_BACKSPACE);
-                        return false;
-                    }
-
                 // Keys that do NOT break the Caps Word state
                 case DE_A ... DE_Z:
                 case DE_1 ... DE_0:
-                // case 
                 case KC_BACKSPACE:
                     // If we're continuing on after a space, then we need to "address" that prior
                     // space in some way. The way we do that depends on what mode we're in. But
@@ -128,7 +135,7 @@ bool caps_word_press_user(uint16_t keycode) {
                                 add_oneshot_mods(MOD_LSFT);
                                 break;
                             case CWMODE_SPACE_SUB:
-                                tap_code16(g_caps_word_space_substitute);
+                                //tap_code16(g_caps_word_space_substitute);
                                 break;
                             default:
                                 break;
