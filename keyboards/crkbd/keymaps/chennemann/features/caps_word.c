@@ -1,8 +1,12 @@
+// Heavily inspired by Ga68 (https://www.reddit.com/r/olkb/comments/y07cb8/new_multimode_use_for_caps_word/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
+// https://github.com/Ga68/qmk_firmware/blob/my_layout/keyboards/sofle/keymaps/Ga68/caps_word.c
+
 #include "keymap.h"
 #include "caps_word.h"
 
 caps_word_mode_t g_caps_word_mode = CAPS_WORD_MODE_DEFAULT;
 bool g_caps_word_last_key_was_space = false;
+uint16_t g_caps_word_space_substitute = CAPS_WORD_SPACE_SUB_DEFAULT;
 
 bool caps_word_press_user(uint16_t keycode) {
 
@@ -89,9 +93,8 @@ bool caps_word_press_user(uint16_t keycode) {
                     return false;  // Deactivate Caps Word.
             }
         case CWMODE_CONSTANT_CASE:
-        case CWMODE_KEBAB_CASE:
-        case CWMODE_SNAKE_CASE:
         case CWMODE_CAMEL_CASE:
+        case CWMODE_SPACE_SUB:
             switch (keycode) {
                 case KC_SPACE:
                     // If the last key was NOT a space, then register it having been pressed and
@@ -119,14 +122,13 @@ bool caps_word_press_user(uint16_t keycode) {
                         tap_code16(KC_BACKSPACE);
                         switch (g_caps_word_mode) {
                             case CWMODE_CONSTANT_CASE:
-                            case CWMODE_SNAKE_CASE:
                                 tap_code16(DE_UNDS);
-                                break;
-                            case CWMODE_KEBAB_CASE:
-                                tap_code16(DE_MINS);
                                 break;
                             case CWMODE_CAMEL_CASE:
                                 add_oneshot_mods(MOD_LSFT);
+                                break;
+                            case CWMODE_SPACE_SUB:
+                                tap_code16(g_caps_word_space_substitute);
                                 break;
                             default:
                                 break;
