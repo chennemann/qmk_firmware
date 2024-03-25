@@ -12,6 +12,7 @@ SRC += features/caps_word.c
 DEFAULT_FOLDER = crkbd/rev1
 
 COMBO_ENABLE = yes
+LEADER_ENABLE = yes
 
 CONVERT_TO=promicro_rp2040
 
