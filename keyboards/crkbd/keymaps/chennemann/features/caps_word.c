@@ -5,6 +5,18 @@ caps_word_mode_t g_caps_word_mode = CAPS_WORD_MODE_DEFAULT;
 bool g_caps_word_last_key_was_space = false;
 
 bool caps_word_press_user(uint16_t keycode) {
+
+    if (keycode == KC_NO) {
+        return true;
+    }
+
+    if (keycode == KC_ESC) {
+        // Prematurely exit the mode while preventing any unwanted keystrokes
+        tap_code16(KC_NO);
+        return false;
+
+    }
+
     switch(g_caps_word_mode) {
         case CWMODE_NORMAL:
             switch (keycode) {
@@ -24,16 +36,36 @@ bool caps_word_press_user(uint16_t keycode) {
                     return false;  // Deactivate Caps Word.
             }
         case CWMODE_NUM_LOCK:
-            switch (keycode) {
-                // Keycodes that continue Caps Word, without shifting.
-                case DE_1 ... DE_0:
-                case DE_DOT:
-                case DE_COMM:
-                case KC_BSPC:
+            if (g_caps_word_last_key_was_space) {
+                if (keycode == KC_SPC) {
+                    tap_code16(KC_BACKSPACE);
+                    return false;
+                } else if (keycode != KC_BSPC) {
+                    return false;
+                } else {
+                    g_caps_word_last_key_was_space = false;
+                    layer_on(NUM);
                     return true;
-
-                default:
-                    return false;  // Deactivate Caps Word.
+                }
+            } else {
+                switch (keycode) {
+                    // Keycodes that continue Num Lock.
+                    case DE_1 ... DE_0:
+                    case DE_DOT:
+                    case DE_COMM:
+                    case DE_PLUS:
+                    case DE_MINS:
+                    case DE_SLSH:
+                    case DE_ASTR:
+                    case KC_BSPC:
+                        return true;
+                    case KC_SPACE:                
+                        g_caps_word_last_key_was_space = true;
+                        layer_off(NUM);
+                        return true;
+                    default:
+                        return false;  // Deactivate Caps Word.
+                }
             }
         case CWMODE_ARROW_SHIFT:
             switch (keycode) {

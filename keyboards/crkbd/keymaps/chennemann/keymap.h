@@ -4,6 +4,25 @@
 #include "layers.h"
 #include "keymap_german.h"
 
+// ----------------------
+// --- Keycode Legend ---
+// ----------------------
+//   UKC = User Keycode
+//   ZM = Zoom
+//   CB = Combo
+
+
+// ---------------------
+// --- User Keycodes ---
+// ---------------------
+
+enum my_keycodes {
+    UKC_STARTING_POINT = SAFE_RANGE,
+
+    UKC_CAPS_WORD,
+    UKC_NUM_LOCK
+};
+
 
 // ------------
 // --- Mods ---
