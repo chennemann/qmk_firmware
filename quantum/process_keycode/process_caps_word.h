@@ -31,8 +31,9 @@ bool process_caps_word(uint16_t keycode, keyrecord_t* record);
 /**
  * @brief Weak function for user-level Caps Word press modification.
  *
- * @param keycode   Keycode registered by matrix press, per keymap
- * @return true     Continue Caps Word
- * @return false    Stop Caps Word
+ * @param keycode       Keycode registered by matrix press, per keymap
+ * @param interrupted   If set to true the original keypress is interrupted and not send to host
+ * @return true         Continue Caps Word
+ * @return false        Stop Caps Word
  */
-bool caps_word_press_user(uint16_t keycode);
+bool caps_word_press_user(uint16_t keycode, bool *interrupted);
