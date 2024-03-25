@@ -26,9 +26,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  
+  // Enable Achordion Home-Row Mods
   if (!process_achordion(keycode, record)) { return false; }
   
-  // Your macros ...
+  switch (keycode) {
+    case UKC_NUM_LOCK:
+        if (record->event.pressed) {
+            toggle_caps_word_mode(CWMODE_NUM_LOCK);
+            return false;
+        }
+        break;
+    case UKC_CAPS_WORD:
+        if (record->event.pressed) {
+            toggle_caps_word_mode(CWMODE_NORMAL);
+            return false;
+        }
+        break;
+    }
 
   return true;
 }
@@ -70,11 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    DE_Y,    DE_X,    DE_C,    DE_V,    DE_B,                         DE_N,    DE_M, DE_COMM,  DE_DOT, DE_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT, CW_TOGG, KC_SPC,  KC_SPC, XXXXXXX, KC_RALT
+                                          KC_ENT, UKC_NUM_LOCK, KC_SPC,  KC_SPC, DE_0, KC_RALT
                                       //`--------------------------'  `--------------------------'
 
   ),
-  
+
 
     [NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -82,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_4,    DE_5,    DE_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_1,    DE_2,    DE_3, DE_COMM,  DE_DOT,
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      DE_COMM,    DE_1,    DE_2,    DE_3, DE_DOT,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ESC,  KC_ESC,   KC_ESC,    KC_SPC,    DE_0,    DE_0
                                       //`--------------------------'  `--------------------------'
@@ -134,8 +149,8 @@ const uint16_t caps_word2[] PROGMEM = { RSFT_T(DE_K), KC_SPC, COMBO_END};
 const uint16_t escape[] PROGMEM = { RCTL_T(DE_J), RSFT_T(DE_K), COMBO_END};
 
 combo_t key_combos[] = {
-    COMBO(caps_word1, CW_TOGG),
-    COMBO(caps_word2, CW_TOGG),
+    COMBO(caps_word1, UKC_CAPS_WORD),
+    COMBO(caps_word2, UKC_CAPS_WORD),
     COMBO(escape, KC_ESC)
 };
 uint16_t COMBO_LEN = sizeof(key_combos) / sizeof(*key_combos);
