@@ -28,7 +28,7 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                     layer_off(NUM);
                     break;
                 case CWMODE_CONSTANT_CASE:
-                    tap_code16(DE_UNDS);
+                    tap_code16(CK_UNDS);
                     *interrupted = true;
                     break;
                 case CWMODE_CAMEL_CASE:
@@ -75,15 +75,15 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
         case CWMODE_NORMAL:
             switch (keycode) {
                 // Keycodes that continue Caps Word, with shift applied.
-                case DE_A ... DE_Z:
+                case CK_A ... CK_Z:
                     add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
                     return true;
 
                 // Keycodes that continue Caps Word, without shifting.
-                case DE_1 ... DE_0:
+                case CK_1 ... CK_0:
                 case KC_BSPC:
-                case DE_MINS:
-                case DE_UNDS:
+                case CK_MINS:
+                case CK_UNDS:
                     return true;
                 default:
                     return false;  // Deactivate Caps Word.
@@ -91,13 +91,13 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
         case CWMODE_NUM_LOCK:
             switch (keycode) {
                 // Keycodes that continue Num Lock.
-                case DE_1 ... DE_0:
-                case DE_DOT:
-                case DE_COMM:
-                case DE_PLUS:
-                case DE_MINS:
-                case DE_SLSH:
-                case DE_ASTR:
+                case CK_1 ... CK_0:
+                case CK_DOT:
+                case CK_COMM:
+                case CK_PLUS:
+                case CK_MINS:
+                case CK_SLSH:
+                case CK_ASTR:
                 case KC_BSPC:
                     return true;
                 default:
@@ -130,8 +130,8 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
             switch (keycode) {
                 case KC_SPACE:
                 // Keys that do NOT break the Caps Word state
-                case DE_A ... DE_Z:
-                case DE_1 ... DE_0:
+                case CK_A ... CK_Z:
+                case CK_1 ... CK_0:
                 case KC_BACKSPACE:
                     // If we're continuing on after a space, then we need to resume the handling normally
                     if (g_caps_word_last_key_was_space) {
@@ -140,7 +140,7 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                     // If we're in CONSTANT_CASE, then we need to upper case letters
                     if (
                         g_caps_word_mode == CWMODE_CONSTANT_CASE
-                        && (DE_A <= keycode && keycode <= DE_Z)
+                        && (CK_A <= keycode && keycode <= CK_Z)
                     ) {
                         add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
                     }
