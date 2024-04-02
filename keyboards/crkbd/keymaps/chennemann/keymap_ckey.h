@@ -108,10 +108,10 @@
 #define CK_LRBR S(___LCBR)       // [
 #define CK_RRBR S(___RCBR)       // ]
 #define CK_LABK ___LABK          // <
-#define CK_LABK S(___LABK)       // >
+#define CK_RABK S(___LABK)       // >
 #define CK_EQL  ___EQL           // =
 #define CK_PLUS S(___EQL)        // +
-#define CK_PLUS ALGR(___EQL)     // *
+#define CK_ASTR ALGR(___EQL)     // *
 #define CK_MINS ___MINS          // -
 #define CK_UNDS S(___MINS)       // _
 #define CK_SLSH S(___RNBR)       // /

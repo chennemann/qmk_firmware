@@ -64,23 +64,14 @@ void matrix_scan_user(void) {
 }
 
 // HOME ROW MODS 
-#define HOME_C MT_LG(DE_C)
-#define HOME_I MT_L(DE_I)
-#define HOME_E MT_L(DE_E)
-#define HOME_A MT_L(DE_A)
-#define HOME_H MT(RCTL, DE_H)
-#define HOME_T MT(RSFT, DE_T)
-#define HOME_S MT(LALT, DE_S)
-#define HOME_N MT(RGUI, DE_N)
-
-#define QHOME_A MT_LG(DE_A)
-#define QHOME_S MT_LA(DE_S)
-#define QHOME_D MT_LS(DE_D)
-#define QHOME_F MT_LC(DE_F)
-#define QHOME_J MT_RC(DE_J)
-#define QHOME_K MT_RS(DE_K)
-#define QHOME_L MT_LA(DE_L)
-#define QHOME__ MT_RG(DE_SCLN)
+#define HOME_A MT_LG(CK_A)
+#define HOME_S MT_LA(CK_S)
+#define HOME_D MT_LS(CK_D)
+#define HOME_F MT_LC(CK_F)
+#define HOME_J MT_RC(CK_J)
+#define HOME_K MT_RS(CK_K)7756.68135
+#define HOME_L MT_LA(CK_L)
+#define HOME__ MT_RG(CK_EQL)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -88,11 +79,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [QWERTZ] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    DE_Q,    DE_W,    DE_E,    DE_R,    DE_T,                         DE_Z,    DE_U,    DE_I,    DE_O,   DE_P,  KC_BSPC,
+       KC_TAB,    CK_Q,    CK_W,    CK_E,    CK_R,    CK_T,                         CK_Z,    CK_U,    CK_I,    CK_O,   CK_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, QHOME_A, QHOME_S, QHOME_D, QHOME_F,    DE_G,                         DE_H, QHOME_J, QHOME_K, QHOME_L, QHOME__, DE_QUOT,
+      KC_LCTL,  HOME_A,  HOME_S,  HOME_D,  HOME_F,    CK_G,                         CK_H,  HOME_J,  HOME_K,  HOME_L,  HOME__, CK_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    DE_Y,    DE_X,    DE_C,    DE_V,    DE_B,                         DE_N,    DE_M, DE_COMM,  DE_DOT, DE_MINS,  KC_ESC,
+      KC_LSFT,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_ENT, UKC_NUM_LOCK, KC_SPC,  KC_SPC, KC_RALT, UKC_LEADER 
                                       //`--------------------------'  `--------------------------'
@@ -102,40 +93,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_7,    DE_8,    DE_9, XXXXXXX, KC_BSPC,
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    DE_4,    DE_5,    DE_6, XXXXXXX, XXXXXXX,
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      DE_COMM,    DE_1,    DE_2,    DE_3, DE_DOT,  XXXXXXX,
+       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      CK_COMM,    CK_1,    CK_2,    CK_3, CK_DOT,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ESC,  KC_ESC,   KC_ESC,    KC_SPC,    DE_0,    DE_0
+                                           KC_ESC,  KC_ESC,   KC_ESC,    KC_SPC,    CK_0,    CK_0
                                       //`--------------------------'  `--------------------------'
   )
 
 
 /*
-    [BASE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    DE_B,    DE_Y,    DE_O,    DE_U, DE_QUOT,                      DE_DQUO,    DE_L,    DE_D,    DE_W,   DE_V,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,  HOME_C,  HOME_I,  HOME_E,  HOME_A, DE_COMM,                       DE_DOT,  HOME_H,  HOME_T,  HOME_S, HOME_N,     DE_Z,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    DE_G,    DE_X,    DE_J,    DE_K, DE_MINS,                      DE_QUES,    DE_R,    DE_M,    DE_F,   DE_P,     DE_Q,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT,  QK_CAPS_WORD_TOGGLE,  KC_SPC,     KC_SPC, XXXXXXX, KC_RALT
-                                      //`--------------------------'  `--------------------------'
-
-  ),
 
     [SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, DE_EXLM,   DE_AT, DE_HASH,  DE_DLR, DE_PERC,                      DE_CIRC, DE_AMPR, DE_ASTR, DE_LPRN, DE_RPRN, DE_BSPC,
+      _______, CK_EXLM,   CK_AT, CK_HASH,  CK_DLR, CK_PERC,                      CK_CIRC, CK_AMPR, CK_ASTR, CK_LPRN, CK_RPRN, CK_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      DE_MINS,  DE_EQL, DE_LBRC, DE_RBRC, DE_BSLS,  DE_GRV,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_MINS,  CK_EQL, CK_LBRC, CK_RBRC, CK_BSLS,  CK_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      DE_UNDS, DE_PLUS, DE_LCBR, DE_RCBR, DE_PIPE, DE_TILD,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_UNDS, CK_PLUS, CK_LCBR, CK_RCBR, CK_PIPE, CK_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          DE_LGUI,   MO(3),  _______,     _______, _______, DE_RALT
+                                          CK_LGUI,   MO(3),  _______,     _______, _______, CK_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -147,15 +126,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          DE_LGUI, _______,  DE_SPC,     DE_ENT, _______, DE_RALT
+                                          CK_LGUI, _______,  CK_SPC,     CK_ENT, _______, CK_RALT
                                       //`--------------------------'  `--------------------------'
   )*/
 };
 
-const uint16_t caps_word1[] PROGMEM = { LSFT_T(DE_D), KC_SPC, COMBO_END};
-const uint16_t caps_word2[] PROGMEM = { RSFT_T(DE_K), KC_SPC, COMBO_END};
+const uint16_t caps_word1[] PROGMEM = { LSFT_T(CK_D), KC_SPC, COMBO_END};
+const uint16_t caps_word2[] PROGMEM = { RSFT_T(CK_K), KC_SPC, COMBO_END};
 
-const uint16_t escape[] PROGMEM = { RCTL_T(DE_J), RSFT_T(DE_K), COMBO_END};
+const uint16_t escape[] PROGMEM = { RCTL_T(CK_J), RSFT_T(CK_K), COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(caps_word1, UKC_CAPS_WORD),
