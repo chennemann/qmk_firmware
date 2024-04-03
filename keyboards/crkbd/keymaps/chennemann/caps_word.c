@@ -38,6 +38,7 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                 case CWMODE_SPACE_SUB:
                     tap_code16(g_caps_word_space_substitute);
                     *interrupted = true;
+                    break;
                 default:
                     break;
             }
@@ -99,6 +100,8 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                 case CK_SLSH:
                 case CK_ASTR:
                 case KC_BSPC:
+                case CK_EUR:
+                case CK_USD:
                     return true;
                 default:
                     return false;  // Deactivate Caps Word.

@@ -52,11 +52,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             return false;
         }
         break;
+    case UKC_NUM_LAYER_LOCK:
+        static uint16_t colon_timer;
+        if (record->event.pressed) {
+            colon_timer = timer_read();
+            layer_on(NUM);  //turn on NUM layer
+        } else {
+            layer_off(NUM);  //turn off NUM layer
+            if (timer_elapsed(colon_timer) < TAPPING_TERM) {
+                toggle_caps_word_mode(CWMODE_NUM_LOCK);
+            }
+        }
+        return false;
     }
 
   return true;
 }
-
 
 void matrix_scan_user(void) {
   // Setup Achordion (Mod-Tap Fix)
@@ -69,7 +80,7 @@ void matrix_scan_user(void) {
 #define HOME_D MT_LS(CK_D)
 #define HOME_F MT_LC(CK_F)
 #define HOME_J MT_RC(CK_J)
-#define HOME_K MT_RS(CK_K)7756.68135
+#define HOME_K MT_RS(CK_K)
 #define HOME_L MT_LA(CK_L)
 #define HOME__ MT_RG(CK_EQL)
 
@@ -85,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT, UKC_NUM_LOCK, KC_SPC,  KC_SPC, KC_RALT, UKC_LEADER 
+                                          KC_ENT, UKC_NUM_LAYER_LOCK, KC_SPC,  KC_SPC, KC_RALT, UKC_LEADER 
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -93,13 +104,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, KC_BSPC,
+      XXXXXXX, XXXXXXX,  CK_USD,  CK_EUR, XXXXXXX, XXXXXXX,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,  KC_ESC,                      CK_COMM,    CK_1,    CK_2,    CK_3, CK_DOT,  XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_COMM,    CK_1,    CK_2,    CK_3, CK_DOT,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ESC,  KC_ESC,   KC_ESC,    KC_SPC,    CK_0,    CK_0
+                                           KC_ESC,  KC_ESC,  KC_SPC,    KC_SPC,    CK_0,    CK_0
                                       //`--------------------------'  `--------------------------'
   )
 
