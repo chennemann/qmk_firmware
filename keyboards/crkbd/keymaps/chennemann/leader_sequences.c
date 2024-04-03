@@ -13,10 +13,10 @@ void *leader_caps_func(uint16_t keycode) {
         case CK_E:  // camelCase
             toggle_caps_word_mode(CWMODE_CAMEL_CASE);
             return NULL;
-        case CK_S:  // slash/case (ex. path/to/file)
+        case CK_R:  // slash/case (ex. path/to/file)
             toggle_caps_word_space_sub(CK_SLSH);
             return NULL;
-        case CK_R:  // snake_case
+        case CK_S:  // snake_case
             toggle_caps_word_space_sub(CK_UNDS);
             return NULL;
         case CK_T:  // kebab-case

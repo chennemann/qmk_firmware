@@ -143,3 +143,17 @@
 #define CK_DIVI S(ALGR(___EXLM)) // ÷
 
 
+#define CK_ENT KC_ENT
+#define CK_SPC KC_SPC
+#define CK_BSPC KC_BSPC
+#define CK_DEL KC_DEL
+#define CK_ESC KC_ESC
+#define CK_TAB KC_TAB
+#define CK_LCTL KC_LCTL
+#define CK_LSFT KC_LSFT
+#define CK_LALT KC_LALT
+#define CK_LGUI KC_LGUI
+#define CK_RCTL KC_RCTL
+#define CK_RSFT KC_RSFT
+#define CK_RALT KC_RALT
+#define CK_RGUI KC_RGUI
