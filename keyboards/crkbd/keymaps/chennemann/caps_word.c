@@ -97,8 +97,8 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                 case CK_COMM:
                 case CK_PLUS:
                 case CK_MINS:
-                case CK_SLSH:
                 case CK_ASTR:
+                case CK_SLSH:
                 case KC_BSPC:
                 case CK_EUR:
                 case CK_USD:
