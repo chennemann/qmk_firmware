@@ -79,6 +79,7 @@ void matrix_scan_user(void) {
 #define HOME__ MT_RG(CK_EQL)
 #define LSPC LT(SYM, KC_SPC)
 #define RSPC LT(SYM, KC_SPC)
+#define CK_LENT LT(NAV, KC_ENT)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -92,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        CK_ESC,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ENT, UKC_NUM_LOCK, LSPC,  RSPC, KC_RALT, UKC_LEADER 
+                                          CK_LENT, UKC_NUM_LOCK, LSPC,  RSPC, KC_RALT, UKC_LEADER 
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -124,13 +125,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, CK_UP, XXXXXXX, XXXXXXX, CK_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, C(CK_A), C(CK_Z), C(CK_Y), C(CK_T), XXXXXXX,                      CK_HOME, CK_LEFT, CK_DOWN,  CK_RIGHT, CK_END,  CK_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CK_LGUI, _______,  CK_SPC,     KC_ENT, _______, CK_RALT
+                                          XXXXXXX, XXXXXXX, XXXXXXX,     CK_RSFT, CK_RCTL, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
