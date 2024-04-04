@@ -157,3 +157,9 @@
 #define CK_RSFT KC_RSFT
 #define CK_RALT KC_RALT
 #define CK_RGUI KC_RGUI
+#define CK_LEFT KC_LEFT
+#define CK_UP KC_UP
+#define CK_RIGHT KC_RIGHT
+#define CK_DOWN KC_DOWN
+#define CK_HOME KC_HOME
+#define CK_END KC_END
