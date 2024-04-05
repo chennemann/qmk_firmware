@@ -2,29 +2,8 @@
 #include QMK_KEYBOARD_H
 
 #include "layers.h"
+#include "custom_keycodes.h"
 #include "keymap_ckey.h"
-
-// ----------------------
-// --- Keycode Legend ---
-// ----------------------
-//   UKC = User Keycode
-//   ZM = Zoom
-//   CB = Combo
-
-
-// ---------------------
-// --- User Keycodes ---
-// ---------------------
-
-enum my_keycodes {
-    UKC_STARTING_POINT = SAFE_RANGE,
-
-    UKC_LEADER,
-    
-    UKC_CAPS_WORD,
-    UKC_NUM_LOCK
-};
-
 
 // ------------
 // --- Mods ---

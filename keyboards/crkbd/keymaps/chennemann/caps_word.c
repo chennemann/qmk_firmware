@@ -26,7 +26,7 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
             switch (g_caps_word_mode) {
                 case CWMODE_NUM_LOCK:
                     tap_code16(CK_SPC);
-                    layer_off(NUM);
+                    layer_off(_NUM);
                     break;
                 case CWMODE_CONSTANT_CASE:
                     tap_code16(CK_UNDS);
@@ -46,12 +46,6 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
 
             g_caps_word_last_key_was_space = true;
             return true;
-        } else {
-            // if this is the second space in a row and we added a placeholder, delete it and exit Caps Word
-            if (g_caps_word_mode != CWMODE_CAMEL_CASE) {
-                tap_code16(KC_BACKSPACE);
-            }
-            return false;
         }
     }
 
@@ -60,18 +54,10 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
             // if a Backspace is registered after we pressed space
             // we delete the added space and resume the Caps_Word_Mode
             if (g_caps_word_mode == CWMODE_NUM_LOCK) {
-                layer_on(NUM);
+                layer_on(_NUM);
             }
             g_caps_word_last_key_was_space = false;
             return true;
-        }
-
-        switch(g_caps_word_mode) {
-            case CWMODE_NORMAL:
-            case CWMODE_NUM_LOCK:
-                return false;  // Deactivate Caps Word.
-            default:
-                break;
         }
     }
 
@@ -109,32 +95,19 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                 default:
                     return false;  // Deactivate Caps Word.
             }
-        case CWMODE_ARROW_SHIFT:
-            switch (keycode) {
-                // Keycodes that continue Caps Word, without shifting.
-                case KC_LEFT:
-                case KC_RIGHT:
-                case KC_UP:
-                case KC_DOWN:
-                case A(KC_LEFT):
-                case A(KC_RIGHT):
-                case A(KC_UP):
-                case A(KC_DOWN):
-                case G(KC_LEFT):
-                case G(KC_RIGHT):
-                case G(KC_UP):
-                case G(KC_DOWN):
-                    add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
-                    return true;
-
-                default:
-                    return false;  // Deactivate Caps Word.
-            }
         case CWMODE_CONSTANT_CASE:
         case CWMODE_CAMEL_CASE:
         case CWMODE_SPACE_SUB:
             switch (keycode) {
                 case KC_SPACE:
+                    if (g_caps_word_last_key_was_space) {
+                        g_caps_word_last_key_was_space = false;
+                        // if this is a cancellation after we added a placeholder, delete it and exit Caps Word
+                        if (g_caps_word_mode != CWMODE_CAMEL_CASE) {
+                            tap_code16(KC_BACKSPACE);
+                        }
+                        return false;  // Deactivate Caps Word
+                    }
                 // Keys that do NOT break the Caps Word state
                 case KC_A ... KC_Z:
                 case KC_1 ... KC_0:
@@ -153,6 +126,13 @@ bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
                     return true;
 
                 default:
+                    // if this is a cancellation after we added a placeholder, delete it and exit Caps Word
+                    if (g_caps_word_last_key_was_space) {
+                        if (g_caps_word_mode != CWMODE_CAMEL_CASE) {
+                            tap_code16(KC_BACKSPACE);
+                        }
+                        tap_code16(KC_SPC);
+                    }
                     return false;  // Deactivate Caps Word
             }
 
@@ -169,7 +149,7 @@ void caps_word_set_user(bool active) {
         // Do something when Caps Word deactivates.
         // If leaving the num_lock mode, then we need to exit that layer
         if (g_caps_word_mode == CWMODE_NUM_LOCK) {
-            layer_off(NUM);  // leave the numbers layer
+            layer_off(_NUM);  // leave the numbers layer
         }
         // Go back to make sure that when it turns on next without any sepcification (ex. through
         // the CAPS_WORD key), it's in the default caps_word mode
@@ -194,7 +174,7 @@ bool toggle_caps_word_mode(caps_word_mode_t new_mode) {
         g_caps_word_mode = new_mode;
         // if we're going into num_lock, then switch into the numbers layer
         if (g_caps_word_mode == CWMODE_NUM_LOCK) {
-            layer_on(NUM);
+            layer_on(_NUM);
         }
     }
     return is_caps_word_on();
