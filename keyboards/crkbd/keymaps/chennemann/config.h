@@ -20,6 +20,7 @@
 
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 220
+#define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 
 

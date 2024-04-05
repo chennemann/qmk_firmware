@@ -1,9 +1,10 @@
 #pragma once
 
 enum layers {
-  QWERTZ = 0,
-  BASE,
-  NUM,
-  SYM,
-  NAV
+  _BASE = 0,
+  _NUM,
+  _SYM,
+  _NAV,
+  _FN,
+  _CAPS_LOCK
 };

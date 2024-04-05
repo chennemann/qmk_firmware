@@ -14,6 +14,7 @@ SRC += leader_sequences.c
 DEFAULT_FOLDER = crkbd/rev1
 
 COMBO_ENABLE = yes
+TAP_DANCE_ENABLE = yes
 
 CONVERT_TO=promicro_rp2040
 
