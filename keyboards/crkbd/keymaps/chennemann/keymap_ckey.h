@@ -72,7 +72,7 @@
 #define CK_ADIA ALGR(CK_A)    // Ä
 #define CK_ODIA ALGR(CK_O)    // Ö
 #define CK_UDIA ALGR(CK_U)    // Ü
-#define CK_SS   ALGR(CK_S)    // ß
+#define CK_SS   S(___QUES)    // ßßẞß
 // romanian
 #define CK_ACIR ALGR(___LABK) // Â
 #define CK_ABRV ALGR(CK_Y)    // Ă
