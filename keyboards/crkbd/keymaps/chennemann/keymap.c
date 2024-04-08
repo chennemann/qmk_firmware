@@ -46,7 +46,7 @@ typedef enum {
 } td_state_t;
 
 enum {
-    ESC_SFT
+    ENT_SFT
 };
 
 
@@ -58,8 +58,8 @@ typedef struct {
 td_state_t leader_key_dance(tap_dance_state_t *state);
 
 // For the x tap dance. Put it here so it can be used in any keymap
-void esc_sft_finished(tap_dance_state_t *state, void *user_data);
-void esc_sft_reset(tap_dance_state_t *state, void *user_data);
+void ent_sft_finished(tap_dance_state_t *state, void *user_data);
+void ent_sft_reset(tap_dance_state_t *state, void *user_data);
 
 
 
@@ -113,15 +113,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 //}
 
 // HOME ROW MODS 
-#define HOME_A MT_LG(CK_A)
-#define HOME_S MT_LA(CK_S)
-#define HOME_D MT_LS(CK_D)
 #define HOME_F MT_LC(CK_F)
 #define HOME_J MT_RC(CK_J)
-#define HOME_K MT_RS(CK_K)
-#define HOME_L MT_LA(CK_L)
-#define HOME__ MT_RG(CK_EQL)
-#define LENT LT(_SYM, KC_ENT)
+#define LENT TD(ENT_SFT)
 #define RSPC LT(_SYM, KC_SPC)
 #define CK_LENT LT(_NAV, KC_ENT)
 
@@ -133,25 +127,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        CK_TAB,    CK_Q,    CK_W,    CK_E,    CK_R,    CK_T,                         CK_Z,    CK_U,    CK_I,    CK_O,   CK_P,  CK_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LCTL,    CK_A,    CK_S,  CK_D,    HOME_F,    CK_G,                         CK_H,  HOME_J,  CK_K,  CK_L,  CK_EQL, CK_DQUO,
+      CK_LCTL,    CK_A,    CK_S,    CK_D,  HOME_F,    CK_G,                         CK_H,  HOME_J,    CK_K,    CK_L,  CK_EQL, CK_DQUO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LSFT,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
+      CK_LALT,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CK_LENT, LENT, UKC_NUM_LOCK,  TD(ESC_SFT), CK_SPC, UKC_LEADER 
+                                MO(_NAV), TD(ENT_SFT), UKC_NUM_LOCK,  MO(_DIA), LT(_SYM, CK_SPC), CK_LALT 
                                       //`--------------------------'  `--------------------------'
+  ),
 
+
+    [_DIA] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_UDIA, XXXXXXX, CK_ODIA, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, CK_ADIA,   CK_SS, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_CCED, CK_OCRC, CK_UCRC, CK_UGRV, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, CK_ACIR, CK_ABRV, CK_ICIR, CK_SCOM, CK_TCOM,                      XXXXXXX, CK_AGRV, CK_EACU, CK_EGRV, CK_ICRC, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, CK_LSFT,  CK_SPC,    _______, CK_SPC, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
   ),
 
 
     [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX,  CK_EUR, CK_USD, XXXXXXX,                       XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX,  CK_EUR,  CK_USD, XXXXXXX,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, XXXXXXX,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX,  CK_DOT, CK_COMM, XXXXXXX, XXXXXXX,                      CK_COMM,    CK_1,    CK_2,    CK_3, CK_DOT,  XXXXXXX,
+      _______, XXXXXXX,  CK_DOT, CK_COMM, XXXXXXX, XXXXXXX,                         CK_0,    CK_1,    CK_2,    CK_3, CK_COMM, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ESC,  KC_ESC,  KC_SPC,       CK_0, _______,   CK_DOT
+                                           KC_ESC,  KC_ESC,  KC_ESC,       CK_0, _______,   CK_DOT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -169,23 +175,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_HOME, KC_PGUP, KC_PGDN, CK_END,  XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, C(CK_Y), XXXXXXX, XXXXXXX,                      XXXXXXX, CK_HOME, KC_PGUP, KC_PGDN,  CK_END, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
+      _______, C(CK_A), C(CK_S), C(CK_Z), CK_LCTL, XXXXXXX,                      XXXXXXX, CK_LEFT,   CK_UP, CK_DOWN,CK_RIGHT,  CK_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, C(CK_A), C(CK_Z), C(CK_Y), CK_LCTL, XXXXXXX,                      CK_LEFT, CK_UP, CK_DOWN,  CK_RIGHT, XXXXXXX,  CK_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,     CK_RSFT, CK_RCTL, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [_FN] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_HOME, KC_PGDN, KC_PGUP,  CK_END, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, C(CK_A), C(CK_Z), C(CK_Y), C(CK_T), XXXXXXX,                      XXXXXXX, CK_LEFT, CK_DOWN,  CK_UP, CK_RIGHT,  CK_DEL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,     CK_RSFT, CK_RCTL, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -193,27 +187,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CAPS_LOCK] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_7, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    CK_7, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
+  /*
+,
+    [_DIA] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, CK_ADIA, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+  */
 };
 
-const uint16_t caps_word1[] PROGMEM = { LSFT_T(CK_D), KC_SPC, COMBO_END};
-const uint16_t caps_word2[] PROGMEM = { RSFT_T(CK_K), KC_SPC, COMBO_END};
-
-const uint16_t escape_base[] PROGMEM = { HOME_J,  HOME_K, COMBO_END};
+const uint16_t escape_base[] PROGMEM = { HOME_J,  CK_K, COMBO_END};
 const uint16_t escape_num[] PROGMEM =  {   CK_4,  CK_5,   COMBO_END};
 const uint16_t escape_nav[] PROGMEM =  { CK_LEFT, CK_DOWN,   COMBO_END};
 
 combo_t key_combos[] = {
-    COMBO(caps_word1, UKC_CAPS_WORD),
-    COMBO(caps_word2, UKC_CAPS_WORD),
     COMBO(escape_base, KC_ESC),
     COMBO(escape_num, KC_ESC),
     COMBO(escape_nav, KC_ESC)
@@ -248,11 +251,11 @@ static td_tap_t xtap_state = {
     .state = TD_NONE
 };
 
-void esc_sft_finished(tap_dance_state_t *state, void *user_data) {
+void ent_sft_finished(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = leader_key_dance(state);
     switch (xtap_state.state) {
         case TD_SINGLE_TAP:
-            tap_code16(CK_ESC);
+            tap_code16(CK_ENT);
             break;
         case TD_SINGLE_HOLD: 
             register_code(CK_LSFT); 
@@ -268,7 +271,7 @@ void esc_sft_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void esc_sft_reset(tap_dance_state_t *state, void *user_data) {
+void ent_sft_reset(tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case TD_SINGLE_HOLD:        
             unregister_code(CK_LSFT);   
@@ -283,7 +286,7 @@ void esc_sft_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [ESC_SFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esc_sft_finished, esc_sft_reset)
+    [ENT_SFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ent_sft_finished, ent_sft_reset)
 };
 
 
@@ -291,7 +294,7 @@ tap_dance_action_t tap_dance_actions[] = {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TD(ESC_SFT):
+        case TD(ENT_SFT):
             return 180;
         default:
             return TAPPING_TERM;
