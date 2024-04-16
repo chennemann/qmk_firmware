@@ -1,7 +1,9 @@
 #pragma once
 
 enum layers {
-  _BASE = 0,
+  _COLEMAK_DH = 0,
+  _QWERTZ,
+  _WORKMAN,
   _DIA,
   _NUM,
   _SYM,
