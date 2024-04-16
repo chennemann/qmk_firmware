@@ -123,13 +123,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
-    [_BASE] = LAYOUT_split_3x6_3(
+    [_QWERTZ] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        CK_TAB,    CK_Q,    CK_W,    CK_E,    CK_R,    CK_T,                         CK_Z,    CK_U,    CK_I,    CK_O,   CK_P,  CK_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LCTL,    CK_A,    CK_S,    CK_D,  HOME_F,    CK_G,                         CK_H,  HOME_J,    CK_K,    CK_L,  CK_EQL, CK_DQUO,
+      CK_LCTL,    CK_A,    CK_S,    CK_D,  MT_LC(CK_F),    CK_G,                         CK_H,  MT_RC(CK_J),    CK_K,    CK_L,  CK_EQL, CK_DQUO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       CK_LALT,    CK_Y,    CK_X,    CK_C,    CK_V,    CK_B,                         CK_N,    CK_M, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                MO(_NAV), TD(ENT_SFT), UKC_NUM_LOCK,  MO(_DIA), LT(_SYM, CK_SPC), CK_LALT 
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+
+    [_COLEMAK_DH] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       CK_TAB,    CK_Q,    CK_W,    CK_F,    CK_P,    CK_B,                         CK_J,    CK_L,    CK_U,    CK_Y,  CK_EQL, CK_BSPC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CK_LCTL,    CK_A,    CK_R,    CK_S, MT_LC(CK_T), CK_G,                        CK_M, MT_RC(CK_N), CK_E,   CK_I,    CK_O, CK_QUOT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CK_LALT,    CK_Z,    CK_X,    CK_C,    CK_D,    CK_V,                         CK_K,    CK_H, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                 MO(_NAV), TD(ENT_SFT), UKC_NUM_LOCK,  MO(_DIA), LT(_SYM, CK_SPC), CK_LALT 
                                       //`--------------------------'  `--------------------------'
@@ -144,7 +157,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, CK_ACIR, CK_ABRV, CK_ICIR, CK_SCOM, CK_TCOM,                      XXXXXXX, CK_AGRV, CK_EACU, CK_EGRV, CK_ICRC, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, CK_LSFT,  CK_SPC,    _______, CK_SPC, XXXXXXX
+                                          _______, CK_LSFT,  CK_SPC,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+
+    [_WORKMAN] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       CK_TAB,    CK_Q,    CK_D,    CK_R,    CK_W,    CK_B,                         CK_J,    CK_F,    CK_U,    CK_P,  CK_EQL, CK_BSPC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CK_LCTL,    CK_A,    CK_S,  CK_H, MT_LC(CK_T),  CK_G,                         CK_Z, MT_RC(CK_N), CK_E,   CK_O,    CK_I, CK_DQUO,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CK_LALT,    CK_Y,    CK_X,    CK_M,    CK_C,    CK_V,                         CK_K,    CK_L, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                MO(_NAV), TD(ENT_SFT), UKC_NUM_LOCK,  MO(_DIA), LT(_SYM, CK_SPC), CK_LALT 
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -153,23 +179,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, XXXXXXX, XXXXXXX,  CK_EUR,  CK_USD, XXXXXXX,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, XXXXXXX,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
+      _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, CK_PERC,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX,  CK_DOT, CK_COMM, XXXXXXX, XXXXXXX,                         CK_0,    CK_1,    CK_2,    CK_3, CK_COMM, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ESC,  KC_ESC,  KC_ESC,       CK_0, _______,   CK_DOT
+                                           KC_ESC,  KC_ESC,  CK_SPC,       CK_0, _______,   CK_DOT
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, CK_EXLM,   CK_AT, CK_HASH,  KC_DLR, CK_PERC,                      CK_CIRC, CK_AMPR, CK_LRBR, CK_RRBR, CK_ASTR, _______,
+      _______, CK_TILD,   CK_AT, CK_AMPR, CK_HASH, CK_SECT,                      CK_CIRC,  CK_USD, CK_LCBR, CK_RCBR, CK_PIPE, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_MINS,  CK_EQL, CK_LNBR, CK_RNBR, CK_BSLS,  CK_GRV,
+      _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, CK_PERC,                       CK_GRV, CK_DQUO, CK_LNBR, CK_RNBR, CK_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      CK_UNDS, CK_PLUS, CK_LCBR, CK_RCBR, CK_PIPE, CK_TILD,
+      _______, CK_LABK, CK_RABK, CK_EXLM, CK_QUES, CK_DEG,                       CK_ACUT,  CK_EQL, CK_LRBR, CK_RRBR, CK_BSLS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CK_LGUI,   MO(3),  _______,     _______, _______, CK_RALT
+                                      CK_LGUI,TD(ENT_SFT), CK_SPC,      XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -212,12 +238,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
 };
 
-const uint16_t escape_base[] PROGMEM = { HOME_J,  CK_K, COMBO_END};
+const uint16_t escape_base[] PROGMEM = { MT_RC(CK_N), CK_E, COMBO_END};
+const uint16_t escape_qwertz[] PROGMEM = { HOME_J,  CK_K, COMBO_END};
 const uint16_t escape_num[] PROGMEM =  {   CK_4,  CK_5,   COMBO_END};
 const uint16_t escape_nav[] PROGMEM =  { CK_LEFT, CK_DOWN,   COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(escape_base, KC_ESC),
+    COMBO(escape_qwertz, KC_ESC),
     COMBO(escape_num, KC_ESC),
     COMBO(escape_nav, KC_ESC)
 };
