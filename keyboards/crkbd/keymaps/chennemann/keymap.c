@@ -151,7 +151,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_DIA] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_UDIA, XXXXXXX, CK_ODIA, XXXXXXX, _______,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, CK_UDIA, CK_ODIA, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, CK_ADIA,   CK_SS, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK_CCED, CK_OCRC, CK_UCRC, CK_UGRV, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -181,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, CK_PERC,                      XXXXXXX,    CK_4,    CK_5,    CK_6, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX,  CK_DOT, CK_COMM, XXXXXXX, XXXXXXX,                         CK_0,    CK_1,    CK_2,    CK_3, CK_COMM, _______,
+      _______, XXXXXXX,  CK_DOT, CK_COMM, XXXXXXX, XXXXXXX,                         CK_0,    CK_1,    CK_2,    CK_3, CK_COMM,  CK_DOT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ESC,  KC_ESC,  CK_SPC,       CK_0, _______,   CK_DOT
                                       //`--------------------------'  `--------------------------'
