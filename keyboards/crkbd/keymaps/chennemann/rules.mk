@@ -16,8 +16,6 @@ DEFAULT_FOLDER = crkbd/rev1
 TAP_DANCE_ENABLE = yes
 COMBO_ENABLE = yes
 
-CONVERT_TO=promicro_rp2040
-
 
 
 # ####################

@@ -1,5 +1,7 @@
 #pragma once
 
+#define SERIAL_USART_TX_PIN GP10
+
 
 // ------------------------------
 // --- Keyboard Configuration ---
