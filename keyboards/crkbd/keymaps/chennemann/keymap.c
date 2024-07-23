@@ -162,19 +162,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 
-    [_WORKMAN] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       CK_TAB,    CK_Q,    CK_D,    CK_R,    CK_W,    CK_B,                         CK_J,    CK_F,    CK_U,    CK_P,  CK_EQL, CK_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LCTL,    CK_A,    CK_S,  CK_H, MT_LC(CK_T),  CK_G,                         CK_Z, MT_RC(CK_N), CK_E,   CK_O,    CK_I, CK_DQUO,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LALT,    CK_Y,    CK_X,    CK_M,    CK_C,    CK_V,                         CK_K,    CK_L, CK_COMM,  CK_DOT, CK_MINS,  CK_ESC,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                MO(_NAV), TD(ENT_SFT), UKC_NUM_LOCK,  MO(_DIA), LT(_SYM, CK_SPC), CK_LALT 
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-
     [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, XXXXXXX, XXXXXXX,  CK_EUR,  CK_USD, XXXXXXX,                      XXXXXXX,    CK_7,    CK_8,    CK_9, XXXXXXX, _______,
@@ -193,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, CK_SLSH, CK_ASTR, CK_MINS, CK_PLUS, CK_PERC,                       CK_GRV, CK_DQUO, CK_LNBR, CK_RNBR, CK_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_LABK, CK_RABK, CK_EXLM, CK_QUES, CK_DEG,                       CK_ACUT,  CK_EQL, CK_LRBR, CK_RRBR, CK_BSLS, XXXXXXX,
+      _______, CK_LABK, CK_RABK, CK_EXLM, CK_QUES, CK_DEG,                       CK_ACUT,  CK_EQL, CK_LRBR, CK_RRBR, CK_BSLS, ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       CK_LGUI,TD(ENT_SFT), CK_SPC,      XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -201,11 +188,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, C(CK_Y), XXXXXXX, XXXXXXX,                      XXXXXXX, CK_HOME, KC_PGUP, KC_PGDN,  CK_END, _______,
+      _______, XXXXXXX, XXXXXXX, C(CK_Y), XXXXXXX, XXXXXXX,                      KC_PGUP, CK_HOME,   CK_UP,  CK_END, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-      _______, C(CK_A), C(CK_S), C(CK_Z), CK_LCTL, XXXXXXX,                      XXXXXXX, CK_LEFT,   CK_UP, CK_DOWN,CK_RIGHT,  CK_DEL,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_LCTL, XXXXXXX,                      KC_PGDN, CK_LEFT, CK_DOWN,CK_RIGHT, XXXXXXX,  CK_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, C(CK_Z), C(CK_X), C(CK_C), C(CK_V), XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,     CK_RSFT, CK_RCTL, XXXXXXX
                                       //`--------------------------'  `--------------------------'
