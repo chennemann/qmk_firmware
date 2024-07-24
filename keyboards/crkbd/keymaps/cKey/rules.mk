@@ -16,3 +16,6 @@ OLED_ENABLE = no
 RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = no
 
+
+# Activate Deferred Execution facility to enable Bilateral Combinations
+DEFERRED_EXEC_ENABLE = yes
