@@ -17,15 +17,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+#include "sendstring_german.h"
+
+#define HOME_1 LGUI_T(DE_C)
+#define HOME_2 LALT_T(DE_I)
+#define HOME_3 LSFT_T(DE_E)
+#define HOME_4 LCTL_T(DE_A)
+#define HOME_5 LCTL_T(DE_H)
+#define HOME_6 LSFT_T(DE_T)
+#define HOME_7 LALT_T(DE_S)
+#define HOME_8 LGUI_T(DE_N)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+       KC_ESC,    DE_B,    DE_Y,    DE_O,    DE_U, DE_PLUS,                       DE_EQL,    DE_L,    DE_D,    DE_W,    DE_V, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+       KC_TAB,  HOME_1,  HOME_2,  HOME_3,  HOME_4, DE_COMM,                       DE_DOT,  HOME_5,  HOME_6,  HOME_7,  HOME_8, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
+         DE_Q,    DE_G,    DE_X,    DE_J,    DE_K, DE_MINS,                      DE_QUES,    DE_R,    DE_M,    DE_F,    DE_P,    DE_Z,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_RALT
                                       //`--------------------------'  `--------------------------'
