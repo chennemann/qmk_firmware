@@ -119,32 +119,42 @@
 #define     ___ACUT     DE_ACUT         // ´ (dead)
 
 // german
-#define     CK_ADIA     DE_ADIA      // Ä
-#define     CK_ODIA     DE_ODIA      // Ö
-#define     CK_UDIA     DE_UDIA      // Ü
-#define     CK_SS       DE_SS           // ß
+#define     CK_ADIA     DE_ADIA         // Ä
+#define     CK_ODIA     DE_ODIA         // Ö
+#define     CK_UDIA     DE_UDIA         // Ü
+#define     CK___SS     DE_SS           // ß
 
 enum deadkey_diacritics {  
- CK_CIRC,           // ^
- CK_GRV,            // `
- CK_ACUT,           // ´
+ CK_CIRC = SAFE_RANGE+1000,             // ^
+ CK_ACRC,                               // â
+ CK_ECRC,                               // ê
+ CK_ICRC,                               // î
+ CK_OCRC,                               // ô
+ CK_UCRC,                               // û
+
+ CK__GRV,                                // `
+ CK_AGRV,                               // à
+ CK_EGRV,                               // è
+ CK_IGRV,                               // ì
+ CK_OGRV,                               // ò
+ CK_UGRV,                               // ù
+
+ CK_ACUT,                               // ´
+ CK_AACU,                               // á
+ CK_EACU,                               // é
+ CK_IACU,                               // í
+ CK_OACU,                               // ó
+ CK_UACU,                               // ú
+
+ // UNSUPPORTED WITH DEFAULT GERMAN LAYOUT
 
  // romanian
- CK_ACIR,           // Â
  CK_ABRV,           // Ă
- CK_ICIR,           // Î
  CK_SCOM,           // Ș
  CK_TCOM,           // Ț
 
  //french
- CK_AGRV,           // à
  CK_CCED,           // ç
- CK_EACU,           // é
- CK_EGRV,           // è
- CK_ICRC,           // î
- CK_OCRC,           // ô
- CK_UCRC,           // û
- CK_UGRV,           // ù
 };
 
 bool handle_deadkey_diacritic(uint16_t keycode, keyrecord_t *record);

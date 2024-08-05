@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, DE_PLUS, DE_MINS, DE_ASTR, DE_SLSH, DE_PERC,                      _______, CK____4, CK____5, CK____6, DE_COMM, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, CK_CIRC, CK_GRV, CK_ACUT,                      XXXXXXX,  CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
+      CK_UACU, CK_IGRV, CK_ADIA, CK_ODIA, CK_UDIA, CK___SS,                      XXXXXXX,  CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,    _______, _______, CK____0
                                       //`--------------------------'  `--------------------------'
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     // Based on https://jurf.github.io/2024/01/22/bilingual-qmk-layout-for-programming/
-    if (!handle_deadkey_diacritic(keycode, record)) {
+    if (handle_deadkey_diacritic(keycode, record)) {
         return false;
     }
 
