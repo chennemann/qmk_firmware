@@ -5,7 +5,6 @@
 
 // Index from 0
 #define INDEX(keycode) (keycode - CK_CIRC)
-
 const uint8_t DEAD_KEYS[] PROGMEM = {
     [INDEX(CK_CIRC)] = KC_SPC,
     [INDEX(CK_ACRC)] = KC_A,
@@ -13,20 +12,47 @@ const uint8_t DEAD_KEYS[] PROGMEM = {
     [INDEX(CK_ICRC)] = KC_I,
     [INDEX(CK_OCRC)] = KC_O,
     [INDEX(CK_UCRC)] = KC_U,
-    
-    [INDEX(CK__GRV)] = KC_SPC, 
-    [INDEX(CK_AGRV)] = KC_A, 
-    [INDEX(CK_EGRV)] = KC_E, 
-    [INDEX(CK_IGRV)] = KC_I, 
-    [INDEX(CK_OGRV)] = KC_O, 
-    [INDEX(CK_UGRV)] = KC_U, 
+
+    [INDEX(CK__GRV)] = KC_SPC,
+    [INDEX(CK_AGRV)] = KC_A,
+    [INDEX(CK_EGRV)] = KC_E,
+    [INDEX(CK_IGRV)] = KC_I,
+    [INDEX(CK_OGRV)] = KC_O,
+    [INDEX(CK_UGRV)] = KC_U,
 
     [INDEX(CK_ACUT)] = KC_SPC,
-    [INDEX(CK_AACU)] = KC_A, 
-    [INDEX(CK_EACU)] = KC_E, 
-    [INDEX(CK_IACU)] = KC_I, 
-    [INDEX(CK_OACU)] = KC_O, 
-    [INDEX(CK_UACU)] = KC_U, 
+    [INDEX(CK_AACU)] = KC_A,
+    [INDEX(CK_CACU)] = KC_C,
+    [INDEX(CK_EACU)] = KC_E,
+    [INDEX(CK_IACU)] = KC_I,
+    [INDEX(CK_LACU)] = KC_L,
+    [INDEX(CK_NACU)] = KC_N,
+    [INDEX(CK_OACU)] = KC_O,
+    [INDEX(CK_RACU)] = KC_R,
+    [INDEX(CK_SACU)] = KC_S,
+    [INDEX(CK_UACU)] = KC_U,
+    [INDEX(CK_YACU)] = KC_Y,
+    [INDEX(CK_ZACU)] = KC_Z,
+
+    [INDEX(CK_ABRV)] = KC_A,
+    [INDEX(CK_CBRV)] = KC_C,
+    [INDEX(CK_EBRV)] = KC_E,
+    [INDEX(CK_NBRV)] = KC_N,
+    [INDEX(CK_SBRV)] = KC_S,
+    [INDEX(CK_ZBRV)] = KC_Z,
+
+    [INDEX(CK_CCED)] = KC_C,
+    [INDEX(CK_SCED)] = KC_S,
+    [INDEX(CK_TCED)] = KC_T,
+
+    [INDEX(CK_ATIL)] = KC_A,
+    [INDEX(CK_NTIL)] = KC_N,
+    [INDEX(CK_OTIL)] = KC_O,
+
+    [INDEX(CK_ADEG)] = KC_A,
+
+    [INDEX(CK_ETRM)] = KC_E,
+    [INDEX(CK_ITRM)] = KC_I,
 };
 
 void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
@@ -43,7 +69,6 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
     const uint8_t oneshot_mods = get_oneshot_mods();
 
     const bool shift_active = (mods | oneshot_mods) & MOD_MASK_SHIFT;
-    // Temporarily delete shift.
     del_oneshot_mods(MOD_MASK_SHIFT);
     unregister_mods(MOD_MASK_SHIFT);  
     
@@ -54,8 +79,23 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
         case CK__GRV...CK_UGRV:
             tap_code16(___GRV);
             break;
-        case CK_ACUT...CK_UACU:
+        case CK_ACUT...CK_ZACU:
             tap_code(___ACUT);
+            break;
+        case CK_ABRV...CK_ZBRV:
+            tap_code16(___BREV);
+            break;
+        case CK_CCED...CK_TCED:
+            tap_code16(___CEDI);
+            break;
+        case CK_ATIL...CK_OTIL:
+            tap_code16(___TILD);
+            break;
+        case CK_ADEG:
+            tap_code16(___DEGR);
+            break;
+        case CK_ETRM...CK_ITRM:
+            tap_code16(___TREM);
             break;
     }
     
@@ -67,82 +107,11 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
 
     // Restore mods.
     register_mods(mods);            
-/*
-
-//    if (!record->event.pressed) {
-//        unregister_code(next_keycode);
-//        return false;
-//    }
-
-    // Prevent mods from being applied to the deadkey
-    uint8_t mod_state = get_mods();
-    del_mods(MOD_MASK_CSAG);
-    switch (keycode) {
-        case CK_CIRC...CK_UCRC:
-            tap_code(next_keycode);
-            //tap_code(next_keycode);
-            break;
-        case CK_GRV:
-            //SEND_STRING("`");
-            break;
-        case CK_ACUT:
-            //SEND_STRING("´");
-            break;
-        default:
-            return false;
-    }
-    set_mods(mod_state);
-
-#ifdef CAPS_WORD_ENABLE
-    // Not sure why, but caps word will not catch these keys,
-    // so we need to apply it manually
-    if (is_caps_word_on()) {
-        add_weak_mods(MOD_BIT(KC_LSFT));
-    }
-#endif
-
-if (false) {
-    register_code(next_keycode);
 }
-
-*/
-}
-
-/*
-bool handle_modtap(uint16_t keycode, keyrecord_t *record) {
-    if (record->tap.count == 0) {
-        // Do not override hold function
-        return true;
-    }
-
-    if (!record->event.pressed) {
-        unregister_code16(keycode);
-        return false;
-    }
-
-#ifdef CAPS_WORD_ENABLE
-    if (is_caps_word_on()) {
-        add_weak_mods(MOD_BIT(KC_LSFT));
-    }
-#endif
-
-    register_code16(keycode);
-
-    return false;
-}
-
-bool handle_modtap_deadkey(uint16_t keycode, keyrecord_t *record) {
-    if (record->tap.count == 0) {
-        // Do not override hold function
-        return true;
-    }
-    return handle_deadkey(keycode, record);
-}
-*/
 
 bool handle_deadkey_diacritic(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case CK_CIRC...CK_UACU:
+        case CK_CIRC...CK_ITRM:
             handle_deadkey(keycode, record);
             return true;
         default:
