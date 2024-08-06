@@ -52,18 +52,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       CK____Q, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, CK____Z,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX,LSFT_T(KC_ENT),MO(_NUM),     MO(_DIA),LT(_SYM, KC_SPC), XXXXXXX
+                                          XXXXXXX,LSFT_T(CK__ENT),MO(_NUM),     MO(_DIA),LT(_SYM, CK__SPC), XXXXXXX
                                       //`--------------------------'  `--------------------------'
 
   ),
 
     [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, XXXXXXX,                      _______, CK____7, CK____8, CK____9, XXXXXXX, _______,
+      _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, _______,                      _______, CK____7, CK____8, CK____9, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, CK_PERC,                      _______, CK____4, CK____5, CK____6, CK_COMM, XXXXXXX,
+      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, _______,                      _______, CK____4, CK____5, CK____6, CK_COMM, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
+      CK_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, CK_PERC, _______,                      XXXXXXX, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,    CK__ENT, _______, CK____0
                                       //`--------------------------'  `--------------------------'
@@ -71,25 +71,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,                      _______, CK_LRBR, CK_RRBR, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, CK_PERC,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, _______,                      _______, CK_LNBR, CK_RNBR, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS,                      KC_EXLM, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+      CK_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, CK_PERC, _______,                      XXXXXXX, CK_LCBR, CK_RCBR, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, CK__ENT,  KC_SPC,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          CK_LSFT, CK__ENT, CK__SPC,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_DIA] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, CK_ODIA, CK_UDIA, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, CK_ACUT, CK__GRV, CK_ODIA, CK_UDIA, CK_CIRC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, CK_CCED, CK_ICRC, CK_EACU, CK_ADIA, CK_ACRC,                      XXXXXXX, CK_LSFT, CK_TCED, CK___SS, CK_NTIL, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      CK_LSFT, XXXXXXX, XXXXXXX, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, CK__ENT, CK__SPC,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          CK_LSFT, CK__ENT, CK__SPC,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     // Based on https://jurf.github.io/2024/01/22/bilingual-qmk-layout-for-programming/
-    if (handle_deadkey_diacritic(keycode, record)) {
+    if (handle_diacritic_keycode(keycode, record)) {
         return false;
     }
 

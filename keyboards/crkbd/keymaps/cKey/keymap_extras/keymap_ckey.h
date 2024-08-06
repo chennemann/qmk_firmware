@@ -182,4 +182,4 @@ enum deadkey_diacritics {
     CK_ITRM,                            // ï
 };
 
-bool handle_deadkey_diacritic(uint16_t keycode, keyrecord_t *record);
+bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record);

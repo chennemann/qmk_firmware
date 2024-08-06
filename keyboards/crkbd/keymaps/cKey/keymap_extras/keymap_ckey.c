@@ -109,7 +109,7 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
     register_mods(mods);            
 }
 
-bool handle_deadkey_diacritic(uint16_t keycode, keyrecord_t *record) {
+bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CK_CIRC...CK_ITRM:
             handle_deadkey(keycode, record);
