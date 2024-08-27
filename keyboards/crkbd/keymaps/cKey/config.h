@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // https://github.com/manna-harbour/qmk_firmware/pull/56
 // https://github.com/manna-harbour/qmk_firmware/issues/29
 
-#define TAPPING_TERM 120
+#define TAPPING_TERM 200
 
 #define BILATERAL_COMBINATIONS
 #define BILATERAL_COMBINATIONS_LIMIT_CHORD_TO_N_KEYS 4 /* GUI, Alt, Ctrl, Shift */
@@ -48,5 +48,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BILATERAL_COMBINATIONS_ALLOW_SAMESIDED_AFTER 1200 /* ms */
 #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160  /* ms */
 #define BILATERAL_COMBINATIONS_TYPING_STREAK_MODMASK (~MOD_MASK_SHIFT)
-#define BILATERAL_COMBINATIONS_IMMEDIATE_CROSSOVER_CHORD_SIZE_THRESHOLD 2
-#define BILATERAL_COMBINATIONS_IMMEDIATE_SAMESIDED_CHORD_SIZE_THRESHOLD 1
