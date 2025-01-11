@@ -30,3 +30,7 @@ KEY_OVERRIDE_ENABLE = yes
 
 SRC += keymap_extras/keymap_ckey.c
 SRC += features/tap_dance/tap_dance.c
+SRC += features/selection/select_word.c
+
+CAPS_WORD_ENABLE = yes
+SRC += features/caps_word/caps_word.c
