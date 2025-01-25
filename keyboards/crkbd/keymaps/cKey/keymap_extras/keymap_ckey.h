@@ -24,6 +24,20 @@
 #define     CK____9         DE_9            // 9
 #define     CK____0         DE_0            // 0
 
+// Function Keys
+#define     CK___F1         KC_F1           // F1
+#define     CK___F2         KC_F2           // F2
+#define     CK___F3         KC_F3           // F3
+#define     CK___F4         KC_F4           // F4
+#define     CK___F5         KC_F5           // F5
+#define     CK___F6         KC_F6           // F6
+#define     CK___F7         KC_F7           // F7
+#define     CK___F8         KC_F8           // F8
+#define     CK___F9         KC_F9           // F9
+#define     CK__F10         KC_F10          // F10
+#define     CK__F11         KC_F11          // F11
+#define     CK__F12         KC_F12          // F12
+
 // Letters
 #define     CK____A         KC_A            // A
 #define     CK____B         KC_B            // B

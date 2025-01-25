@@ -49,4 +49,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160  /* ms */
 #define BILATERAL_COMBINATIONS_TYPING_STREAK_MODMASK (~MOD_MASK_SHIFT)
 
-

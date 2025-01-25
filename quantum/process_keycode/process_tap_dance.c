@@ -126,6 +126,16 @@ static inline void process_tap_dance_action_on_dance_finished(tap_dance_action_t
     }
 }
 
+static inline void process_tap_dance_action_on_dance_timed_out(tap_dance_action_t *action) {
+    if (!action->state.finished) {
+        add_weak_mods(action->state.weak_mods);
+#ifndef NO_ACTION_ONESHOT
+        add_mods(action->state.oneshot_mods);
+#endif
+        _process_tap_dance_action_fn(&action->state, action->user_data, action->fn.on_dance_timed_out);
+    }
+}
+
 bool preprocess_tap_dance(uint16_t keycode, keyrecord_t *record) {
     tap_dance_action_t *action;
 
@@ -181,7 +191,12 @@ void tap_dance_task(void) {
     tap_dance_action_t *action;
 
     if (!active_td || timer_elapsed(last_tap_time) <= GET_TAPPING_TERM(active_td, &(keyrecord_t){})) return;
-
+/*
+    if (!action->state.timed_out) {
+        action->state.timed_out = true;
+        process_tap_dance_action_on_dance_timed_out(action);
+    }
+*/    
     action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(active_td)];
     if (!action->state.interrupted) {
         process_tap_dance_action_on_dance_finished(action);

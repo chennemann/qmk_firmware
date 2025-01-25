@@ -1,16 +1,67 @@
 #include "tap_dance.h"
 #include "../../keymap_extras/keymap_ckey.h"
+#include "../caps_word/caps_word.h"
+
+#include "print.h"
+
+
+
+
+// Create an instance of 'td_tap_t' for the 'x' tap dance.
+static td_tap_t x_tap_state = {
+    .state = TD_NONE,
+    .suspend_time = 0,
+    .cw_mode_active = false,
+};
+
+/*
+static uint16_t delayed_key_timer = 0;
+static bool delayed_key = NULL;
+
+
+static uint16_t post_tap_dance_shift_idle_timer = 0;
+*/
+static uint16_t handled_keycode = 0;
+
+bool was_keycode_handled(uint16_t keycode) {
+    return handled_keycode == keycode;
+}
+
+void reset_handled_keycode(void) {
+    handled_keycode = 0;
+}
+
+void post_tap_dance_shift_task(void) {
+    /*
+    if (post_tap_dance_shift_enabled) {
+        if(timer_elapsed(post_tap_dance_shift_idle_timer) > 100) {
+            print("60: POST Tap Dance Shift: OFF\n");
+            post_tap_dance_shift_enabled = false;
+        }
+    }
+    
+    if (delayed_key) {
+        if (timer_elapsed(delayed_key_timer) > 30) {
+            print("61: DELAYED Key: OFF\n");
+            print("<enter>\n");
+            tap_code16(delayed_key);
+            delayed_key = NULL;
+        }
+    }
+    */
+}
+
 
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {    
     if (state->count == 1) {
-        if (!state->pressed) return TD_SINGLE_TAP;
+        if (!state->pressed && !state->interrupted) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
     } else if (state->count == 2) {
-        if (state->interrupted || !state->pressed) return TD_DOUBLE_TAP;
+        if (!state->pressed && !state->interrupted) return TD_DOUBLE_TAP;
         else return TD_DOUBLE_HOLD;
     } else if (state->count == 3) {
-        if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
+        if (!state->pressed && !state->interrupted) return TD_TRIPLE_TAP;
         else return TD_TRIPLE_HOLD;
     } else {
         return TD_UNKNOWN;
@@ -18,67 +69,119 @@ td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
 }
 
 
-// Create an instance of 'td_tap_t' for the 'x' tap dance.
-static td_tap_t x_tap_state = {
-    .state = TD_NONE,
-    .enforce_shift = false,
-    .suspend_time = 0,
-    .cw_mode_active = false,
-};
 
+
+bool is_any_key_pressed(void) {
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        if (matrix_get_row(row) != 0) {
+            return true; // At least one key is pressed in the keymap
+        }
+    }
+    return false; // No keys are pressed in the keymap
+}
 
 
 /*
         SHIFT TAP DANCES
 */
 void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data) {
+
     
-    if (x_tap_state.cw_mode_active) {
-        x_tap_state.state = TD_SINGLE_TAP;
-        state->finished = true;
+    if (state->count == 1) {
+        
+        print("\n\n");
+        
+        for (uint8_t row = 0; row < 3; row++) {
+            if (matrix_get_row(row)) {
+                print("03: Cancel Key Repeat\n");
+                tap_code16(KC_ESC);
+                reset_tap_dance(state);
+                return;
+            }
+        }
+    }
+    
+    if (x_tap_state.cw_mode_active || g_caps_word_mode != CWMODE_NORMAL) {
+        x_tap_state.state = TD_NONE;
+        tap_code16(KC_NO);
+        x_tap_state.cw_mode_active = false;
+   
+        print("00: Caps Word Mode: OFF\n");
+        
         reset_tap_dance(state);
+        return;
     }
     
     if (timer_elapsed(x_tap_state.suspend_time) < 500) {
         x_tap_state.state = TD_SINGLE_TAP;
         // Reset timer
         x_tap_state.suspend_time = timer_read();
-        state->finished = true;
+        
+        print("01: Extend Suspension Timer\n");
+
         reset_tap_dance(state);
+        return;
     }
+    
+    print("02: Default Tap\n");
 }
 
-void x_shift_on_each_release(tap_dance_state_t *state, void *user_data) {
+void x_shift_on_each_release(tap_dance_state_t *state, void *user_data) {  
+    
     if (state->count > 3) {
         x_tap_state.state = TD_SINGLE_TAP;
         // Reset timer
         x_tap_state.suspend_time = timer_read();
-        state->finished = true;
+        
+        print("10: Suspend Tap Dance\n");
+        print("<enter>\n");
+        tap_code16(KC_ENT);
         reset_tap_dance(state);
     }
+    
+    print("11: Default Release\n");
+}
+
+void x_shift_on_timeout(tap_dance_state_t *state, void *user_data) {
+    print("40: Default Timeout\n");
 }
 
 void x_shift_finished(tap_dance_state_t *state, void *user_data) {
 
-    if (state->count == 1 && state->interrupted) {
-        x_tap_state.state = TD_SINGLE_TAP;
-        x_tap_state.enforce_shift = true;
-        reset_tap_dance(state);
-    }
-
     x_tap_state.state = evaluate_tap_dance_state(state);
-    tap_dance_config_t *config = (tap_dance_config_t *)user_data;
 
     switch (x_tap_state.state) {
-        case TD_SINGLE_HOLD:
+        case TD_SINGLE_HOLD:  
+            print("20: Single Hold: ON\n");
+            /*    
+                print("23: POST Tap Dance Shift: ON\n");
+                post_tap_dance_shift_idle_timer = timer_read();
+                post_tap_dance_shift_enabled = true;
+            */
+            printf("%d\n", state->interrupting_keycode);
             register_code(KC_LSFT);
+            
+            switch (state->interrupting_keycode) {
+                case HOME_CA:
+                    tap_code16(KC_A);
+                    handled_keycode = state->interrupting_keycode;
+                    break;
+                case HOME_CH:
+                    tap_code16(KC_H);
+                    handled_keycode = state->interrupting_keycode;
+                    break;
+            }
+            
             break;
         case TD_DOUBLE_HOLD:
+            print("21: Double Hold: ON\n");
+            tap_dance_config_t *config = (tap_dance_config_t *)user_data;
             if (config->has_dt_layer) {
                 layer_on(config->dt_layer);
             }
             break;
         default:
+            print("22: Default Finished\n");
             break;
     }
 }
@@ -88,14 +191,16 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
 
     switch (x_tap_state.state) {
         case TD_SINGLE_TAP:
-            if (x_tap_state.cw_mode_active) {
-                tap_code16(KC_NO);
-                x_tap_state.cw_mode_active = false;
-            } else if (x_tap_state.enforce_shift) {
-                set_oneshot_mods(MOD_BIT(KC_LSFT));
-            } else {
+                //print("31: DELAYED Key: ON\n");
+                //delayed_key = config->keycode;
+                //delayed_key_timer = timer_read();
+                print("31: Single Tap\n");
+                print("<enter>\n");
                 tap_code16(config->keycode);
-            }
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_code(KC_LSFT);
+            print("32: Single Hold: OFF\n");
             break;
         case TD_DOUBLE_TAP:
             if (config->has_dt_keycode) {
@@ -104,31 +209,38 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
                     case CW_CAPS:
                         x_tap_state.cw_mode_active = true;
                         toggle_caps_word_mode(CWMODE_CONSTANT_CASE);
+                        print("33: Caps Word Mode: ON\n");
                         break;
                     default:
-                        tap_code16(keycode);
+                        print("34: UNKNOWN DT_KEYCODE\n");
                         break;
                 }
+            } else {
+                print("35: Double Tap: IGNORED\n");          
             }
-            break;
-        case TD_SINGLE_HOLD:
-            unregister_code(KC_LSFT);
             break;
         case TD_DOUBLE_HOLD:
             if (config->has_dt_layer) {
                 layer_off(config->dt_layer);
+                print("36: Double Hold: OFF\n");
+            } else {
+                print("37: Double Hold: IGNORED\n");           
             }
             break;
         case TD_SUSPENDED:
+            print("38: Suspend Tap Dance\n"); 
+            print("<enter>\n");
             tap_code16(config->keycode);
             break;
         default:
+            print("39: Default Reset\n"); 
             break;
     }
     
     // Reset tap dance state
     x_tap_state.state = TD_NONE;
-    x_tap_state.enforce_shift = false;
+    
+    print("30: Tap Dance Reset\n"); 
 }
 
 
