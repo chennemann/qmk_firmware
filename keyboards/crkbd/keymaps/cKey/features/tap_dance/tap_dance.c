@@ -5,8 +5,6 @@
 #include "print.h"
 
 
-
-
 // Create an instance of 'td_tap_t' for the 'x' tap dance.
 static td_tap_t x_tap_state = {
     .state = TD_NONE,
@@ -14,28 +12,59 @@ static td_tap_t x_tap_state = {
     .cw_mode_active = false,
 };
 
+// Retroactive Shift state
+static bool retroactive_shift_enabled = false;
 static bool retroactive_shift_consumed = false;
-static uint16_t delayed_key_timer = 0;
+static uint16_t retroactive_shift_timer = 0;
 static uint16_t delayed_key = 0;
 
-bool retroactive_shift_enabled(void) {
-    bool enabled = delayed_key != 0;
-    if (enabled) {
-        retroactive_shift_consumed = true;
+// MT Key state
+static uint16_t handled_mt_keycode = 0;
+
+void tap_dance_cleanup_task(void) {    
+    if (retroactive_shift_enabled) {
+        if (timer_elapsed(retroactive_shift_timer) > 50) {
+            if (delayed_key && !retroactive_shift_consumed) {
+                print("64: RETROACTIVE SHIFT: Handle Delayed Key\n");
+                tap_code16(delayed_key);
+                delayed_key = 0;
+            }
+            
+            reset_retroactive_shift();
+        }
     }
-    return enabled;
+}
+
+void enable_retroactive_shift(uint16_t *keycode) {
+    print("60: RETROACTIVE SHIFT: ON\n");
+    retroactive_shift_enabled = true;
+    retroactive_shift_timer = timer_read();
+    
+    if (keycode != NULL) {
+        print("61: RETROACTIVE SHIFT: Register Delayed Key\n");
+        delayed_key = *keycode;
+    }
+}
+
+bool is_retroactive_shift_enabled(void) {
+    return retroactive_shift_enabled && !retroactive_shift_consumed;
+}
+
+void consume_retroactive_shift(void) {
+    print("62: RETROACTIVE SHIFT: CONSUMED\n");
+    retroactive_shift_consumed = true;
+    if (delayed_key) {
+        delayed_key = 0;
+    }
 }
 
 void reset_retroactive_shift(void) {
-    print("62: DELAYED Key: OFF\n");
+    print("63: RETROACTIVE SHIFT: OFF\n");
     delayed_key = 0;
     retroactive_shift_consumed = false;
+    retroactive_shift_enabled = false;
 }
 
-/*
-static uint16_t post_tap_dance_shift_idle_timer = 0;
-*/
-static uint16_t handled_mt_keycode = 0;
 
 bool was_mt_handled(uint16_t keycode) {
     return handled_mt_keycode == keycode;
@@ -43,16 +72,6 @@ bool was_mt_handled(uint16_t keycode) {
 
 void reset_mt_handling(void) {
     handled_mt_keycode = 0;
-}
-
-void tap_dance_cleanup_task(void) {    
-    if (delayed_key && !retroactive_shift_consumed) {
-        if (timer_elapsed(delayed_key_timer) > 100 && delayed_key) {
-            print("61: DELAYED Key: OFF\n");
-            tap_code16(delayed_key);
-            delayed_key = 0;
-        }
-    }
 }
 
 
@@ -70,18 +89,6 @@ td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
     } else {
         return TD_UNKNOWN;
     }
-}
-
-
-
-
-bool is_any_key_pressed(void) {
-    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-        if (matrix_get_row(row) != 0) {
-            return true; // At least one key is pressed in the keymap
-        }
-    }
-    return false; // No keys are pressed in the keymap
 }
 
 
@@ -191,18 +198,14 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
 
     switch (x_tap_state.state) {
         case TD_SINGLE_TAP:
-                print("31: DELAYED Key: ON\n");
-                delayed_key = config->keycode;
-                delayed_key_timer = timer_read();
-                /*
-                print("31: Single Tap\n");
-                print("<enter>\n");
-                tap_code16(config->keycode);
-                */
+            enable_retroactive_shift(&config->keycode);
             break;
         case TD_SINGLE_HOLD:
             unregister_code(KC_LSFT);
             print("32: Single Hold: OFF\n");
+            if (!state->interrupted) {
+                enable_retroactive_shift(NULL);
+            }
             break;
         case TD_DOUBLE_TAP:
             if (config->has_dt_keycode) {

@@ -25,11 +25,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BYOU] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        CK__TAB, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
+        CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK_LSFT, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK__QUO,
+        CK__TAB, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK__QUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK_LCTL, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
+        XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             MO__NAV, TD_SENT, MO__NUM,    MO__DIA, TD_SYSP, XXXXXXX
                                         //`--------------------------'  `--------------------------'
@@ -131,8 +131,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             
-            if (retroactive_shift_enabled()) {
+            if (is_retroactive_shift_enabled()) {
                 if(record->event.pressed) {
+                    consume_retroactive_shift();
                     tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
                 } else {
                     reset_retroactive_shift();
@@ -143,7 +144,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
             break;
         case CK____A ... CK____Z:
-            if (retroactive_shift_enabled()) {
+            if (is_retroactive_shift_enabled()) {
                 if(record->event.pressed) {
                     tap_code16(S(keycode));
                 } else {

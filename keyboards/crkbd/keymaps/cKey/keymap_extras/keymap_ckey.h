@@ -285,3 +285,4 @@ enum deadkey_diacritics {
 };
 
 bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record);
+

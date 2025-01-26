@@ -39,7 +39,8 @@ void reset_mt_handling(void);
 
 // Special Letter Handling to allow for retroactive shifting of a key
 // This is useful for fast typing
-bool retroactive_shift_enabled(void);
+bool is_retroactive_shift_enabled(void);
+void consume_retroactive_shift(void);
 void reset_retroactive_shift(void);
 
 // Matrix Scan Task to allow for post tap dance cleanups
