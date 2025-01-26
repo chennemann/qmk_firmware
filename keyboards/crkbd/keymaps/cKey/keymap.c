@@ -124,14 +124,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case HOME_AA ... HOME_AZ: 
         case HOME_GA ... HOME_GZ: 
             // This is a hack to prevent the key from being pressed twice
-            if (was_keycode_handled(keycode)) {                
+            if (was_mt_handled(keycode)) {                
                 if (!record->event.pressed) {
-                    reset_handled_keycode();
+                    reset_mt_handling();
                 }
                 return false;
-            } else {
-                return true;
             }
+            
+            if (retroactive_shift_enabled()) {
+                if(record->event.pressed) {
+                    tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
+                } else {
+                    reset_retroactive_shift();
+                }
+                return false;
+            }
+            
+            return true;
+            break;
+        case CK____A ... CK____Z:
+            if (retroactive_shift_enabled()) {
+                if(record->event.pressed) {
+                    tap_code16(S(keycode));
+                } else {
+                    reset_retroactive_shift();
+                }
+                return false;
+            }
+            
+            return true;
             break;
     }   
     
@@ -199,7 +220,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_scan_user(void) {
-  post_tap_dance_shift_task();
+  tap_dance_cleanup_task();
   select_word_task();
 }
 

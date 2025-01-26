@@ -14,37 +14,41 @@ static td_tap_t x_tap_state = {
     .cw_mode_active = false,
 };
 
-
+static bool retroactive_shift_consumed = false;
 static uint16_t delayed_key_timer = 0;
 static uint16_t delayed_key = 0;
+
+bool retroactive_shift_enabled(void) {
+    bool enabled = delayed_key != 0;
+    if (enabled) {
+        retroactive_shift_consumed = true;
+    }
+    return enabled;
+}
+
+void reset_retroactive_shift(void) {
+    print("62: DELAYED Key: OFF\n");
+    delayed_key = 0;
+    retroactive_shift_consumed = false;
+}
 
 /*
 static uint16_t post_tap_dance_shift_idle_timer = 0;
 */
-static uint16_t handled_keycode = 0;
+static uint16_t handled_mt_keycode = 0;
 
-bool was_keycode_handled(uint16_t keycode) {
-    return handled_keycode == keycode;
+bool was_mt_handled(uint16_t keycode) {
+    return handled_mt_keycode == keycode;
 }
 
-void reset_handled_keycode(void) {
-    handled_keycode = 0;
+void reset_mt_handling(void) {
+    handled_mt_keycode = 0;
 }
 
-void post_tap_dance_shift_task(void) {
-    /*
-    if (post_tap_dance_shift_enabled) {
-        if(timer_elapsed(post_tap_dance_shift_idle_timer) > 100) {
-            print("60: POST Tap Dance Shift: OFF\n");
-            post_tap_dance_shift_enabled = false;
-        }
-    }
-    */
-    
-    if (delayed_key) {
-        if (timer_elapsed(delayed_key_timer) > 50 && delayed_key) {
+void tap_dance_cleanup_task(void) {    
+    if (delayed_key && !retroactive_shift_consumed) {
+        if (timer_elapsed(delayed_key_timer) > 100 && delayed_key) {
             print("61: DELAYED Key: OFF\n");
-            print("<enter>\n");
             tap_code16(delayed_key);
             delayed_key = 0;
         }
@@ -164,7 +168,7 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
                     print("23: Special Home Row Mod Handling\n");
                     uint16_t tap_code = QK_MOD_TAP_GET_TAP_KEYCODE(mt_keycode);
                     tap_code16(tap_code);
-                    handled_keycode = mt_keycode;
+                    handled_mt_keycode = mt_keycode;
                     break;
             }
             
