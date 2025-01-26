@@ -78,14 +78,14 @@ void reset_mt_handling(void) {
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {    
     if (state->count == 1) {
-        if (!state->pressed && !state->interrupted) return TD_SINGLE_TAP;
-        else return TD_SINGLE_HOLD;
+        if(state->pressed || state->interrupted) return TD_SINGLE_HOLD;
+        else return TD_SINGLE_TAP;
     } else if (state->count == 2) {
-        if (!state->pressed && !state->interrupted) return TD_DOUBLE_TAP;
-        else return TD_DOUBLE_HOLD;
+        if(state->pressed || state->interrupted) return TD_DOUBLE_HOLD;
+        else return TD_DOUBLE_TAP;
     } else if (state->count == 3) {
-        if (!state->pressed && !state->interrupted) return TD_TRIPLE_TAP;
-        else return TD_TRIPLE_HOLD;
+        if(state->pressed || state->interrupted) return TD_TRIPLE_HOLD;
+        else return TD_TRIPLE_TAP;
     } else {
         return TD_UNKNOWN;
     }
@@ -176,6 +176,9 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
                     uint16_t tap_code = QK_MOD_TAP_GET_TAP_KEYCODE(mt_keycode);
                     tap_code16(tap_code);
                     handled_mt_keycode = mt_keycode;
+                    break;
+                default:
+                    printf("24: Interrupting Keycode: %d\n", mt_keycode);
                     break;
             }
             

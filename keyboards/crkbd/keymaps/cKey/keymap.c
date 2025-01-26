@@ -144,16 +144,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
             break;
         case CK____A ... CK____Z:
+        
             if (is_retroactive_shift_enabled()) {
                 if(record->event.pressed) {
+                    consume_retroactive_shift();
                     tap_code16(S(keycode));
                 } else {
                     reset_retroactive_shift();
+                    
+                    // This fixes a weird bug where the key would be repeated endlessly
+                    unregister_code(keycode);
                 }
                 return false;
             }
-            
-            return true;
             break;
     }   
     
@@ -169,9 +172,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case CK_BSEL:
             if (record->event.pressed) {
-                    register_mods(MOD_BIT(KC_LSFT));
-                    process_record_user(CK_SELB, record);
-                    unregister_mods(MOD_BIT(KC_LSFT));
+                register_mods(MOD_BIT(KC_LSFT));
+                process_record_user(CK_SELB, record);
+                unregister_mods(MOD_BIT(KC_LSFT));
             }
             return false;
         case CW_CAPS:

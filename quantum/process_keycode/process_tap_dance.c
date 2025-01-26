@@ -189,15 +189,19 @@ bool process_tap_dance(uint16_t keycode, keyrecord_t *record) {
 
 void tap_dance_task(void) {
     tap_dance_action_t *action;
+    
+    if (!active_td) return;
+    
+    bool td_timed_out = timer_elapsed(last_tap_time) > GET_TAPPING_TERM(active_td, &(keyrecord_t){});
+    if (!td_timed_out) return;
+    
+    action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(active_td)];
 
-    if (!active_td || timer_elapsed(last_tap_time) <= GET_TAPPING_TERM(active_td, &(keyrecord_t){})) return;
-/*
-    if (!action->state.timed_out) {
+    if (td_timed_out && !action->state.timed_out) {
         action->state.timed_out = true;
         process_tap_dance_action_on_dance_timed_out(action);
     }
-*/    
-    action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(active_td)];
+    
     if (!action->state.interrupted) {
         process_tap_dance_action_on_dance_finished(action);
     }
