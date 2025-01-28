@@ -27,11 +27,14 @@ typedef struct {
 
 typedef struct {
     td_state_t state;
+    bool is_pressed;
     uint16_t suspend_time;
     bool cw_mode_active;
 } td_tap_t;
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state);
+
+bool is_shift_active(void);
 
 // Special Mod Tap Handling to allow for fast typing of shift + MT keys
 bool was_mt_handled(uint16_t keycode);

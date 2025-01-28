@@ -37,7 +37,9 @@ enum {
     Define custom Tap Dance Keys
 */
 enum {
-    TD_ENTER_SHIFT = 101,
+    TD_ENTER = 101,
+    TD_SPACE,
+    TD_ENTER_SHIFT,
     TD_ENTER_NUM,
     TD_SPACE_SHIFT,
     TD_SPACE_SYM,
@@ -46,6 +48,9 @@ enum {
 
 
 // Keycode Aliases for easy access
+#define TD__SPC TD(TD_SPACE)        // Tap-Dance Space
+#define TD__SFT TD(TD_ENTER)        // Tap-Dance Enter
+
 #define TD_SENT TD(TD_ENTER_SHIFT)      // Tap-Dance Shift/Enter
 #define TD_NENT TD(TD_ENTER_NUM)        // Tap-Dance Num/Enter
 #define TD_SSPC TD(TD_SPACE_SHIFT)      // Tap-Dance Shift/Space
