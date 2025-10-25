@@ -127,7 +127,7 @@ bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record) {
 // Custom Key Overrides - https://docs.qmk.fm/features/key_overrides
 //----------------------------------------------------------------------------
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_BSPC, CK__DEL);
-const key_override_t quot_key_override = ko_make_basic(MOD_MASK_SHIFT, CK__QUO, CK_DQUO);
+const key_override_t quot_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_DQUO, CK__QUO);
 const key_override_t ques_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_QUES, CK_EXLM);
 
 // This globally defines all key overrides to be used

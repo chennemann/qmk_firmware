@@ -10,7 +10,11 @@ static td_tap_t x_tap_state = {
     .state = TD_NONE,
     .suspend_time = 0,
     .cw_mode_active = false,
+    .is_pressed = false,
 };
+
+// Tap Dance Shift state
+static bool shift_state_active = false;
 
 // Retroactive Shift state
 static bool retroactive_shift_enabled = false;
@@ -23,20 +27,21 @@ static uint16_t handled_mt_keycode = 0;
 
 void tap_dance_cleanup_task(void) {    
     if (retroactive_shift_enabled) {
-        if (timer_elapsed(retroactive_shift_timer) > 50) {
+        if (timer_elapsed(retroactive_shift_timer) > 200) {
             if (delayed_key && !retroactive_shift_consumed) {
                 print("64: RETROACTIVE SHIFT: Handle Delayed Key\n");
                 tap_code16(delayed_key);
                 delayed_key = 0;
             }
             
+            printf("65: RETROACTIVE SHIFT: Reset %d\n", timer_read());
             reset_retroactive_shift();
         }
     }
 }
 
 void enable_retroactive_shift(uint16_t *keycode) {
-    print("60: RETROACTIVE SHIFT: ON\n");
+    printf("60: RETROACTIVE SHIFT: ON %d\n", timer_read());
     retroactive_shift_enabled = true;
     retroactive_shift_timer = timer_read();
     
@@ -56,10 +61,11 @@ void consume_retroactive_shift(void) {
     if (delayed_key) {
         delayed_key = 0;
     }
+    reset_retroactive_shift();
 }
 
 void reset_retroactive_shift(void) {
-    print("63: RETROACTIVE SHIFT: OFF\n");
+    printf("63: RETROACTIVE SHIFT: OFF at %d\n", timer_read());
     delayed_key = 0;
     retroactive_shift_consumed = false;
     retroactive_shift_enabled = false;
@@ -72,6 +78,10 @@ bool was_mt_handled(uint16_t keycode) {
 
 void reset_mt_handling(void) {
     handled_mt_keycode = 0;
+}
+
+bool is_shift_active(void) {
+    return shift_state_active || is_retroactive_shift_enabled();
 }
 
 
@@ -97,6 +107,7 @@ td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
 */
 void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data) {
 
+    x_tap_state.is_pressed = true;
     
     if (state->count == 1) {
         
@@ -139,6 +150,8 @@ void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data) {
 
 void x_shift_on_each_release(tap_dance_state_t *state, void *user_data) {  
     
+    x_tap_state.is_pressed = false;
+    
     if (state->count > 3) {
         x_tap_state.state = TD_SINGLE_TAP;
         // Reset timer
@@ -161,6 +174,7 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:  
             print("20: Single Hold: ON\n");
             register_code(KC_LSFT);
+            shift_state_active = true;
             
             uint16_t mt_keycode = state->interrupting_keycode;
             switch (mt_keycode) {
@@ -202,7 +216,7 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             unregister_code(KC_LSFT);
             print("32: Single Hold: OFF\n");
-            if (!state->interrupted) {
+            if (!state->interrupted || (state->interrupted && !x_tap_state.is_pressed)) {
                 enable_retroactive_shift(NULL);
             }
             break;
@@ -243,8 +257,9 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
     
     // Reset tap dance state
     x_tap_state.state = TD_NONE;
+    shift_state_active = false;
     
-    print("30: Tap Dance Reset\n"); 
+    printf("30: Tap Dance Reset: %d\n", timer_read()); 
 }
 
 
