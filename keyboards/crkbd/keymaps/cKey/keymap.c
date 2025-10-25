@@ -26,57 +26,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum layers {
   _BASE = 0,
   _NUM,
-  _SYM
+  _SYM,
+  _DIA
 };
 
 
 /*
     Define generic Home Row Mod Keys to enable easy adjustments
 */
-#define HOME_1 LGUI_T(DE_C)
-#define HOME_2 LALT_T(DE_I)
-#define HOME_3 LSFT_T(DE_E)
-#define HOME_4 LCTL_T(DE_A)
-#define HOME_5 LCTL_T(DE_H)
-#define HOME_6 LSFT_T(DE_T)
-#define HOME_7 LALT_T(DE_S)
-#define HOME_8 LGUI_T(DE_N)
+#define HOME__1 LGUI_T(CK____C)
+#define HOME__2 LALT_T(CK____I)
+#define HOME__3 LSFT_T(CK____E)
+#define HOME__4 LCTL_T(CK____A)
+#define HOME__5 LCTL_T(CK____H)
+#define HOME__6 LSFT_T(CK____T)
+#define HOME__7 LALT_T(CK____S)
+#define HOME__8 LGUI_T(CK____N)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,    DE_B,    DE_Y,    DE_O,    DE_U, DE_PLUS,                       DE_EQL,    DE_L,    DE_D,    DE_W,    DE_V, KC_BSPC,
+      CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK_PLUS,                      CK_EQLS, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB,  HOME_1,  HOME_2,  HOME_3,  HOME_4, DE_COMM,                       DE_DOT,  HOME_5,  HOME_6,  HOME_7,  HOME_8, KC_QUOT,
+      CK__TAB, HOME__1, HOME__2, HOME__3, HOME__4, CK_COMM,                      CK__DOT, HOME__5, HOME__6, HOME__7, HOME__8, CK__QUO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         DE_Q,    DE_G,    DE_X,    DE_J,    DE_K, DE_MINS,                      DE_QUES,    DE_R,    DE_M,    DE_F,    DE_P,    DE_Z,
+      CK____Q, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, CK____Z,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX,LSFT_T(KC_ENT),MO(_NUM),     XXXXXXX,LT(_SYM, KC_SPC), XXXXXXX
+                                          XXXXXXX,LSFT_T(CK__ENT),MO(_NUM),     MO(_DIA),LT(_SYM, CK__SPC), XXXXXXX
                                       //`--------------------------'  `--------------------------'
 
   ),
 
     [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, DE_EURO,  DE_DLR, XXXXXXX, XXXXXXX,                      _______, CK____7, CK____8, CK____9, XXXXXXX, _______,
+      _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, _______,                      _______, CK____7, CK____8, CK____9, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, DE_PLUS, DE_MINS, DE_ASTR, DE_SLSH, DE_PERC,                      _______, CK____4, CK____5, CK____6, DE_COMM, XXXXXXX,
+      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, _______,                      _______, CK____4, CK____5, CK____6, CK_COMM, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, CK_CIRC, CK_GRV, CK_ACUT,                      XXXXXXX,  CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
+      CK_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, CK_PERC, _______,                      XXXXXXX, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    _______, _______, CK____0
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    CK__ENT, _______, CK____0
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,                      _______, CK_LRBR, CK_RRBR, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, DE_PLUS, DE_MINS, DE_ASTR, DE_SLSH, DE_PERC,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+      _______, CK_PLUS, CK_MINS, CK_ASTR, CK_SLSH, _______,                      _______, CK_LNBR, CK_RNBR, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS,                      KC_EXLM, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+      CK_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, CK_PERC, _______,                      XXXXXXX, CK_LCBR, CK_RCBR, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(3),  KC_SPC,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          CK_LSFT, CK__ENT, CK__SPC,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_DIA] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, CK_ACUT, CK__GRV, CK_ODIA, CK_UDIA, CK_CIRC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CK_CCED, CK_ICRC, CK_EACU, CK_ADIA, CK_ACRC,                      XXXXXXX, CK_LSFT, CK_TCED, CK___SS, CK_NTIL, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CK_LSFT, XXXXXXX, XXXXXXX, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          CK_LSFT, CK__ENT, CK__SPC,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -84,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     // Based on https://jurf.github.io/2024/01/22/bilingual-qmk-layout-for-programming/
-    if (!handle_deadkey_diacritic(keycode, record)) {
+    if (handle_diacritic_keycode(keycode, record)) {
         return false;
     }
 
