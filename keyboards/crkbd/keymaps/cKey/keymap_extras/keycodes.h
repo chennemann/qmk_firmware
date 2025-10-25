@@ -4,7 +4,7 @@
     Define available layer names
 */
 enum layers {
-  _BYOU = 0,
+  _QWERTZ = 0,
   _SYM,
   _NUM,
   _FN,
