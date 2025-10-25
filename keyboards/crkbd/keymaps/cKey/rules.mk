@@ -17,4 +17,13 @@ RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = no
 
 
+# Activate Tap Dance for fine grained control of thumb keys
+TAP_DANCE_ENABLE = yes
+
+# Activate Key Overrides for fine grained control of Modded Keypresses
+# https://docs.qmk.fm/features/key_overrides
+KEY_OVERRIDE_ENABLE = yes
+
+
 SRC += keymap_extras/keymap_ckey.c
+SRC += features/tap_dance/tap_dance.c
