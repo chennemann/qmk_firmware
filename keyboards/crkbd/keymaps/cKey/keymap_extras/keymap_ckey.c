@@ -63,15 +63,15 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
     }
 
     uint8_t next_keycode = pgm_read_byte(&DEAD_KEYS[INDEX(keycode)]);
-    
+
     // Get current mod and one-shot mod states.
     const uint8_t mods = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
 
     const bool shift_active = (mods | oneshot_mods) & MOD_MASK_SHIFT;
     del_oneshot_mods(MOD_MASK_SHIFT);
-    unregister_mods(MOD_MASK_SHIFT);  
-    
+    unregister_mods(MOD_MASK_SHIFT);
+
     switch (keycode) {
         case CK_CIRC...CK_UCRC:
             tap_code(___CIRC);
@@ -98,7 +98,7 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
             tap_code16(___TREM);
             break;
     }
-    
+
     if(shift_active) {
         set_oneshot_mods(MOD_LSFT);
     }
@@ -106,7 +106,7 @@ void handle_deadkey(uint16_t keycode, keyrecord_t *record) {
 
 
     // Restore mods.
-    register_mods(mods);            
+    register_mods(mods);
 }
 
 bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record) {
@@ -128,10 +128,12 @@ bool handle_diacritic_keycode(uint16_t keycode, keyrecord_t *record) {
 //----------------------------------------------------------------------------
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_BSPC, CK__DEL);
 const key_override_t quot_key_override = ko_make_basic(MOD_MASK_SHIFT, CK__QUO, CK_DQUO);
+const key_override_t ques_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_QUES, CK_EXLM);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
 	&delete_key_override,
 	&quot_key_override,
+	&ques_key_override,
 	NULL // Null terminate the array of overrides!
 };

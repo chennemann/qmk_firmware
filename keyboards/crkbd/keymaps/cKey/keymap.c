@@ -17,91 +17,58 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-
 #include "keymap_extras/keymap_ckey.h"
-#include "features/tap_dance/tap_dance.h"
 
-/*
-    Define available layer names
-*/
-enum layers {
-  _BASE = 0,
-  _SYM,
-  _NUM,
-  _DIA,
-  _NAV,
-};
-
-/*
-    Define custom Tap Dance Keys
-*/
-enum {
-    TD_ENTER_SHIFT = 101,
-    TD_ENTER_NUM,
-    TD_SPACE_SHIFT,
-    TD_SPACE_SYM,
-};
-
-
-/*
-    Define generic Home Row Mod Keys to enable easy adjustments
-*/
-#define BASE__C MT(MOD_LGUI, CK____C)
-#define BASE__I MT(MOD_LALT, CK____I)
-#define BASE__E MT(MOD_LSFT, CK____E)
-#define BASE__A MT(MOD_LCTL, CK____A)
-#define BASE__H MT(MOD_LCTL, CK____H)
-#define BASE__T MT(MOD_LSFT, CK____T)
-#define BASE__S MT(MOD_LALT, CK____S)
-#define BASE__N MT(MOD_LGUI, CK____N)
-
-#define TD_SENT TD(TD_ENTER_SHIFT) // Tap-Dance Shift/Enter
-#define TD_NENT TD(TD_ENTER_NUM) // Tap-Dance Num/Enter
-#define TD_SSPC TD(TD_SPACE_SHIFT) // Tap-Dance Shift/Space
-#define TD_SYSP TD(TD_SPACE_SYM) // Tap-Dance SYM/Space
-
-#define MO__SYM MO(_SYM)
-#define MO__DIA MO(_DIA)
-#define MO__NAV MO(_NAV)
-#define NUM_SPC LT(_NUM, CK__SPC)
-
-#define PRESSED _______
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK__TAB, BASE__C, BASE__I, BASE__E, BASE__A, CK_COMM,                      CK__DOT, BASE__H, BASE__T, BASE__S, BASE__N, CK__QUO,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_LSFT, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, CK_RSFT,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, TD_NENT, MO__NAV,    MO__DIA, TD_SYSP, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
 
+  [_BYOU] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        CK__TAB, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK_LSFT, HOME_GC, HOME_AI, HOME_SE, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK__QUO,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK_LCTL, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, CK_RSFT,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            MO__NUM, TD_SENT, MO__NAV,    MO__DIA, TD_SYSP, XXXXXXX
+                                        //`--------------------------'  `--------------------------'
+
+    ),
+
+    [_SYM] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, CK__QUO, CK_LABK, CK_RABK, CK_AMPR, CK_ACUT,                      CK__GRV, CK__EUR, CK_LRBR, CK_RRBR, CK_PERC, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CK_EXLM, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK_TILD, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CK_CIRC, CK_SLSH, CK_ASTR, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK___AT, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          MO__NUM, CK__SPC, MO__NAV,    XXXXXXX, PRESSED, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
   ),
 
-    [_NUM] = LAYOUT_split_3x6_3(
+  [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, CK____7, CK____8, CK____9, CK_PERC, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, CK_PERC, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      _______, CK____4, CK____5, CK____6, CK_COMM, XXXXXXX,
+      _______, XXXXXXX, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK__DOT, CK____4, CK____5, CK____6, CK_COMM, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, CK_SLSH, CK_ASTR, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____1, CK____2, CK____3, XXXXXXX, _______,
+      _______, XXXXXXX, CK_SLSH, CK_ASTR, XXXXXXX, XXXXXXX,                      CK____0, CK____1, CK____2, CK____3, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, PRESSED, XXXXXXX,    CK____0, CK__SPC, CK____0
+                                          XXXXXXX, PRESSED, XXXXXXX,    XXXXXXX, CK____0, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, CK_REDO, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__Z,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-      _______, CK_LGUI, CK_LALT, CK_LSFT, CK_LCTL, CK_UNDO,                      XXXXXXX, CK_HOME, CK___UP, CK__END, CK_PGUP, CK_UNDO,
+      _______, CK_C__A, CK_C__X, CK_C__C, CK_C__V, CK_C__F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
+
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_REDO, CK__CUT, CK_COPY, CK_PAST, XXXXXXX,                      XXXXXXX, CK_LEFT, CK_DOWN, CK_RGHT, CK_PGDN, _______,
+      _______, CK_REDO, CK__CUT, CK_COPY, CK_PAST, CK_UNDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, PRESSED,    XXXXXXX, CK__SPC, XXXXXXX
+                                          XXXXXXX, XXXXXXX, PRESSED,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -113,24 +80,84 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, CK_ITRM, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, CK_SCED, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, CK__SPC, _______,    PRESSED, XXXXXXX, XXXXXXX
+                                          XXXXXXX, XXXXXXX, _______,    PRESSED, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
-    [_SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, CK__QUO, CK_LABK, CK_RABK, CK_AMPR, CK_ACUT,                      CK__GRV, CK__EUR, CK_LRBR, CK_RRBR, CK_PERC, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_EXLM, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK_TILD, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_CIRC, CK_SLSH, CK_ASTR, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK___AT, _______,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, CK__SPC, _______,    XXXXXXX, PRESSED, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
+
+
+
+
+
+
+  
+        [_CAPS] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CW_SLSH, CW_KEBA, CW_BSLS, XXXXXXX, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CW_CAPS, CW_SNAK, CW_CAML, XXXXXXX, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            XXXXXXX, PRESSED, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                        //`--------------------------'  `--------------------------'
+    ),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+    switch (keycode) {
+        case CK_LSEL:
+            if (record->event.pressed) {
+                register_mods(MOD_BIT(KC_LSFT));
+                process_record_user(CK_SELW, record);
+                unregister_mods(MOD_BIT(KC_LSFT));
+            }
+            return false;
+        case CK_BSEL:
+            if (record->event.pressed) {
+                    register_mods(MOD_BIT(KC_LSFT));
+                    process_record_user(CK_SELB, record);
+                    unregister_mods(MOD_BIT(KC_LSFT));
+            }
+            return false;
+        case CW_CAPS:
+            if (!record->event.pressed) {
+                toggle_caps_word_mode(CWMODE_CONSTANT_CASE);
+            }
+            return false;
+        case CW_CAML:
+            if (!record->event.pressed) {
+                toggle_caps_word_mode(CWMODE_CAMEL_CASE);
+            }
+            return false;
+        case CW_KEBA:
+            if (!record->event.pressed) {
+                toggle_caps_word_space_sub(CK_MINS);
+            }
+            return false;
+        case CW_SNAK:
+            if (!record->event.pressed) {
+                toggle_caps_word_space_sub(CK_UNDS);
+            }
+            return false;
+        case CW_SLSH:
+            if (!record->event.pressed) {
+                toggle_caps_word_space_sub(CK_SLSH);
+            }
+            return false;
+        case CW_BSLS:
+            if (!record->event.pressed) {
+                toggle_caps_word_space_sub(CK_BSLS);
+            }
+            return false;
+    }
+
+    // Select Word based on https://getreuer.info/posts/keyboards/select-word/index.html
+    if (!process_select_word(keycode, record, CK_SELW, CK_SELB)) {
+        return false;
+    }
+
 
     // Based on https://jurf.github.io/2024/01/22/bilingual-qmk-layout-for-programming/
     if (handle_diacritic_keycode(keycode, record)) {
@@ -140,36 +167,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-
-
-
-
-
-void enter_shift_finished(tap_dance_state_t *state, void *user_data) {
-    x_shift_finished(state, user_data, KC_ENT);
-}
-void space_shift_finished(tap_dance_state_t *state, void *user_data) {
-    x_shift_finished(state, user_data, KC_SPC);
+void matrix_scan_user(void) {
+  select_word_task();
 }
 
-void enter_num_finished(tap_dance_state_t *state, void *user_data) {
-    x_layer_finished(state, user_data, KC_ENT, _NUM);
-}
-void x_num_reset(tap_dance_state_t *state, void *user_data) {
-    x_layer_reset(state, user_data, _NUM);
-}
+
 
 void space_sym_finished(tap_dance_state_t *state, void *user_data) {
-    x_layer_finished(state, user_data, CK__SPC, _SYM);
+    x_layer_finished(state, user_data, CK__SPC, _SYM, _NUM);
 }
 void x_sym_reset(tap_dance_state_t *state, void *user_data) {
-    x_layer_reset(state, user_data, _SYM);
+    x_layer_reset(state, user_data, _SYM, _NUM);
 }
 
-
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_ENTER_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, enter_shift_finished, x_shift_reset),
-    [TD_SPACE_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_shift_finished, x_shift_reset),
-    [TD_ENTER_NUM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, enter_num_finished, x_num_reset),
+    [TD_ENTER_SHIFT] = {
+        // fn { on_each, finished, reset, release }
+        .fn = { x_shift_on_each_tap, x_shift_finished, x_shift_reset, x_shift_on_each_release },
+        .user_data = &(tap_dance_config_t){
+            .keycode = CK__ENT,
+            .dt_keycode = CW_CAPS,
+            .has_dt_keycode = true,
+            .dt_layer = _CAPS,
+            .has_dt_layer = true
+        }
+    },
     [TD_SPACE_SYM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
 };
+

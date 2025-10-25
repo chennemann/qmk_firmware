@@ -238,7 +238,15 @@ bool process_caps_word(uint16_t keycode, keyrecord_t* record) {
 #else
         clear_weak_mods();
 #endif // AUTO_SHIFT_ENABLE
-        if (caps_word_press_user(keycode)) {
+
+        bool interrupted = false;
+        bool cw_press_user = caps_word_press_user(keycode, &interrupted);
+
+        if (interrupted) {
+            return false;
+        }
+
+        if (cw_press_user) {
 #ifdef CAPS_WORD_INVERT_ON_SHIFT
             if (held_mods) {
                 set_weak_mods(get_weak_mods() ^ MOD_BIT(KC_LSFT));
@@ -256,7 +264,7 @@ bool process_caps_word(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
-__attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
+__attribute__((weak)) bool caps_word_press_user(uint16_t keycode, bool *interrupted) {
     switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_Z:
