@@ -1,6 +1,8 @@
 # Enable Half-Duplex Serial communication between the two halves
 SERIAL_DRIVER = vendor
 
+CONSOLE_ENABLE = yes
+
 
 # Disable Bootmagic as the Corne has a dedicated Reset Button
 # https://docs.qmk.fm/features/bootmagic#advanced-bootmagic

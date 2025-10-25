@@ -27,14 +27,15 @@ typedef struct {
 
 typedef struct {
     td_state_t state;
-    bool enforce_shift;
     uint16_t suspend_time;
     bool cw_mode_active;
 } td_tap_t;
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state);
 
-
+bool was_keycode_handled(uint16_t keycode);
+void reset_handled_keycode(void);
+void post_tap_dance_shift_task(void);
 
 // Shift Tap Dances
 void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data);
