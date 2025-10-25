@@ -7,6 +7,7 @@ enum layers {
   _BYOU = 0,
   _SYM,
   _NUM,
+  _FN,
   _DIA,
   _NAV,
 
@@ -28,7 +29,7 @@ enum {
     CK_SELW,
     CK_SELB,
     CK_LSEL,
-    CK_BSEL
+    CK_BSEL,   
 };
 
 
@@ -54,7 +55,9 @@ enum {
 #define MO__DIA MO(_DIA)
 #define MO__NAV MO(_NAV)
 #define MO__NUM MO(_NUM)
+#define MO___FN MO(_FN)
 #define NUM_SPC LT(_NUM, CK__SPC)
+#define LT_FN_0 LT(_FN, CK____0)
 
 #define PRESSED _______
 
