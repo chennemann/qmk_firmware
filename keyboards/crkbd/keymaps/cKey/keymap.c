@@ -25,11 +25,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BYOU] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        CK__TAB, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
+        CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK_LSFT, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK__QUO,
+        CK__TAB, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK__QUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK_LCTL, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
+        XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             MO__NAV, TD_SENT, MO__NUM,    MO__DIA, TD_SYSP, XXXXXXX
                                         //`--------------------------'  `--------------------------'
@@ -124,13 +124,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case HOME_AA ... HOME_AZ: 
         case HOME_GA ... HOME_GZ: 
             // This is a hack to prevent the key from being pressed twice
-            if (was_keycode_handled(keycode)) {                
+            if (was_mt_handled(keycode)) {                
                 if (!record->event.pressed) {
-                    reset_handled_keycode();
+                    reset_mt_handling();
                 }
                 return false;
-            } else {
-                return true;
+            }
+            
+            if (is_retroactive_shift_enabled()) {
+                if(record->event.pressed) {
+                    consume_retroactive_shift();
+                    tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
+                } else {
+                    reset_retroactive_shift();
+                }
+                return false;
+            }
+            
+            return true;
+            break;
+        case CK____A ... CK____Z:
+        
+            if (is_retroactive_shift_enabled()) {
+                if(record->event.pressed) {
+                    consume_retroactive_shift();
+                    tap_code16(S(keycode));
+                } else {
+                    reset_retroactive_shift();
+                    
+                    // This fixes a weird bug where the key would be repeated endlessly
+                    unregister_code(keycode);
+                }
+                return false;
             }
             break;
     }   
@@ -147,9 +172,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case CK_BSEL:
             if (record->event.pressed) {
-                    register_mods(MOD_BIT(KC_LSFT));
-                    process_record_user(CK_SELB, record);
-                    unregister_mods(MOD_BIT(KC_LSFT));
+                register_mods(MOD_BIT(KC_LSFT));
+                process_record_user(CK_SELB, record);
+                unregister_mods(MOD_BIT(KC_LSFT));
             }
             return false;
         case CW_CAPS:
@@ -199,7 +224,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_scan_user(void) {
-  post_tap_dance_shift_task();
+  tap_dance_cleanup_task();
   select_word_task();
 }
 
