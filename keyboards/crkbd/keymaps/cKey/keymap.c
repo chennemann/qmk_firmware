@@ -27,11 +27,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__TAB, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK__QUO,
+        CK__TAB, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK_DQUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            MO__NAV, TD_SENT, MO__NUM,    MO__DIA, TD_SYSP, XXXXXXX
+                                            MO__NAV, TD__SFT, MO__NUM,    MO__DIA, TD__SPC, XXXXXXX
                                         //`--------------------------'  `--------------------------'
 
     ),
@@ -72,16 +72,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             XXXXXXX, CK__SPC, MO___FN,    PRESSED, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-
+    
     [_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, CK__QUO, CK_LABK, CK_RABK, CK_AMPR, CK_ACUT,                      CK__GRV, CK__EUR, CK_LRBR, CK_RRBR, CK_PERC, _______,
+      XXXXXXX, CK__EUR, CK___AT, CK_AMPR, CK_HASH, CK__GRV,                      CK_ACUT, CK_LABK, CK_LRBR, CK_RRBR, CK_RABK, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_EXLM, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK_TILD, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
+      CK__QUO, CK_EXLM, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_CIRC, CK_SLSH, CK_ASTR, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK___AT, _______,
+      CK_CIRC, CK_PERC, CK_ASTR, CK_SLSH, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK_TILD, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          MO__NAV, CK__SPC, MO__NUM,    XXXXXXX, PRESSED, XXXXXXX
+                                          CK__SPC, CK__ENT, CK__SPC,    XXXXXXX, PRESSED, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
   
@@ -113,6 +113,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             XXXXXXX, PRESSED, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
+    
+    /*
+    
+    [_SYM] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, CK__QUO, CK_LABK, CK_RABK, CK_AMPR, CK_ACUT,                      CK__GRV, CK__EUR, CK_LRBR, CK_RRBR, CK_PERC, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CK_EXLM, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK_TILD, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK__QUO,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CK_CIRC, CK_SLSH, CK_ASTR, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK___AT, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          MO__NAV, CK__SPC, MO__NUM,    XXXXXXX, PRESSED, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+  
+    */
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {     
@@ -131,12 +147,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             
+            printf("mod tap key pressed at %d\n", timer_read());
             if (is_retroactive_shift_enabled()) {
                 if(record->event.pressed) {
-                    consume_retroactive_shift();
                     tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
+                    consume_retroactive_shift();
                 } else {
                     reset_retroactive_shift();
+                }
+                return false;
+            }
+            
+            if (is_shift_active()) {
+                if(record->event.pressed) {
+                    tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
                 }
                 return false;
             }
@@ -145,10 +169,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CK____A ... CK____Z:
         
+            printf("other key pressed at %d\n", timer_read());
             if (is_retroactive_shift_enabled()) {
                 if(record->event.pressed) {
-                    consume_retroactive_shift();
                     tap_code16(S(keycode));
+                    consume_retroactive_shift();
                 } else {
                     reset_retroactive_shift();
                     
@@ -238,7 +263,7 @@ void x_sym_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_ENTER_SHIFT] = {
+    [TD_ENTER] = {
         // fn { on_each, finished, reset, release }
         .fn = { x_shift_on_each_tap, x_shift_finished, x_shift_reset, x_shift_on_each_release },
         .user_data = &(tap_dance_config_t){
@@ -249,6 +274,6 @@ tap_dance_action_t tap_dance_actions[] = {
             .has_dt_layer = true
         }
     },
-    [TD_SPACE_SYM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
+    [TD_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
 };
 
