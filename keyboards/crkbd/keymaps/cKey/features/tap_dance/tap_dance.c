@@ -14,11 +14,11 @@ static td_tap_t x_tap_state = {
     .cw_mode_active = false,
 };
 
-/*
+
 static uint16_t delayed_key_timer = 0;
-static bool delayed_key = NULL;
+static uint16_t delayed_key = 0;
 
-
+/*
 static uint16_t post_tap_dance_shift_idle_timer = 0;
 */
 static uint16_t handled_keycode = 0;
@@ -39,16 +39,16 @@ void post_tap_dance_shift_task(void) {
             post_tap_dance_shift_enabled = false;
         }
     }
+    */
     
     if (delayed_key) {
-        if (timer_elapsed(delayed_key_timer) > 30) {
+        if (timer_elapsed(delayed_key_timer) > 50 && delayed_key) {
             print("61: DELAYED Key: OFF\n");
             print("<enter>\n");
             tap_code16(delayed_key);
-            delayed_key = NULL;
+            delayed_key = 0;
         }
     }
-    */
 }
 
 
@@ -149,22 +149,18 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
     switch (x_tap_state.state) {
         case TD_SINGLE_HOLD:  
             print("20: Single Hold: ON\n");
-            /*    
-                print("23: POST Tap Dance Shift: ON\n");
-                post_tap_dance_shift_idle_timer = timer_read();
-                post_tap_dance_shift_enabled = true;
-            */
-            printf("%d\n", state->interrupting_keycode);
             register_code(KC_LSFT);
             
-            switch (state->interrupting_keycode) {
-                case HOME_CA:
-                    tap_code16(KC_A);
-                    handled_keycode = state->interrupting_keycode;
-                    break;
-                case HOME_CH:
-                    tap_code16(KC_H);
-                    handled_keycode = state->interrupting_keycode;
+            uint16_t mt_keycode = state->interrupting_keycode;
+            switch (mt_keycode) {
+                case HOME_CA ... HOME_CZ: 
+                case HOME_SA ... HOME_SZ: 
+                case HOME_AA ... HOME_AZ: 
+                case HOME_GA ... HOME_GZ: 
+                    print("23: Special Home Row Mod Handling\n");
+                    uint16_t tap_code = QK_MOD_TAP_GET_TAP_KEYCODE(mt_keycode);
+                    tap_code16(tap_code);
+                    handled_keycode = mt_keycode;
                     break;
             }
             
@@ -187,12 +183,14 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
 
     switch (x_tap_state.state) {
         case TD_SINGLE_TAP:
-                //print("31: DELAYED Key: ON\n");
-                //delayed_key = config->keycode;
-                //delayed_key_timer = timer_read();
+                print("31: DELAYED Key: ON\n");
+                delayed_key = config->keycode;
+                delayed_key_timer = timer_read();
+                /*
                 print("31: Single Tap\n");
                 print("<enter>\n");
                 tap_code16(config->keycode);
+                */
             break;
         case TD_SINGLE_HOLD:
             unregister_code(KC_LSFT);
