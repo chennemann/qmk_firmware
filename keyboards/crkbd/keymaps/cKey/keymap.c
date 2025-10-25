@@ -17,8 +17,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-#include "sendstring_german.h"
 
+#include "keymap_extras/keymap_ckey.h"
+
+/*
+    Define available layer names
+*/
+enum layers {
+  _BASE = 0,
+  _NUM,
+  _SYM
+};
+
+
+/*
+    Define generic Home Row Mod Keys to enable easy adjustments
+*/
 #define HOME_1 LGUI_T(DE_C)
 #define HOME_2 LALT_T(DE_I)
 #define HOME_3 LSFT_T(DE_E)
@@ -29,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define HOME_8 LGUI_T(DE_N)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_split_3x6_3(
+    [_BASE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC,    DE_B,    DE_Y,    DE_O,    DE_U, DE_PLUS,                       DE_EQL,    DE_L,    DE_D,    DE_W,    DE_V, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -37,44 +51,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          DE_Q,    DE_G,    DE_X,    DE_J,    DE_K, DE_MINS,                      DE_QUES,    DE_R,    DE_M,    DE_F,    DE_P,    DE_Z,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_RALT
+                                          XXXXXXX,LSFT_T(KC_ENT),MO(_NUM),     XXXXXXX,LT(_SYM, KC_SPC), XXXXXXX
                                       //`--------------------------'  `--------------------------'
 
   ),
 
-    [1] = LAYOUT_split_3x6_3(
+    [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+      _______, XXXXXXX, DE_EURO,  DE_DLR, XXXXXXX, XXXXXXX,                      _______, CK____7, CK____8, CK____9, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
+      _______, DE_PLUS, DE_MINS, DE_ASTR, DE_SLSH, DE_PERC,                      _______, CK____4, CK____5, CK____6, DE_COMM, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, CK_CIRC, CK_GRV, CK_ACUT,                      XXXXXXX,  CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_SPC,     KC_ENT,   MO(3), KC_RALT
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    _______, _______, CK____0
                                       //`--------------------------'  `--------------------------'
   ),
 
-    [2] = LAYOUT_split_3x6_3(
+    [_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+      _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+      _______, DE_PLUS, DE_MINS, DE_ASTR, DE_SLSH, DE_PERC,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS,                      KC_EXLM, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(3),  KC_SPC,     KC_ENT, _______, KC_RALT
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [3] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RALT
+                                          KC_LGUI,   MO(3),  KC_SPC,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+    // Based on https://jurf.github.io/2024/01/22/bilingual-qmk-layout-for-programming/
+    if (!handle_deadkey_diacritic(keycode, record)) {
+        return false;
+    }
+
+    return true;
+}

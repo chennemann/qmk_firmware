@@ -16,3 +16,5 @@ OLED_ENABLE = no
 RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = no
 
+
+SRC += keymap_extras/keymap_ckey.c
