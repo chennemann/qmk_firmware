@@ -131,9 +131,12 @@ const key_override_t quot_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_DQUO, 
 const key_override_t ques_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_QUES, CK_EXLM);
 
 // This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
+const key_override_t *key_overrides[] = {
 	&delete_key_override,
 	&quot_key_override,
 	&ques_key_override,
+	
+	// NOTE: Adjust the array size to match the number of overrides in keymap_ckey.h
+	
 	NULL // Null terminate the array of overrides!
 };

@@ -4,7 +4,8 @@
 #include "keymap_german.h"
 #include "features.h"
 
-
+// Define the key overrides array
+extern const key_override_t *key_overrides[4];
 
 // clang-format off
 
