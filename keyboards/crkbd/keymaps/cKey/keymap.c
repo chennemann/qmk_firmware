@@ -27,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__TAB, CK____C, CK____I, CK____E, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, CK____T, CK____S, CK____N, CK_DQUO,
+        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK_DQUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -277,3 +277,31 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
 };
 
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT(
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R', 
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R', 
+        'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R', 
+                       'L', 'L', 'L',  'R', 'R', 'R'
+    );
+    
+    
+const uint16_t PROGMEM open_normal_bracket[] = {HOME_CH, HOME_ST, COMBO_END};
+const uint16_t PROGMEM close_normal_bracket[] = {HOME_AS, HOME_GN, COMBO_END};
+const uint16_t PROGMEM open_curly_bracket[] = {HOME_CH, HOME_ST, HOME_AS, COMBO_END};
+const uint16_t PROGMEM close_curly_bracket[] = {HOME_ST, HOME_AS, HOME_GN, COMBO_END};
+const uint16_t PROGMEM open_rectangular_bracket[] = {CK____R, CK____M, COMBO_END};
+const uint16_t PROGMEM close_rectangular_bracket[] = {CK____F, CK____P, COMBO_END};
+const uint16_t PROGMEM open_angled_bracket[] = {CK____R, CK____M, CK____F, COMBO_END};
+const uint16_t PROGMEM close_angled_bracket[] = {CK____M, CK____F, CK____P, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(open_normal_bracket, CK_LNBR),
+    COMBO(close_normal_bracket, CK_RNBR),
+    COMBO(open_curly_bracket, CK_LCBR),
+    COMBO(close_curly_bracket, CK_RCBR),
+    COMBO(open_rectangular_bracket, CK_LRBR),
+    COMBO(close_rectangular_bracket, CK_RRBR),
+    COMBO(open_angled_bracket, CK_LABK),
+    COMBO(close_angled_bracket, CK_RABK),
+};
