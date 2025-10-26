@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keymap_extras/keymap_ckey.h"
 
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BYOU] = LAYOUT_split_3x6_3(
@@ -31,12 +30,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            MO__NAV, TD__SFT, MO__NUM,    MO__DIA, TD__SPC, XXXXXXX
+                                            MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
 
     ),
     
-      [_NAV] = LAYOUT_split_3x6_3(
+
+    [_NUM] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, CK_PERC, _______,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        _______, CK_HASH, CK_PLUS, CK_MINS, CK_EQLS, XXXXXXX,                      XXXXXXX, CK____4, CK____5, CK____6, CK____0, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        _______, CK_CIRC, CK_ASTR, CK_SLSH, CK_AMPR, XXXXXXX,                      CK__DOT, CK____1, CK____2, CK____3, CK_COMM, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            XXXXXXX, XXXXXXX, PRESSED,    LT_FN_0, _______, CK____0
+                                        //`--------------------------'  `--------------------------'
+    ),
+    
+    [_SYM] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        XXXXXXX, CK__EUR, CK___AT, CK_AMPR, CK_HASH, CK__GRV,                      CK_ACUT, CK_LABK, CK_LRBR, CK_RRBR, CK_RABK, _______,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK__QUO, CK_EXLM, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK_CIRC, CK_PERC, CK_ASTR, CK_SLSH, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK_TILD, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            CK__SPC, CK__ENT, CK__SPC,    XXXXXXX, PRESSED, XXXXXXX
+                                        //`--------------------------'  `--------------------------'
+    ),
+  
+    [_NAV] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__Z,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
@@ -48,19 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             PRESSED, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-    
-    [_NUM] = LAYOUT_split_3x6_3(
-    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, CK_PERC, _______,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      XXXXXXX, CK____4, CK____5, CK____6, XXXXXXX, XXXXXXX,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, CK_SLSH, CK_ASTR, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
-    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, XXXXXXX, PRESSED,    LT_FN_0, CK__DOT, CK_COMM
-                                        //`--------------------------'  `--------------------------'
-    ),
-    
+        
       [_DIA] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, CK_ACUT, CK__GRV, CK_ODIA, CK_UDIA, CK_CIRC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
@@ -72,19 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             XXXXXXX, CK__SPC, MO___FN,    PRESSED, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-    
-    [_SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, CK__EUR, CK___AT, CK_AMPR, CK_HASH, CK__GRV,                      CK_ACUT, CK_LABK, CK_LRBR, CK_RRBR, CK_RABK, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK__QUO, CK_EXLM, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CK_CIRC, CK_PERC, CK_ASTR, CK_SLSH, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK_TILD, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CK__SPC, CK__ENT, CK__SPC,    XXXXXXX, PRESSED, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
-  
+
   [_FN] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK___F7, CK___F8, CK___F9, CK__F12, XXXXXXX,
@@ -110,7 +110,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, PRESSED, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          XXXXXXX, PRESSED, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          //`--------------------------'  `--------------------------'
+    ),
+        
+    [_COMBO_REF] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        CK____A, CK____B, CK____C, CK____D, CK____E, CK____F,                      CK____G, CK____H, CK____I, CK____J, CK____K, CK____L,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK____M, CK____N, CK____O, CK____P, CK____Q, CK____R,                      CK____S, CK____T, CK____U, CK____V, CK____W, CK____X,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK____Y, CK____Z, CK____0, CK____1, CK____2, CK____3,                      CK____4, CK____5, CK____6, CK____7, CK____8, CK____9,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
     
@@ -285,23 +297,77 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
                        'L', 'L', 'L',  'R', 'R', 'R'
     );
     
-    
-const uint16_t PROGMEM open_normal_bracket[] = {HOME_CH, HOME_ST, COMBO_END};
-const uint16_t PROGMEM close_normal_bracket[] = {HOME_AS, HOME_GN, COMBO_END};
-const uint16_t PROGMEM open_curly_bracket[] = {HOME_CH, HOME_ST, HOME_AS, COMBO_END};
-const uint16_t PROGMEM close_curly_bracket[] = {HOME_ST, HOME_AS, HOME_GN, COMBO_END};
-const uint16_t PROGMEM open_rectangular_bracket[] = {CK____R, CK____M, COMBO_END};
-const uint16_t PROGMEM close_rectangular_bracket[] = {CK____F, CK____P, COMBO_END};
-const uint16_t PROGMEM open_angled_bracket[] = {CK____R, CK____M, CK____F, COMBO_END};
-const uint16_t PROGMEM close_angled_bracket[] = {CK____M, CK____F, CK____P, COMBO_END};
+
+enum combos {
+    CM_LNBR,
+    CM_RNBR,
+    CM_LCBR,
+    CM_RCBR,
+    CM_LRBR,
+    CM_RRBR,
+    CM_LABK,
+    CM_RABK,
+};  
+
+// combos are named after the following schema:
+// L | R denote the left or right side of the keyboard
+// 
+// l := little finger
+const uint16_t PROGMEM combo_open_normal_bracket[] = {CK____T, CK____U, COMBO_END};
+
+
+const uint16_t PROGMEM combo_open_normal_bracket[] = {CK____T, CK____U, COMBO_END};
+const uint16_t PROGMEM combo_close_normal_bracket[] = {CK____U, CK____V, COMBO_END};
+const uint16_t PROGMEM combo_open_curly_bracket[] = {CK____H, CK____I, COMBO_END};
+const uint16_t PROGMEM combo_close_curly_bracket[] = {CK____I, CK____J, COMBO_END};
+const uint16_t PROGMEM combo_open_rectangular_bracket[] = {CK____T, CK____U, CK____V, COMBO_END};
+const uint16_t PROGMEM combo_close_rectangular_bracket[] = {CK____U, CK____V, CK____W, COMBO_END};
+const uint16_t PROGMEM combo_open_angled_bracket[] = {CK____H, CK____I, CK____J, COMBO_END};
+const uint16_t PROGMEM combo_close_angled_bracket[] = {CK____I, CK____J, CK____K, COMBO_END};
+
 
 combo_t key_combos[] = {
-    COMBO(open_normal_bracket, CK_LNBR),
-    COMBO(close_normal_bracket, CK_RNBR),
-    COMBO(open_curly_bracket, CK_LCBR),
-    COMBO(close_curly_bracket, CK_RCBR),
-    COMBO(open_rectangular_bracket, CK_LRBR),
-    COMBO(close_rectangular_bracket, CK_RRBR),
-    COMBO(open_angled_bracket, CK_LABK),
-    COMBO(close_angled_bracket, CK_RABK),
+    [CM_LNBR] = COMBO(combo_open_normal_bracket, CK_LNBR),
+    [CM_RNBR] = COMBO(combo_close_normal_bracket, CK_RNBR),
+    [CM_LCBR] = COMBO(combo_open_curly_bracket, CK_LCBR),
+    [CM_RCBR] = COMBO(combo_close_curly_bracket, CK_RCBR),
+    [CM_LRBR] = COMBO(combo_open_rectangular_bracket, CK_LRBR),
+    [CM_RRBR] = COMBO(combo_close_rectangular_bracket, CK_RRBR),
+    [CM_LABK] = COMBO(combo_open_angled_bracket, CK_LABK),
+    [CM_RABK] = COMBO(combo_close_angled_bracket, CK_RABK),
 };
+
+
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
+    return true;
+}
+
+/*
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch (combo_index) {
+        case CM_ALTB:
+            if (pressed) {
+                register_mods(MOD_LALT);
+                tap_code(KC_TAB);
+            } else {
+                unregister_mods(MOD_LALT);
+            }
+            break;
+    }
+}
+
+bool process_combo_key_repress(uint16_t combo_index, combo_t *combo, uint8_t key_index, uint16_t keycode) {
+    switch (combo_index) {
+        case CM_ALTB:
+            switch (keycode) {
+                case KC_F:
+                    tap_code16(S(KC_TAB));
+                    return true;
+                case KC_G:
+                    tap_code(KC_TAB);
+                    return true;
+            }
+    }
+    return false;
+}
+*/

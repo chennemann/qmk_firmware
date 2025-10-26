@@ -34,3 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CHORDAL_HOLD
 #define PERMISSIVE_HOLD
 #define FLOW_TAP_TERM 150
+
+#define COMBO_TERM 35
+#define COMBO_MUST_TAP_PER_COMBO
+#define COMBO_HOLD_TERM 200
+#define COMBO_PROCESS_KEY_REPRESS
+#define COMBO_ONLY_FROM_LAYER 1

@@ -1,7 +1,7 @@
 #pragma once
 
 #include QMK_KEYBOARD_H
-#include "keymap_german.h"
+#include "quantum/keymap_extras/keymap_german.h"
 #include "features.h"
 
 // Define the key overrides array
