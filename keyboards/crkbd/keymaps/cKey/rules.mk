@@ -28,6 +28,7 @@ KEY_OVERRIDE_ENABLE = yes
 
 # Activate Combos to simplify usage of the keyboard
 COMBO_ENABLE = yes
+COMBO_REF_ENABLE = yes
 
 SRC += keymap_extras/keymap_ckey.c
 SRC += features/tap_dance/tap_dance.c

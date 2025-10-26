@@ -5,6 +5,7 @@
 */
 enum layers {
   _BYOU = 0,
+  _COMBO_REF,
   _SYM,
   _NUM,
   _FN,
