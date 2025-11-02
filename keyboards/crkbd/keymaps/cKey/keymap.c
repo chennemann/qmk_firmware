@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdint.h>
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_ckey.h"
 
@@ -296,45 +297,153 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
         'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R', 
                        'L', 'L', 'L',  'R', 'R', 'R'
     );
-    
-
-enum combos {
-    CM_LNBR,
-    CM_RNBR,
-    CM_LCBR,
-    CM_RCBR,
-    CM_LRBR,
-    CM_RRBR,
-    CM_LABK,
-    CM_RABK,
-};  
+ 
 
 // combos are named after the following schema:
-// L | R denote the left or right side of the keyboard
+// 
+// prefixed with cmb
+// 
+// l denotes the left side of the keyboard
+// r denotes the right side of the keyboard
+// 
+// # denotes the extended columns for the little & index fingers
 // 
 // l := little finger
-const uint16_t PROGMEM combo_open_normal_bracket[] = {CK____T, CK____U, COMBO_END};
+// r := ring finger
+// m := middle finger
+// i := index finger
+// t := thumb
+// 
+// 1 | 2 | 3 denote the first, second, and third row of the keyboard
+// 
+// So a notation like: l2_r1_m2 would be the equivalent of a,w,d on a qwerty keyboard
+// 
+// This notation allows for efficient combo creation decoupled from the semantics of a given combo
+// This in turn allows for easier redefinition of combos
 
 
-const uint16_t PROGMEM combo_open_normal_bracket[] = {CK____T, CK____U, COMBO_END};
-const uint16_t PROGMEM combo_close_normal_bracket[] = {CK____U, CK____V, COMBO_END};
-const uint16_t PROGMEM combo_open_curly_bracket[] = {CK____H, CK____I, COMBO_END};
-const uint16_t PROGMEM combo_close_curly_bracket[] = {CK____I, CK____J, COMBO_END};
-const uint16_t PROGMEM combo_open_rectangular_bracket[] = {CK____T, CK____U, CK____V, COMBO_END};
-const uint16_t PROGMEM combo_close_rectangular_bracket[] = {CK____U, CK____V, CK____W, COMBO_END};
-const uint16_t PROGMEM combo_open_angled_bracket[] = {CK____H, CK____I, CK____J, COMBO_END};
-const uint16_t PROGMEM combo_close_angled_bracket[] = {CK____I, CK____J, CK____K, COMBO_END};
+// Left hand combos
+const uint16_t PROGMEM cmb_ll1_lr1[] = {CMB_LL1, CMB_LR1, COMBO_END};
+const uint16_t PROGMEM cmb_ll2_lr1[] = {CMB_LL2, CMB_LR1, COMBO_END};
+const uint16_t PROGMEM cmb_ll2_lr2[] = {CMB_LL2, CMB_LR2, COMBO_END};
+const uint16_t PROGMEM cmb_ll3_lr2[] = {CMB_LL3, CMB_LR2, COMBO_END};
+const uint16_t PROGMEM cmb_ll3_lr3[] = {CMB_LL3, CMB_LR3, COMBO_END};
+
+const uint16_t PROGMEM cmb_lr1_lm1[] = {CMB_LR1, CMB_LM1, COMBO_END};
+const uint16_t PROGMEM cmb_lr1_lm2[] = {CMB_LR1, CMB_LM2, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm1[] = {CMB_LR2, CMB_LM1, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm2[] = {CMB_LR2, CMB_LM2, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm3[] = {CMB_LR2, CMB_LM3, COMBO_END};
+const uint16_t PROGMEM cmb_lr3_lm2[] = {CMB_LR3, CMB_LM2, COMBO_END};
+const uint16_t PROGMEM cmb_lr3_lm3[] = {CMB_LR3, CMB_LM3, COMBO_END};
+
+const uint16_t PROGMEM cmb_lm1_li1[] = {CMB_LM1, CMB_LI1, COMBO_END};
+const uint16_t PROGMEM cmb_lm1_li2[] = {CMB_LM1, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_lm2_li1[] = {CMB_LM2, CMB_LI1, COMBO_END};
+const uint16_t PROGMEM cmb_lm2_li2[] = {CMB_LM2, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_lm2_li3[] = {CMB_LM2, CMB_LI3, COMBO_END};
+const uint16_t PROGMEM cmb_lm3_li2[] = {CMB_LM3, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_lm3_li3[] = {CMB_LM3, CMB_LI3, COMBO_END};
+
+const uint16_t PROGMEM cmb_li1_lr1[] = {CMB_LI1, CMB_LR1, COMBO_END};
+const uint16_t PROGMEM cmb_lm1_ll1[] = {CMB_LM1, CMB_LL1, COMBO_END};
+const uint16_t PROGMEM cmb_li2_lr2[] = {CMB_LI2, CMB_LR2, COMBO_END};
+const uint16_t PROGMEM cmb_lm2_ll2[] = {CMB_LM2, CMB_LL2, COMBO_END};
+const uint16_t PROGMEM cmb_li3_lr3[] = {CMB_LI3, CMB_LR3, COMBO_END};
+const uint16_t PROGMEM cmb_lm3_ll3[] = {CMB_LM3, CMB_LL3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ll1_lr1_lm1[] = {CMB_LL1, CMB_LR1, CMB_LM1, COMBO_END};
+const uint16_t PROGMEM cmb_lr1_lm1_li1[] = {CMB_LR1, CMB_LM1, CMB_LI1, COMBO_END};
+const uint16_t PROGMEM cmb_ll2_lr2_lm2[] = {CMB_LL2, CMB_LR2, CMB_LM2, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm2_li2[] = {CMB_LR2, CMB_LM2, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_ll3_lr3_lm3[] = {CMB_LL3, CMB_LR3, CMB_LM3, COMBO_END};
+const uint16_t PROGMEM cmb_lr3_lm3_li3[] = {CMB_LR3, CMB_LM3, CMB_LI3, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm1_li2[] = {CMB_LR2, CMB_LM1, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_lr2_lm3_li2[] = {CMB_LR2, CMB_LM3, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_lr3_lm2_li3[] = {CMB_LR3, CMB_LM2, CMB_LI3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ll1_lr1_lm1_li1[] = {CMB_LL1, CMB_LR1, CMB_LM1, CMB_LI1, COMBO_END};
+const uint16_t PROGMEM cmb_ll2_lr2_lm2_li2[] = {CMB_LL2, CMB_LR2, CMB_LM2, CMB_LI2, COMBO_END};
+const uint16_t PROGMEM cmb_ll3_lr3_lm3_li3[] = {CMB_LL3, CMB_LR3, CMB_LM3, CMB_LI3, COMBO_END};
+
+// Right hand combos
+const uint16_t PROGMEM cmb_rr1_rl1[] = {CMB_RR1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_rr1_rl2[] = {CMB_RR1, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_rr2_rl2[] = {CMB_RR2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_rr2_rl3[] = {CMB_RR2, CMB_RL3, COMBO_END};
+const uint16_t PROGMEM cmb_rr3_rl3[] = {CMB_RR3, CMB_RL3, COMBO_END};
+
+const uint16_t PROGMEM cmb_rm1_rr1[] = {CMB_RM1, CMB_RR1, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rr1[] = {CMB_RM2, CMB_RR1, COMBO_END};
+const uint16_t PROGMEM cmb_rm1_rr2[] = {CMB_RM1, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rr2[] = {CMB_RM2, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_rm3_rr2[] = {CMB_RM3, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rr3[] = {CMB_RM2, CMB_RR3, COMBO_END};
+const uint16_t PROGMEM cmb_rm3_rr3[] = {CMB_RM3, CMB_RR3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri1_rm1[] = {CMB_RI1, CMB_RM1, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm1[] = {CMB_RI2, CMB_RM1, COMBO_END};
+const uint16_t PROGMEM cmb_ri1_rm2[] = {CMB_RI1, CMB_RM2, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm2[] = {CMB_RI2, CMB_RM2, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rm2[] = {CMB_RI3, CMB_RM2, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm3[] = {CMB_RI2, CMB_RM3, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rm3[] = {CMB_RI3, CMB_RM3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri1_rr1[] = {CMB_RI1, CMB_RR1, COMBO_END};
+const uint16_t PROGMEM cmb_rm1_rl1[] = {CMB_RM1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rr2[] = {CMB_RI2, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rl2[] = {CMB_RM2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rr3[] = {CMB_RI3, CMB_RR3, COMBO_END};
+const uint16_t PROGMEM cmb_rm3_rl3[] = {CMB_RM3, CMB_RL3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri1_rm1_rr1[] = {CMB_RI1, CMB_RM1, CMB_RR1, COMBO_END};
+const uint16_t PROGMEM cmb_rm1_rr1_rl1[] = {CMB_RM1, CMB_RR1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm2_rr2[] = {CMB_RI2, CMB_RM2, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rr2_rl2[] = {CMB_RM2, CMB_RR2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rm3_rr3[] = {CMB_RI3, CMB_RM3, CMB_RR3, COMBO_END};
+const uint16_t PROGMEM cmb_rm3_rr3_rl3[] = {CMB_RM3, CMB_RR3, CMB_RL3, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm1_rr2[] = {CMB_RI2, CMB_RM1, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm3_rr2[] = {CMB_RI2, CMB_RM3, CMB_RR2, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rm2_rr3[] = {CMB_RI3, CMB_RM2, CMB_RR3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri1_rm1_rr1_rl1[] = {CMB_RI1, CMB_RM1, CMB_RR1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rm2_rr2_rl2[] = {CMB_RI2, CMB_RM2, CMB_RR2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rm3_rr3_rl3[] = {CMB_RI3, CMB_RM3, CMB_RR3, CMB_RL3, COMBO_END};
 
 
 combo_t key_combos[] = {
-    [CM_LNBR] = COMBO(combo_open_normal_bracket, CK_LNBR),
-    [CM_RNBR] = COMBO(combo_close_normal_bracket, CK_RNBR),
-    [CM_LCBR] = COMBO(combo_open_curly_bracket, CK_LCBR),
-    [CM_RCBR] = COMBO(combo_close_curly_bracket, CK_RCBR),
-    [CM_LRBR] = COMBO(combo_open_rectangular_bracket, CK_LRBR),
-    [CM_RRBR] = COMBO(combo_close_rectangular_bracket, CK_RRBR),
-    [CM_LABK] = COMBO(combo_open_angled_bracket, CK_LABK),
-    [CM_RABK] = COMBO(combo_close_angled_bracket, CK_RABK),
+    
+    COMBO(cmb_ri1_rm1, CK_PLUS),                // +
+    COMBO(cmb_rr1_rl1, CK_MINS),                // -
+    COMBO(cmb_ri1_rr1, CK_ASTR),                // *
+    COMBO(cmb_rm1_rl1, CK_SLSH),                // /
+    COMBO(cmb_ri1_rm1_rr1, CK__USD),            // $
+    COMBO(cmb_rm1_rr1_rl1, CK__EUR),            // €
+    COMBO(cmb_rm1_rr1, CK_EQLS),                // =
+    COMBO(cmb_ri1_rm1_rr1_rl1, CK_PERC),        // %
+    
+    COMBO(cmb_ri2_rm2, CK_LNBR),                // (
+    COMBO(cmb_rr2_rl2, CK_RNBR),                // )
+    COMBO(cmb_ri2_rr2, CK_LCBR),                // {
+    COMBO(cmb_rm2_rl2, CK_RCBR),                // }
+    COMBO(cmb_ri2_rm2_rr2, CK_LRBR),            // [
+    COMBO(cmb_rm2_rr2_rl2, CK_RRBR),            // ]
+    COMBO(cmb_rm2_rr2, CK_LABK),                // <
+    COMBO(cmb_ri2_rm2_rr2_rl2, CK_RABK),        // >
+    COMBO(cmb_ri2_rm1, CK_SLSH),                // /
+    COMBO(cmb_rm1_rr2, CK_BSLS),                // <backslash>
+    COMBO(cmb_ri2_rm1_rr2, CK_PIPE),            // |
+    COMBO(cmb_ri3_rm2, CK_ACUT),                // ´
+    COMBO(cmb_rm2_rr3, CK__GRV),                // `
+    COMBO(cmb_ri3_rm2_rr3, CK_CIRC),            // ^
+    COMBO(cmb_ri3_rm3, CK_AMPR),                // &
+    COMBO(cmb_rm3_rr3, CK_HASH),                // #
+    COMBO(cmb_rr3_rl3, CK___AT),                // @
+    COMBO(cmb_ri3_rr3, CK_QUES),                // ?
+    COMBO(cmb_rm3_rl3, CK_EXLM),                // !
+    COMBO(cmb_ri3_rm3_rr3, CK_UNDS),            // _
+    COMBO(cmb_rm3_rr3_rl3, CK_MINS),            // -
+    COMBO(cmb_ri3_rm3_rr3_rl3, CK_TILD),        // ~
 };
 
 

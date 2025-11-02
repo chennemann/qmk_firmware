@@ -199,3 +199,32 @@ enum {
 #define HOME_SZ MT(MOD_LSFT, CK____Z)
 #define HOME_AZ MT(MOD_LALT, CK____Z)
 #define HOME_GZ MT(MOD_LGUI, CK____Z)
+
+
+// Combo Keys for easy access
+
+#define CMB_LL1 CK____B
+#define CMB_LR1 CK____C
+#define CMB_LM1 CK____D
+#define CMB_LI1 CK____E
+#define CMB_LL2 CK____N
+#define CMB_LR2 CK____O
+#define CMB_LM2 CK____P
+#define CMB_LI2 CK____Q
+#define CMB_LL3 CK____Z
+#define CMB_LR3 CK____0
+#define CMB_LM3 CK____1
+#define CMB_LI3 CK____2
+
+#define CMB_RL1 CK____K
+#define CMB_RR1 CK____J
+#define CMB_RM1 CK____I
+#define CMB_RI1 CK____H
+#define CMB_RL2 CK____W
+#define CMB_RR2 CK____V
+#define CMB_RM2 CK____U
+#define CMB_RI2 CK____T
+#define CMB_RL3 CK____8
+#define CMB_RR3 CK____7
+#define CMB_RM3 CK____6
+#define CMB_RI3 CK____5
