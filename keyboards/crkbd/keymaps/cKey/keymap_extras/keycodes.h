@@ -217,14 +217,17 @@ enum {
 #define CMB_LI3 CK____2
 
 #define CMB_RL1 CK____K
+#define CMB_RL_1 CK____L
 #define CMB_RR1 CK____J
 #define CMB_RM1 CK____I
 #define CMB_RI1 CK____H
 #define CMB_RL2 CK____W
+#define CMB_RL_2 CK____X
 #define CMB_RR2 CK____V
 #define CMB_RM2 CK____U
 #define CMB_RI2 CK____T
 #define CMB_RL3 CK____8
+#define CMB_RL_3 CK____9
 #define CMB_RR3 CK____7
 #define CMB_RM3 CK____6
 #define CMB_RI3 CK____5
