@@ -34,8 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
 
-    ),
-    
+    ),   
 
     [_NUM] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -410,6 +409,10 @@ const uint16_t PROGMEM cmb_ri1_rm1_rr1_rl1[] = {CMB_RI1, CMB_RM1, CMB_RR1, CMB_R
 const uint16_t PROGMEM cmb_ri2_rm2_rr2_rl2[] = {CMB_RI2, CMB_RM2, CMB_RR2, CMB_RL2, COMBO_END};
 const uint16_t PROGMEM cmb_ri3_rm3_rr3_rl3[] = {CMB_RI3, CMB_RM3, CMB_RR3, CMB_RL3, COMBO_END};
 
+// Special combos
+const uint16_t PROGMEM cmb_rm2_rl_2[] = {CMB_RM2, CMB_RL_2, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rl_2[] = {CMB_RI2, CMB_RL_2, COMBO_END};
+    
 
 combo_t key_combos[] = {
     
@@ -430,12 +433,7 @@ combo_t key_combos[] = {
     COMBO(cmb_rm2_rr2_rl2, CK_RRBR),            // ]
     COMBO(cmb_rm2_rr2, CK_LABK),                // <
     COMBO(cmb_ri2_rm2_rr2_rl2, CK_RABK),        // >
-    COMBO(cmb_ri2_rm1, CK_SLSH),                // /
-    COMBO(cmb_rm1_rr2, CK_BSLS),                // <backslash>
-    COMBO(cmb_ri2_rm1_rr2, CK_PIPE),            // |
-    COMBO(cmb_ri3_rm2, CK_ACUT),                // ´
-    COMBO(cmb_rm2_rr3, CK__GRV),                // `
-    COMBO(cmb_ri3_rm2_rr3, CK_CIRC),            // ^
+    
     COMBO(cmb_ri3_rm3, CK_AMPR),                // &
     COMBO(cmb_rm3_rr3, CK_HASH),                // #
     COMBO(cmb_rr3_rl3, CK___AT),                // @
@@ -444,6 +442,16 @@ combo_t key_combos[] = {
     COMBO(cmb_ri3_rm3_rr3, CK_UNDS),            // _
     COMBO(cmb_rm3_rr3_rl3, CK_MINS),            // -
     COMBO(cmb_ri3_rm3_rr3_rl3, CK_TILD),        // ~
+    
+    COMBO(cmb_ri2_rm1, CK_SLSH),                // /
+    COMBO(cmb_rm1_rr2, CK_BSLS),                // <backslash>
+    COMBO(cmb_ri2_rm1_rr2, CK_PIPE),            // |
+    COMBO(cmb_ri3_rm2, CK_ACUT),                // ´
+    COMBO(cmb_rm2_rr3, CK__GRV),                // `
+    COMBO(cmb_ri3_rm2_rr3, CK_CIRC),            // ^
+    
+    COMBO(cmb_rm2_rl_2, CK__QUO),               // '
+    COMBO(cmb_ri2_rl_2, CK_SCLN),               // ;
 };
 
 
