@@ -27,9 +27,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK_DQUO,
+        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK__QUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_QUES, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
+        XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_COLN, CK____R, CK____M, CK____F, CK____P, CK_DQUO,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
@@ -40,11 +40,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, CK_PERC, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_HASH, CK_PLUS, CK_MINS, CK_EQLS, XXXXXXX,                      XXXXXXX, CK____4, CK____5, CK____6, CK____0, XXXXXXX,
+        _______, CK_HASH, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK____4, CK____5, CK____6, CK_PERC, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_CIRC, CK_ASTR, CK_SLSH, CK_AMPR, XXXXXXX,                      CK__DOT, CK____1, CK____2, CK____3, CK_COMM, XXXXXXX,
+        _______, CK_CIRC, CK_ASTR, CK_SLSH, CK_AMPR, XXXXXXX,                      CK_COLN, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, XXXXXXX, PRESSED,    LT_FN_0, _______, CK____0
+                                            XXXXXXX, PRESSED, XXXXXXX,    CK__ENT, LT_FN_0, CK__SPC
                                         //`--------------------------'  `--------------------------'
     ),
     
