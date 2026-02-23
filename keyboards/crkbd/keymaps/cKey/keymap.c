@@ -27,36 +27,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, CK_COMM,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK__QUO,
+        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, XXXXXXX,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK__QUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        XXXXXXX, CK____G, CK____X, CK____J, CK____K, CK_MINS,                      CK_COLN, CK____R, CK____M, CK____F, CK____P, CK_DQUO,
+        XXXXXXX, CK____G, CK____X, CK____J, CK____K, XXXXXXX,                      CK_COMM, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
+                                            MO__NAV, TD__SFT, MO__NUM,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
 
-    ),   
+  ),
 
     [_NUM] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        _______, XXXXXXX, CK__EUR, CK__USD, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, CK_PERC, _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_HASH, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK____4, CK____5, CK____6, CK_PERC, XXXXXXX,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,                      _______, CK____4, CK____5, CK____6, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_CIRC, CK_ASTR, CK_SLSH, CK_AMPR, XXXXXXX,                      CK_COLN, CK____1, CK____2, CK____3, XXXXXXX, XXXXXXX,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, PRESSED, XXXXXXX,    CK__ENT, LT_FN_0, CK__SPC
-                                        //`--------------------------'  `--------------------------'
-    ),
-    
-    [_SYM] = LAYOUT_split_3x6_3(
-    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        XXXXXXX, CK__EUR, CK___AT, CK_AMPR, CK_HASH, CK__GRV,                      CK_ACUT, CK_LABK, CK_LRBR, CK_RRBR, CK_RABK, _______,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__QUO, CK_EXLM, CK_PLUS, CK_MINS, CK_EQLS, CK_COMM,                      CK__DOT, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK_DQUO,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK_CIRC, CK_PERC, CK_ASTR, CK_SLSH, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK_TILD, XXXXXXX,
-    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            CK__SPC, CK__ENT, CK__SPC,    XXXXXXX, PRESSED, XXXXXXX
+                                            XXXXXXX, XXXXXXX, PRESSED,    CK__ENT, LT_FN_0, CK__SPC
                                         //`--------------------------'  `--------------------------'
     ),
   
@@ -125,22 +113,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-    
-    /*
-    
-    [_SYM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, CK__QUO, CK_LABK, CK_RABK, CK_AMPR, CK_ACUT,                      CK__GRV, CK__EUR, CK_LRBR, CK_RRBR, CK_PERC, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_EXLM, CK_MINS, CK_PLUS, CK_EQLS, CK_HASH,                      CK_TILD, CK_COLN, CK_LNBR, CK_RNBR, CK_QUES, CK__QUO,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, CK_CIRC, CK_SLSH, CK_ASTR, CK_BSLS, CK_UNDS,                      CK_PIPE, CK__USD, CK_LCBR, CK_RCBR, CK___AT, _______,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          MO__NAV, CK__SPC, MO__NUM,    XXXXXXX, PRESSED, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
-  
-    */
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {     
@@ -268,10 +240,10 @@ void matrix_scan_user(void) {
 
 
 void space_sym_finished(tap_dance_state_t *state, void *user_data) {
-    x_layer_finished(state, user_data, CK__SPC, _SYM, _NUM);
+    x_layer_finished(state, user_data, CK__SPC, _DIA, _NUM);
 }
 void x_sym_reset(tap_dance_state_t *state, void *user_data) {
-    x_layer_reset(state, user_data, _SYM, _NUM);
+    x_layer_reset(state, user_data, _DIA, _NUM);
 }
 
 tap_dance_action_t tap_dance_actions[] = {
@@ -389,11 +361,33 @@ const uint16_t PROGMEM cmb_ri2_rm3[] = {CMB_RI2, CMB_RM3, COMBO_END};
 const uint16_t PROGMEM cmb_ri3_rm3[] = {CMB_RI3, CMB_RM3, COMBO_END};
 
 const uint16_t PROGMEM cmb_ri1_rr1[] = {CMB_RI1, CMB_RR1, COMBO_END};
-const uint16_t PROGMEM cmb_rm1_rl1[] = {CMB_RM1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri_1_rr1[] = {CMB_RI_1, CMB_RR1, COMBO_END};
 const uint16_t PROGMEM cmb_ri2_rr2[] = {CMB_RI2, CMB_RR2, COMBO_END};
-const uint16_t PROGMEM cmb_rm2_rl2[] = {CMB_RM2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri_2_rr2[] = {CMB_RI_2, CMB_RR2, COMBO_END};
 const uint16_t PROGMEM cmb_ri3_rr3[] = {CMB_RI3, CMB_RR3, COMBO_END};
+const uint16_t PROGMEM cmb_ri_3_rr3[] = {CMB_RI_3, CMB_RR3, COMBO_END};
+
+const uint16_t PROGMEM cmb_rm1_rl1[] = {CMB_RM1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_rm1_rl_1[] = {CMB_RM1, CMB_RL_1, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rl2[] = {CMB_RM2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_rm2_rl_2[] = {CMB_RM2, CMB_RL_2, COMBO_END};
 const uint16_t PROGMEM cmb_rm3_rl3[] = {CMB_RM3, CMB_RL3, COMBO_END};
+const uint16_t PROGMEM cmb_rm3_rl_3[] = {CMB_RM3, CMB_RL_3, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri1_rl1[] = {CMB_RI1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri_1_rl1[] = {CMB_RI_1, CMB_RL1, COMBO_END};
+const uint16_t PROGMEM cmb_ri1_rl_1[] = {CMB_RI1, CMB_RL_1, COMBO_END};
+const uint16_t PROGMEM cmb_ri_1_rl_1[] = {CMB_RI_1, CMB_RL_1, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri2_rl2[] = {CMB_RI2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri_2_rl2[] = {CMB_RI_2, CMB_RL2, COMBO_END};
+const uint16_t PROGMEM cmb_ri2_rl_2[] = {CMB_RI2, CMB_RL_2, COMBO_END};
+const uint16_t PROGMEM cmb_ri_2_rl_2[] = {CMB_RI_2, CMB_RL_2, COMBO_END};
+
+const uint16_t PROGMEM cmb_ri3_rl3[] = {CMB_RI3, CMB_RL3, COMBO_END};
+const uint16_t PROGMEM cmb_ri_3_rl3[] = {CMB_RI_3, CMB_RL3, COMBO_END};
+const uint16_t PROGMEM cmb_ri3_rl_3[] = {CMB_RI3, CMB_RL_3, COMBO_END};
+const uint16_t PROGMEM cmb_ri_3_rl_3[] = {CMB_RI_3, CMB_RL_3, COMBO_END};
 
 const uint16_t PROGMEM cmb_ri1_rm1_rr1[] = {CMB_RI1, CMB_RM1, CMB_RR1, COMBO_END};
 const uint16_t PROGMEM cmb_rm1_rr1_rl1[] = {CMB_RM1, CMB_RR1, CMB_RL1, COMBO_END};
@@ -410,8 +404,7 @@ const uint16_t PROGMEM cmb_ri2_rm2_rr2_rl2[] = {CMB_RI2, CMB_RM2, CMB_RR2, CMB_R
 const uint16_t PROGMEM cmb_ri3_rm3_rr3_rl3[] = {CMB_RI3, CMB_RM3, CMB_RR3, CMB_RL3, COMBO_END};
 
 // Special combos
-const uint16_t PROGMEM cmb_rm2_rl_2[] = {CMB_RM2, CMB_RL_2, COMBO_END};
-const uint16_t PROGMEM cmb_ri2_rl_2[] = {CMB_RI2, CMB_RL_2, COMBO_END};
+const uint16_t PROGMEM cmb_rl1_rl_1[] = {CMB_RL1, CMB_RL_1, COMBO_END};
     
 
 combo_t key_combos[] = {
@@ -423,7 +416,7 @@ combo_t key_combos[] = {
     COMBO(cmb_ri1_rm1_rr1, CK__USD),            // $
     COMBO(cmb_rm1_rr1_rl1, CK__EUR),            // €
     COMBO(cmb_rm1_rr1, CK_EQLS),                // =
-    COMBO(cmb_ri1_rm1_rr1_rl1, CK_PERC),        // %
+    COMBO(cmb_ri1_rl1, CK_PERC),                // %
     
     COMBO(cmb_ri2_rm2, CK_LNBR),                // (
     COMBO(cmb_rr2_rl2, CK_RNBR),                // )
@@ -441,7 +434,7 @@ combo_t key_combos[] = {
     COMBO(cmb_rm3_rl3, CK_EXLM),                // !
     COMBO(cmb_ri3_rm3_rr3, CK_UNDS),            // _
     COMBO(cmb_rm3_rr3_rl3, CK_MINS),            // -
-    COMBO(cmb_ri3_rm3_rr3_rl3, CK_TILD),        // ~
+    COMBO(cmb_ri3_rl3, CK_TILD),                // ~
     
     COMBO(cmb_ri2_rm1, CK_SLSH),                // /
     COMBO(cmb_rm1_rr2, CK_BSLS),                // <backslash>
@@ -450,8 +443,11 @@ combo_t key_combos[] = {
     COMBO(cmb_rm2_rr3, CK__GRV),                // `
     COMBO(cmb_ri3_rm2_rr3, CK_CIRC),            // ^
     
-    COMBO(cmb_rm2_rl_2, CK__QUO),               // '
-    COMBO(cmb_ri2_rl_2, CK_SCLN),               // ;
+    COMBO(cmb_ri2_rl_2, CK_DQUO),               // "
+    COMBO(cmb_ri2_rl2, CK_COLN),                // :
+    COMBO(cmb_ri_2_rl2, CK_SCLN),               // ;
+    
+    COMBO(cmb_rl1_rl_1, CK__DEL),               // DEL
 };
 
 
