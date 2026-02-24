@@ -31,20 +31,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, XXXXXXX,                      CK_COMM, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            MO__NAV, TD__SFT, MO__NUM,    CK__ENT, CK__SPC, MO__DIA
+                                            MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
 
   ),
 
     [_NUM] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
+        _______, CK____A, CK____B, CK____K, CK____W, CK____E,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, CK____4, CK____5, CK____6, XXXXXXX, _______,
+        _______, CK____I, CK____H, CK____J, CK____L, CK____O,                      _______, CK____4, CK____5, CK____6, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
+        _______, CK____Y, CK____D, CK____C, CK____F, CK____T,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, XXXXXXX, PRESSED,    _______, LT_FN_0, CK__SPC
+                                            XXXXXXX, PRESSED, XXXXXXX,    _______, LT_FN_0, CK__SPC
                                         //`--------------------------'  `--------------------------'
     ),
   
@@ -55,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, CK_C__A, CK_C__X, CK_C__C, CK_C__V, CK_C__F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
   
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_REDO, CK__CUT, CK_COPY, CK_PAST, CK_UNDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, _______,
+        _______, CK_REDO, CK__CUT, CK_COPY, CK_PAST, CK_UNDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             PRESSED, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, CK_CCED, CK_ICRC, CK_EACU, CK_ADIA, CK_ACRC,                      XXXXXXX, XXXXXXX, CK_TCED, CK___SS, CK_NTIL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, CK_ITRM, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, CK_SCED, XXXXXXX, _______,
+        _______, XXXXXXX, CK_ITRM, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, CK_SCED, XXXXXXX, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             XXXXXXX, CK__SPC, MO___FN,    PRESSED, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
@@ -75,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_FN] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK___F7, CK___F8, CK___F9, CK__F10, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK___F7, CK___F8, CK___F9, CK__F10, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CK___F4, CK___F5, CK___F6, CK__F11, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -277,7 +277,7 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
 // l denotes the left side of the keyboard
 // r denotes the right side of the keyboard
 // 
-// # denotes the extended columns for the little & index fingers
+// _ denotes the extended columns for the little & index fingers
 // 
 // l := little finger
 // r := ring finger
@@ -287,7 +287,7 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
 // 
 // 1 | 2 | 3 denote the first, second, and third row of the keyboard
 // 
-// So a notation like: l2_r1_m2 would be the equivalent of a,w,d on a qwerty keyboard
+// So a notation like: ll2_lr1_lm2_li_2 would be the equivalent of a,w,d,g on a qwerty keyboard
 // 
 // This notation allows for efficient combo creation decoupled from the semantics of a given combo
 // This in turn allows for easier redefinition of combos
@@ -428,10 +428,35 @@ const uint16_t PROGMEM cmb_ri3_rm3_rr3_rl3[] = {CMB_RI3, CMB_RM3, CMB_RR3, CMB_R
 // Special combos
 const uint16_t PROGMEM cmb_rl1_rl_1[] = {CMB_RL1, CMB_RL_1, COMBO_END};
     
+#define DEFINE_COMBO(name, result, ...)           \
+    const uint16_t PROGMEM name##_keys[] = {      \
+        __VA_ARGS__,                              \
+        COMBO_END                                 \
+    };                                            \
+    const combo_t name = COMBO(name##_keys, result)
+
+
+// Left hand combos
+
+DEFINE_COMBO(select_all, CK_C__A, CMB_LL2, CMB_LR2);                    // ctrl + a
+DEFINE_COMBO(copy, CK_C__C, CMB_LR2, CMB_LM2);                          // ctrl + c
+DEFINE_COMBO(paste, CK_C__V, CMB_LM2, CMB_LI2);                         // ctrl + v
+DEFINE_COMBO(cut, CK_C__X, CMB_LL2, CMB_LR2, CMB_LM2, CMB_LI2);         // ctrl + x
+
+
+// Right hand combos
+
+DEFINE_COMBO(plus, CK_PLUS, CMB_RM1, CMB_RI1);                          // +
+
 
 combo_t key_combos[] = {
     
-    COMBO(cmb_ri1_rm1, CK_PLUS),                // +
+    select_all,
+    copy,
+    paste,
+    cut,
+    
+    plus,
     COMBO(cmb_rr1_rl1, CK_MINS),                // -
     COMBO(cmb_ri1_rr1, CK_ASTR),                // *
     COMBO(cmb_rm1_rl1, CK_SLSH),                // /
@@ -470,6 +495,7 @@ combo_t key_combos[] = {
     COMBO(cmb_ri_2_rl2, CK_SCLN),               // ;
     
     COMBO(cmb_rl1_rl_1, CK__DEL),               // DEL
+    
 };
 
 
