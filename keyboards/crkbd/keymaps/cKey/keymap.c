@@ -47,12 +47,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__Z,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__H, CK_CS_H,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-        _______, CK_C__A, CK_C__X, CK_C__C, CK_C__V, CK_C__F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
-  
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__F, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK_REDO, CK__CUT, CK_COPY, CK_PAST, CK_UNDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             PRESSED, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
