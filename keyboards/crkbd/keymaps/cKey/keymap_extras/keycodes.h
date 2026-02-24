@@ -202,18 +202,24 @@ enum {
 
 // Combo Keys for easy access
 
+#define CMB_LL_1 CK____A
 #define CMB_LL1 CK____B
 #define CMB_LR1 CK____C
 #define CMB_LM1 CK____D
 #define CMB_LI1 CK____E
+#define CMB_LI_1 CK____F
+#define CMB_LL_2 CK____M
 #define CMB_LL2 CK____N
 #define CMB_LR2 CK____O
 #define CMB_LM2 CK____P
 #define CMB_LI2 CK____Q
+#define CMB_LI_2 CK____R
+#define CMB_LL_3 CK____Y
 #define CMB_LL3 CK____Z
 #define CMB_LR3 CK____0
 #define CMB_LM3 CK____1
 #define CMB_LI3 CK____2
+#define CMB_LI_3 CK____3
 
 #define CMB_RL1 CK____K
 #define CMB_RL_1 CK____L
