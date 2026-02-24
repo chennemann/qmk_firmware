@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_ckey.h"
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BYOU] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -38,14 +37,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, CK____A, CK____B, CK____K, CK____W, CK____E,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, CK____I, CK____H, CK____J, CK____L, CK____O,                      _______, CK____4, CK____5, CK____6, XXXXXXX, _______,
+        _______, HOME_GI, HOME_AH, HOME_SJ, HOME_CL, CK____O,                      _______, HOME_C4, HOME_S5, HOME_A6, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, CK____Y, CK____D, CK____C, CK____F, CK____T,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             XXXXXXX, PRESSED, XXXXXXX,    _______, LT_FN_0, CK__SPC
                                         //`--------------------------'  `--------------------------'
     ),
-  
+
     [_NAV] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__Z,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
@@ -103,6 +102,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case HOME_SA ... HOME_SZ:
         case HOME_AA ... HOME_AZ:
         case HOME_GA ... HOME_GZ:
+        case HOME_C1 ... HOME_C0:
+        case HOME_S1 ... HOME_S0:
+        case HOME_A1 ... HOME_A0:
+        case HOME_G1 ... HOME_G0:
             // This is a hack to prevent the key from being pressed twice
             if (was_mt_handled(keycode)) {
                 if (!record->event.pressed) {

@@ -4,16 +4,15 @@
     Define available layer names
 */
 enum layers {
-  _BYOU = 0,
-  _COMBO_REF,
-  _NUM,
-  _FN,
-  _DIA,
-  _NAV,
+    _BYOU = 0,
+    _COMBO_REF,
+    _NUM,
+    _FN,
+    _DIA,
+    _NAV,
 
-  _CAPS,
+    _CAPS,
 };
-
 
 /*
     Define custom keycodes
@@ -29,9 +28,8 @@ enum {
     CK_SELW,
     CK_SELB,
     CK_LSEL,
-    CK_BSEL,   
+    CK_BSEL,
 };
-
 
 /*
     Define custom Tap Dance Keys
@@ -45,16 +43,14 @@ enum {
     TD_SPACE_SYM,
 };
 
-
-
 // Keycode Aliases for easy access
-#define TD__SPC TD(TD_SPACE)        // Tap-Dance Space
-#define TD__SFT TD(TD_ENTER)        // Tap-Dance Enter
+#define TD__SPC TD(TD_SPACE) // Tap-Dance Space
+#define TD__SFT TD(TD_ENTER) // Tap-Dance Enter
 
-#define TD_SENT TD(TD_ENTER_SHIFT)      // Tap-Dance Shift/Enter
-#define TD_NENT TD(TD_ENTER_NUM)        // Tap-Dance Num/Enter
-#define TD_SSPC TD(TD_SPACE_SHIFT)      // Tap-Dance Shift/Space
-#define TD_SYSP TD(TD_SPACE_SYM)        // Tap-Dance SYM/Space
+#define TD_SENT TD(TD_ENTER_SHIFT) // Tap-Dance Shift/Enter
+#define TD_NENT TD(TD_ENTER_NUM)   // Tap-Dance Num/Enter
+#define TD_SSPC TD(TD_SPACE_SHIFT) // Tap-Dance Shift/Space
+#define TD_SYSP TD(TD_SPACE_SYM)   // Tap-Dance SYM/Space
 
 #define MO__SYM MO(_SYM)
 #define MO__DIA MO(_DIA)
@@ -65,8 +61,6 @@ enum {
 #define LT_FN_0 LT(_FN, CK____0)
 
 #define PRESSED _______
-
-
 
 // Home Row Modifiers
 #define HOME_CA MT(MOD_LCTL, CK____A)
@@ -199,6 +193,56 @@ enum {
 #define HOME_AZ MT(MOD_LALT, CK____Z)
 #define HOME_GZ MT(MOD_LGUI, CK____Z)
 
+// Home Row Modifiers for Number row (NUM layer)
+#define HOME_C1 MT(MOD_LCTL, CK____1)
+#define HOME_S1 MT(MOD_LSFT, CK____1)
+#define HOME_A1 MT(MOD_LALT, CK____1)
+#define HOME_G1 MT(MOD_LGUI, CK____1)
+
+#define HOME_C2 MT(MOD_LCTL, CK____2)
+#define HOME_S2 MT(MOD_LSFT, CK____2)
+#define HOME_A2 MT(MOD_LALT, CK____2)
+#define HOME_G2 MT(MOD_LGUI, CK____2)
+
+#define HOME_C3 MT(MOD_LCTL, CK____3)
+#define HOME_S3 MT(MOD_LSFT, CK____3)
+#define HOME_A3 MT(MOD_LALT, CK____3)
+#define HOME_G3 MT(MOD_LGUI, CK____3)
+
+#define HOME_C4 MT(MOD_LCTL, CK____4)
+#define HOME_S4 MT(MOD_LSFT, CK____4)
+#define HOME_A4 MT(MOD_LALT, CK____4)
+#define HOME_G4 MT(MOD_LGUI, CK____4)
+
+#define HOME_C5 MT(MOD_LCTL, CK____5)
+#define HOME_S5 MT(MOD_LSFT, CK____5)
+#define HOME_A5 MT(MOD_LALT, CK____5)
+#define HOME_G5 MT(MOD_LGUI, CK____5)
+
+#define HOME_C6 MT(MOD_LCTL, CK____6)
+#define HOME_S6 MT(MOD_LSFT, CK____6)
+#define HOME_A6 MT(MOD_LALT, CK____6)
+#define HOME_G6 MT(MOD_LGUI, CK____6)
+
+#define HOME_C7 MT(MOD_LCTL, CK____7)
+#define HOME_S7 MT(MOD_LSFT, CK____7)
+#define HOME_A7 MT(MOD_LALT, CK____7)
+#define HOME_G7 MT(MOD_LGUI, CK____7)
+
+#define HOME_C8 MT(MOD_LCTL, CK____8)
+#define HOME_S8 MT(MOD_LSFT, CK____8)
+#define HOME_A8 MT(MOD_LALT, CK____8)
+#define HOME_G8 MT(MOD_LGUI, CK____8)
+
+#define HOME_C9 MT(MOD_LCTL, CK____9)
+#define HOME_S9 MT(MOD_LSFT, CK____9)
+#define HOME_A9 MT(MOD_LALT, CK____9)
+#define HOME_G9 MT(MOD_LGUI, CK____9)
+
+#define HOME_C0 MT(MOD_LCTL, CK____0)
+#define HOME_S0 MT(MOD_LSFT, CK____0)
+#define HOME_A0 MT(MOD_LALT, CK____0)
+#define HOME_G0 MT(MOD_LGUI, CK____0)
 
 // Combo Keys for easy access
 
