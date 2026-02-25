@@ -18,6 +18,7 @@ typedef enum {
 
 typedef struct {
     uint16_t keycode;
+    uint8_t hold_mods;
     uint16_t dt_keycode;  // Optional double-tap keycode
     bool has_dt_keycode;  // Flag to check if dt_keycode is set
     uint16_t dt_layer;    // Optional double-tap keycode
@@ -34,27 +35,31 @@ typedef struct {
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state);
 
-bool is_shift_active(void);
+uint8_t get_active_tap_dance_mods(void);
 
-// Special Mod Tap Handling to allow for fast typing of shift + MT keys
+// Special Mod Tap Handling to allow for fast typing of held mods + MT keys
 bool was_mt_handled(uint16_t keycode);
 void reset_mt_handling(void);
 
-// Special Letter Handling to allow for retroactive shifting of a key
+// Special Letter Handling to allow for retroactive modding of a key
 // This is useful for fast typing
-bool is_retroactive_shift_enabled(void);
-void consume_retroactive_shift(void);
-void reset_retroactive_shift(void);
+bool is_retroactive_mod_enabled(void);
+void enable_retroactive_mod(uint8_t mods, uint16_t *keycode);
+void consume_retroactive_mod(void);
+void reset_retroactive_mod(void);
+
+void tap_code16_with_mods(uint16_t keycode, uint8_t mods);
+bool process_td_user(uint16_t keycode, keyrecord_t *record);
 
 // Matrix Scan Task to allow for post tap dance cleanups
 // This is useful for use-cases such as retroactively turning a SINGLE_TAP into a SINGLE_HOLD
 void tap_dance_cleanup_task(void);
 
-// Shift Tap Dances
-void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data);
-void x_shift_on_each_release(tap_dance_state_t *state, void *user_data);
-void x_shift_finished(tap_dance_state_t *state, void *user_data);
-void x_shift_reset(tap_dance_state_t *state, void *user_data);
+// Mod Tap Dances
+void x_mod_on_each_tap(tap_dance_state_t *state, void *user_data);
+void x_mod_on_each_release(tap_dance_state_t *state, void *user_data);
+void x_mod_finished(tap_dance_state_t *state, void *user_data);
+void x_mod_reset(tap_dance_state_t *state, void *user_data);
 
 
 // Layer Tap Dances
