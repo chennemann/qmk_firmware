@@ -111,7 +111,28 @@ void tap_code16_with_mods(uint16_t keycode, uint8_t mods) {
     send_keyboard_report();
 }
 
+static bool is_retroactive_target_key(uint16_t keycode) {
+    switch (keycode) {
+        case HOME_CA ... HOME_CZ:
+        case HOME_SA ... HOME_SZ:
+        case HOME_AA ... HOME_AZ:
+        case HOME_GA ... HOME_GZ:
+        case HOME_C1 ... HOME_C0:
+        case HOME_S1 ... HOME_S0:
+        case HOME_A1 ... HOME_A0:
+        case HOME_G1 ... HOME_G0:
+        case CK____A ... CK____Z:
+            return true;
+        default:
+            return false;
+    }
+}
+
 bool process_td_user(uint16_t keycode, keyrecord_t *record) {
+    if (is_retroactive_mod_enabled() && record->event.pressed && !is_retroactive_target_key(keycode)) {
+        reset_retroactive_mod();
+    }
+
     switch (keycode) {
         case HOME_CA ... HOME_CZ:
         case HOME_SA ... HOME_SZ:
@@ -310,9 +331,9 @@ void x_mod_reset(tap_dance_state_t *state, void *user_data) {
                 runtime->hold_registered = false;
             }
 
-            if (config->retro_enabled) {
+            if (config->retro_enabled && !state->interrupted) {
                 enable_retroactive_mod(config->hold_mods, &config->keycode);
-            } else {
+            } else if (!state->interrupted) {
                 tap_code16(config->keycode);
             }
             break;
