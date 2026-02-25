@@ -12,62 +12,130 @@ static td_tap_t x_tap_state = {
     .is_pressed     = false,
 };
 
-// Tap Dance Shift state
-static bool shift_state_active = false;
+// Tap Dance Mod state
+static uint8_t active_hold_mods = 0;
 
-// Retroactive Shift state
-static bool     retroactive_shift_enabled  = false;
-static bool     retroactive_shift_consumed = false;
-static uint16_t retroactive_shift_timer    = 0;
-static uint16_t delayed_key                = 0;
+// Retroactive Mod state
+static bool     retroactive_mod_enabled  = false;
+static bool     retroactive_mod_consumed = false;
+static uint8_t  retroactive_mods         = 0;
+static uint16_t retroactive_mod_timer    = 0;
+static uint16_t delayed_key              = 0;
 
 // MT Key state
 static uint16_t handled_mt_keycode = 0;
 
 void tap_dance_cleanup_task(void) {
-    if (retroactive_shift_enabled) {
-        if (timer_elapsed(retroactive_shift_timer) > 200) {
-            if (delayed_key && !retroactive_shift_consumed) {
-                print("64: RETROACTIVE SHIFT: Handle Delayed Key\n");
+    if (retroactive_mod_enabled) {
+        if (timer_elapsed(retroactive_mod_timer) > TAPPING_TERM) {
+            if (delayed_key && !retroactive_mod_consumed) {
+                print("64: RETROACTIVE MOD: Handle Delayed Key\n");
                 tap_code16(delayed_key);
                 delayed_key = 0;
             }
 
-            printf("65: RETROACTIVE SHIFT: Reset %d\n", timer_read());
-            reset_retroactive_shift();
+            printf("65: RETROACTIVE MOD: Reset %d\n", timer_read());
+            reset_retroactive_mod();
         }
     }
 }
 
-void enable_retroactive_shift(uint16_t *keycode) {
-    printf("60: RETROACTIVE SHIFT: ON %d\n", timer_read());
-    retroactive_shift_enabled = true;
-    retroactive_shift_timer   = timer_read();
+void enable_retroactive_mod(uint8_t mods, uint16_t *keycode) {
+    printf("60: RETROACTIVE MOD: ON %d\n", timer_read());
+    retroactive_mod_enabled  = true;
+    retroactive_mod_consumed = false;
+    retroactive_mods         = mods;
+    retroactive_mod_timer    = timer_read();
+    delayed_key              = 0;
 
     if (keycode != NULL) {
-        print("61: RETROACTIVE SHIFT: Register Delayed Key\n");
+        print("61: RETROACTIVE MOD: Register Delayed Key\n");
         delayed_key = *keycode;
     }
 }
 
-bool is_retroactive_shift_enabled(void) {
-    return retroactive_shift_enabled && !retroactive_shift_consumed;
+bool is_retroactive_mod_enabled(void) {
+    return retroactive_mod_enabled && !retroactive_mod_consumed;
 }
 
-void consume_retroactive_shift(void) {
-    print("62: RETROACTIVE SHIFT: CONSUMED\n");
-    retroactive_shift_consumed = true;
+void consume_retroactive_mod(void) {
+    print("62: RETROACTIVE MOD: CONSUMED\n");
+    retroactive_mod_consumed = true;
     if (delayed_key) {
         delayed_key = 0;
     }
-    reset_retroactive_shift();
+    reset_retroactive_mod();
 }
 
-void reset_retroactive_shift(void) {
-    printf("63: RETROACTIVE SHIFT: OFF at %d\n", timer_read());
-    delayed_key                = 0;
-    retroactive_shift_consumed = false;
-    retroactive_shift_enabled  = false;
+void reset_retroactive_mod(void) {
+    printf("63: RETROACTIVE MOD: OFF at %d\n", timer_read());
+    delayed_key              = 0;
+    retroactive_mods         = 0;
+    retroactive_mod_consumed = false;
+    retroactive_mod_enabled  = false;
+}
+
+void tap_code16_with_mods(uint16_t keycode, uint8_t mods) {
+    uint8_t active_mods = get_mods();
+
+    register_mods(mods);
+    tap_code16(keycode);
+    set_mods(active_mods);
+    send_keyboard_report();
+}
+
+bool process_td_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case HOME_CA ... HOME_CZ:
+        case HOME_SA ... HOME_SZ:
+        case HOME_AA ... HOME_AZ:
+        case HOME_GA ... HOME_GZ:
+        case HOME_C1 ... HOME_C0:
+        case HOME_S1 ... HOME_S0:
+        case HOME_A1 ... HOME_A0:
+        case HOME_G1 ... HOME_G0:
+            if (was_mt_handled(keycode)) {
+                if (!record->event.pressed) {
+                    reset_mt_handling();
+                }
+                return false;
+            }
+
+            printf("mod tap key pressed at %d\n", timer_read());
+            if (is_retroactive_mod_enabled()) {
+                if (record->event.pressed) {
+                    tap_code16_with_mods(QK_MOD_TAP_GET_TAP_KEYCODE(keycode), get_active_tap_dance_mods());
+                    consume_retroactive_mod();
+                } else {
+                    reset_retroactive_mod();
+                }
+                return false;
+            }
+
+            if (get_active_tap_dance_mods()) {
+                if (record->event.pressed) {
+                    tap_code16_with_mods(QK_MOD_TAP_GET_TAP_KEYCODE(keycode), get_active_tap_dance_mods());
+                }
+                return false;
+            }
+
+            return true;
+        case CK____A ... CK____Z:
+            printf("other key pressed at %d\n", timer_read());
+            if (is_retroactive_mod_enabled()) {
+                if (record->event.pressed) {
+                    tap_code16_with_mods(keycode, get_active_tap_dance_mods());
+                    consume_retroactive_mod();
+                } else {
+                    reset_retroactive_mod();
+                    unregister_code(keycode);
+                }
+                return false;
+            }
+            break;
+    }
+
+    return true;
 }
 
 bool was_mt_handled(uint16_t keycode) {
@@ -78,8 +146,14 @@ void reset_mt_handling(void) {
     handled_mt_keycode = 0;
 }
 
-bool is_shift_active(void) {
-    return shift_state_active || is_retroactive_shift_enabled();
+uint8_t get_active_tap_dance_mods(void) {
+    uint8_t mods = active_hold_mods;
+
+    if (is_retroactive_mod_enabled()) {
+        mods |= retroactive_mods;
+    }
+
+    return mods;
 }
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
@@ -106,7 +180,7 @@ td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
 /*
         SHIFT TAP DANCES
 */
-void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data) {
+void x_mod_on_each_tap(tap_dance_state_t *state, void *user_data) {
     x_tap_state.is_pressed = true;
 
     if (state->count == 1) {
@@ -147,7 +221,7 @@ void x_shift_on_each_tap(tap_dance_state_t *state, void *user_data) {
     print("02: Default Tap\n");
 }
 
-void x_shift_on_each_release(tap_dance_state_t *state, void *user_data) {
+void x_mod_on_each_release(tap_dance_state_t *state, void *user_data) {
     x_tap_state.is_pressed = false;
 
     if (state->count > 3) {
@@ -164,14 +238,16 @@ void x_shift_on_each_release(tap_dance_state_t *state, void *user_data) {
     print("11: Default Release\n");
 }
 
-void x_shift_finished(tap_dance_state_t *state, void *user_data) {
+void x_mod_finished(tap_dance_state_t *state, void *user_data) {
+    tap_dance_config_t *config = (tap_dance_config_t *)user_data;
+
     x_tap_state.state = evaluate_tap_dance_state(state);
 
     switch (x_tap_state.state) {
         case TD_SINGLE_HOLD:
             print("20: Single Hold: ON\n");
-            register_code(KC_LSFT);
-            shift_state_active = true;
+            register_mods(config->hold_mods);
+            active_hold_mods = config->hold_mods;
 
             uint16_t mt_keycode = state->interrupting_keycode;
             switch (mt_keycode) {
@@ -196,7 +272,6 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_HOLD:
             print("21: Double Hold: ON\n");
-            tap_dance_config_t *config = (tap_dance_config_t *)user_data;
             if (config->has_dt_layer) {
                 layer_on(config->dt_layer);
             }
@@ -207,18 +282,18 @@ void x_shift_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void x_shift_reset(tap_dance_state_t *state, void *user_data) {
+void x_mod_reset(tap_dance_state_t *state, void *user_data) {
     tap_dance_config_t *config = (tap_dance_config_t *)user_data;
 
     switch (x_tap_state.state) {
         case TD_SINGLE_TAP:
-            enable_retroactive_shift(&config->keycode);
+            enable_retroactive_mod(config->hold_mods, &config->keycode);
             break;
         case TD_SINGLE_HOLD:
-            unregister_code(KC_LSFT);
+            unregister_mods(config->hold_mods);
             print("32: Single Hold: OFF\n");
             if (!state->interrupted || (state->interrupted && !x_tap_state.is_pressed)) {
-                enable_retroactive_shift(NULL);
+                enable_retroactive_mod(config->hold_mods, NULL);
             }
             break;
         case TD_DOUBLE_TAP:
@@ -257,8 +332,8 @@ void x_shift_reset(tap_dance_state_t *state, void *user_data) {
     }
 
     // Reset tap dance state
-    x_tap_state.state  = TD_NONE;
-    shift_state_active = false;
+    x_tap_state.state = TD_NONE;
+    active_hold_mods  = 0;
 
     printf("30: Tap Dance Reset: %d\n", timer_read());
 }

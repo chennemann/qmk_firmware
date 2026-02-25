@@ -51,12 +51,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
         _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__F, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
-    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            PRESSED, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+        _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------j+--------+--------|
+                                            PRESSED, XXXXXXX, XXXXXXX,    CK_LSFT, CK_LCTL, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-        
+
     [_DIA] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, CK_ACUT, CK__GRV, CK_ODIA, CK_UDIA, CK_CIRC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
@@ -80,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             XXXXXXX, XXXXXXX, PRESSED,    PRESSED, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
-        
+
     [_COMBO_REF] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK____A, CK____B, CK____C, CK____D, CK____E, CK____F,                      CK____G, CK____H, CK____I, CK____J, CK____K, CK____L,
@@ -95,60 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Tap Dance Shift
-    switch (keycode) {
-        case HOME_CA ... HOME_CZ:
-        case HOME_SA ... HOME_SZ:
-        case HOME_AA ... HOME_AZ:
-        case HOME_GA ... HOME_GZ:
-        case HOME_C1 ... HOME_C0:
-        case HOME_S1 ... HOME_S0:
-        case HOME_A1 ... HOME_A0:
-        case HOME_G1 ... HOME_G0:
-            // This is a hack to prevent the key from being pressed twice
-            if (was_mt_handled(keycode)) {
-                if (!record->event.pressed) {
-                    reset_mt_handling();
-                }
-                return false;
-            }
-
-            printf("mod tap key pressed at %d\n", timer_read());
-            if (is_retroactive_shift_enabled()) {
-                if (record->event.pressed) {
-                    tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
-                    consume_retroactive_shift();
-                } else {
-                    reset_retroactive_shift();
-                }
-                return false;
-            }
-
-            if (is_shift_active()) {
-                if (record->event.pressed) {
-                    tap_code16(S(QK_MOD_TAP_GET_TAP_KEYCODE(keycode)));
-                }
-                return false;
-            }
-
-            return true;
-            break;
-        case CK____A ... CK____Z:
-
-            printf("other key pressed at %d\n", timer_read());
-            if (is_retroactive_shift_enabled()) {
-                if (record->event.pressed) {
-                    tap_code16(S(keycode));
-                    consume_retroactive_shift();
-                } else {
-                    reset_retroactive_shift();
-
-                    // This fixes a weird bug where the key would be repeated endlessly
-                    unregister_code(keycode);
-                }
-                return false;
-            }
-            break;
+    if (!process_td_user(keycode, record)) {
+        return false;
     }
 
     switch (keycode) {
@@ -226,8 +174,8 @@ void x_sym_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
     [TD_ENTER] =
         {// fn { on_each, finished, reset, release }
-         .fn        = {x_shift_on_each_tap, x_shift_finished, x_shift_reset, x_shift_on_each_release},
-         .user_data = &(tap_dance_config_t){.keycode = CK__ENT, .dt_keycode = CW_CAPS, .has_dt_keycode = true, .dt_layer = _CAPS, .has_dt_layer = true}},
+         .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
+         .user_data = &(tap_dance_config_t){.keycode = CK__ENT, .hold_mods = MOD_BIT(KC_LSFT), .dt_keycode = CW_CAPS, .has_dt_keycode = true, .dt_layer = _CAPS, .has_dt_layer = true}},
     [TD_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
 };
 
