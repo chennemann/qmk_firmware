@@ -17,29 +17,27 @@ typedef enum {
 } td_state_t;
 
 typedef struct {
+    td_state_t state;
+    bool is_pressed;
+    bool hold_registered;
+    uint16_t suspend_time;
+    bool cw_mode_active;
+} tap_dance_runtime_t;
+
+typedef struct {
     uint16_t keycode;
     uint8_t hold_mods;
+    bool retro_enabled;
     uint16_t dt_keycode;  // Optional double-tap keycode
     bool has_dt_keycode;  // Flag to check if dt_keycode is set
     uint16_t dt_layer;    // Optional double-tap keycode
     bool has_dt_layer;    // Flag to check if dt_keycode is set
+    tap_dance_runtime_t runtime;
 } tap_dance_config_t;
-
-
-typedef struct {
-    td_state_t state;
-    bool is_pressed;
-    uint16_t suspend_time;
-    bool cw_mode_active;
-} td_tap_t;
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state);
 
 uint8_t get_active_tap_dance_mods(void);
-
-// Special Mod Tap Handling to allow for fast typing of held mods + MT keys
-bool was_mt_handled(uint16_t keycode);
-void reset_mt_handling(void);
 
 // Special Letter Handling to allow for retroactive modding of a key
 // This is useful for fast typing

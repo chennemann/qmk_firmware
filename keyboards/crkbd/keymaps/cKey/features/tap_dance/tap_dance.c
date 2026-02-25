@@ -4,16 +4,18 @@
 
 #include "print.h"
 
-// Create an instance of 'td_tap_t' for the 'x' tap dance.
-static td_tap_t x_tap_state = {
+// Shared state for layer tap dances.
+static tap_dance_runtime_t layer_tap_state = {
     .state          = TD_NONE,
     .suspend_time   = 0,
     .cw_mode_active = false,
     .is_pressed     = false,
+    .hold_registered = false,
 };
 
 // Tap Dance Mod state
-static uint8_t active_hold_mods = 0;
+static uint8_t active_hold_mods       = 0;
+static uint8_t active_hold_mod_counts[8] = {0};
 
 // Retroactive Mod state
 static bool     retroactive_mod_enabled  = false;
@@ -21,9 +23,6 @@ static bool     retroactive_mod_consumed = false;
 static uint8_t  retroactive_mods         = 0;
 static uint16_t retroactive_mod_timer    = 0;
 static uint16_t delayed_key              = 0;
-
-// MT Key state
-static uint16_t handled_mt_keycode = 0;
 
 void tap_dance_cleanup_task(void) {
     if (retroactive_mod_enabled) {
@@ -75,6 +74,34 @@ void reset_retroactive_mod(void) {
     retroactive_mod_enabled  = false;
 }
 
+static void register_hold_mods(uint8_t mods) {
+    for (uint8_t i = 0; i < 8; i++) {
+        uint8_t mod = 1 << i;
+        if (mods & mod) {
+            if (active_hold_mod_counts[i] == 0) {
+                register_mods(mod);
+                active_hold_mods |= mod;
+            }
+            active_hold_mod_counts[i]++;
+        }
+    }
+}
+
+static void unregister_hold_mods(uint8_t mods) {
+    for (uint8_t i = 0; i < 8; i++) {
+        uint8_t mod = 1 << i;
+        if (!(mods & mod) || active_hold_mod_counts[i] == 0) {
+            continue;
+        }
+
+        active_hold_mod_counts[i]--;
+        if (active_hold_mod_counts[i] == 0) {
+            unregister_mods(mod);
+            active_hold_mods &= ~mod;
+        }
+    }
+}
+
 void tap_code16_with_mods(uint16_t keycode, uint8_t mods) {
     uint8_t active_mods = get_mods();
 
@@ -94,13 +121,6 @@ bool process_td_user(uint16_t keycode, keyrecord_t *record) {
         case HOME_S1 ... HOME_S0:
         case HOME_A1 ... HOME_A0:
         case HOME_G1 ... HOME_G0:
-            if (was_mt_handled(keycode)) {
-                if (!record->event.pressed) {
-                    reset_mt_handling();
-                }
-                return false;
-            }
-
             printf("mod tap key pressed at %d\n", timer_read());
             if (is_retroactive_mod_enabled()) {
                 if (record->event.pressed) {
@@ -138,14 +158,6 @@ bool process_td_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool was_mt_handled(uint16_t keycode) {
-    return handled_mt_keycode == keycode;
-}
-
-void reset_mt_handling(void) {
-    handled_mt_keycode = 0;
-}
-
 uint8_t get_active_tap_dance_mods(void) {
     uint8_t mods = active_hold_mods;
 
@@ -177,11 +189,27 @@ td_state_t evaluate_tap_dance_state(tap_dance_state_t *state) {
     }
 }
 
+static td_state_t evaluate_mod_tap_dance_state(tap_dance_state_t *state, tap_dance_runtime_t *runtime) {
+    if (state->count == 1) {
+        return runtime->is_pressed ? TD_SINGLE_HOLD : TD_SINGLE_TAP;
+    }
+    if (state->count == 2) {
+        return runtime->is_pressed ? TD_DOUBLE_HOLD : TD_DOUBLE_TAP;
+    }
+    if (state->count == 3) {
+        return runtime->is_pressed ? TD_TRIPLE_HOLD : TD_TRIPLE_TAP;
+    }
+    return TD_UNKNOWN;
+}
+
 /*
-        SHIFT TAP DANCES
+        MOD TAP DANCES
 */
 void x_mod_on_each_tap(tap_dance_state_t *state, void *user_data) {
-    x_tap_state.is_pressed = true;
+    tap_dance_config_t  *config  = (tap_dance_config_t *)user_data;
+    tap_dance_runtime_t *runtime = &config->runtime;
+
+    runtime->is_pressed = true;
 
     if (state->count == 1) {
         print("\n\n");
@@ -194,40 +222,51 @@ void x_mod_on_each_tap(tap_dance_state_t *state, void *user_data) {
                 return;
             }
         }
-    }
 
-    if (x_tap_state.cw_mode_active || g_caps_word_mode != CWMODE_NORMAL) {
-        x_tap_state.state = TD_NONE;
-        tap_code16(KC_NO);
-        x_tap_state.cw_mode_active = false;
+        if (runtime->cw_mode_active || g_caps_word_mode != CWMODE_NORMAL) {
+            runtime->state          = TD_NONE;
+            runtime->cw_mode_active = false;
+            tap_code16(KC_NO);
 
-        print("00: Caps Word Mode: OFF\n");
+            print("00: Caps Word Mode: OFF\n");
 
-        reset_tap_dance(state);
-        return;
-    }
+            reset_tap_dance(state);
+            return;
+        }
 
-    if (timer_elapsed(x_tap_state.suspend_time) < 500) {
-        x_tap_state.state = TD_SINGLE_TAP;
-        // Reset timer
-        x_tap_state.suspend_time = timer_read();
+        if (timer_elapsed(runtime->suspend_time) < 500) {
+            runtime->state        = TD_SINGLE_TAP;
+            runtime->suspend_time = timer_read();
 
-        print("01: Extend Suspension Timer\n");
+            print("01: Extend Suspension Timer\n");
 
-        reset_tap_dance(state);
-        return;
+            reset_tap_dance(state);
+            return;
+        }
+
+        if (config->hold_mods && !runtime->hold_registered) {
+            register_hold_mods(config->hold_mods);
+            runtime->hold_registered = true;
+        }
     }
 
     print("02: Default Tap\n");
 }
 
 void x_mod_on_each_release(tap_dance_state_t *state, void *user_data) {
-    x_tap_state.is_pressed = false;
+    tap_dance_config_t  *config  = (tap_dance_config_t *)user_data;
+    tap_dance_runtime_t *runtime = &config->runtime;
+
+    runtime->is_pressed = false;
+
+    if (runtime->hold_registered) {
+        unregister_hold_mods(config->hold_mods);
+        runtime->hold_registered = false;
+    }
 
     if (state->count > 3) {
-        x_tap_state.state = TD_SINGLE_TAP;
-        // Reset timer
-        x_tap_state.suspend_time = timer_read();
+        runtime->state        = TD_SINGLE_TAP;
+        runtime->suspend_time = timer_read();
 
         print("10: Suspend Tap Dance\n");
         print("<enter>\n");
@@ -239,36 +278,14 @@ void x_mod_on_each_release(tap_dance_state_t *state, void *user_data) {
 }
 
 void x_mod_finished(tap_dance_state_t *state, void *user_data) {
-    tap_dance_config_t *config = (tap_dance_config_t *)user_data;
+    tap_dance_config_t  *config  = (tap_dance_config_t *)user_data;
+    tap_dance_runtime_t *runtime = &config->runtime;
 
-    x_tap_state.state = evaluate_tap_dance_state(state);
+    runtime->state = evaluate_mod_tap_dance_state(state, runtime);
 
-    switch (x_tap_state.state) {
+    switch (runtime->state) {
         case TD_SINGLE_HOLD:
             print("20: Single Hold: ON\n");
-            register_mods(config->hold_mods);
-            active_hold_mods = config->hold_mods;
-
-            uint16_t mt_keycode = state->interrupting_keycode;
-            switch (mt_keycode) {
-                case HOME_CA ... HOME_CZ:
-                case HOME_SA ... HOME_SZ:
-                case HOME_AA ... HOME_AZ:
-                case HOME_GA ... HOME_GZ:
-                case HOME_C1 ... HOME_C0:
-                case HOME_S1 ... HOME_S0:
-                case HOME_A1 ... HOME_A0:
-                case HOME_G1 ... HOME_G0:
-                    print("23: Special Home Row Mod Handling\n");
-                    uint16_t tap_code = QK_MOD_TAP_GET_TAP_KEYCODE(mt_keycode);
-                    tap_code16(tap_code);
-                    handled_mt_keycode = mt_keycode;
-                    break;
-                default:
-                    printf("24: Interrupting Keycode: %d\n", mt_keycode);
-                    break;
-            }
-
             break;
         case TD_DOUBLE_HOLD:
             print("21: Double Hold: ON\n");
@@ -283,25 +300,31 @@ void x_mod_finished(tap_dance_state_t *state, void *user_data) {
 }
 
 void x_mod_reset(tap_dance_state_t *state, void *user_data) {
-    tap_dance_config_t *config = (tap_dance_config_t *)user_data;
+    tap_dance_config_t  *config  = (tap_dance_config_t *)user_data;
+    tap_dance_runtime_t *runtime = &config->runtime;
 
-    switch (x_tap_state.state) {
+    switch (runtime->state) {
         case TD_SINGLE_TAP:
-            enable_retroactive_mod(config->hold_mods, &config->keycode);
+            if (runtime->hold_registered) {
+                unregister_hold_mods(config->hold_mods);
+                runtime->hold_registered = false;
+            }
+
+            if (config->retro_enabled) {
+                enable_retroactive_mod(config->hold_mods, &config->keycode);
+            } else {
+                tap_code16(config->keycode);
+            }
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(config->hold_mods);
             print("32: Single Hold: OFF\n");
-            if (!state->interrupted || (state->interrupted && !x_tap_state.is_pressed)) {
-                enable_retroactive_mod(config->hold_mods, NULL);
-            }
             break;
         case TD_DOUBLE_TAP:
             if (config->has_dt_keycode) {
                 uint16_t keycode = config->dt_keycode;
                 switch (keycode) {
                     case CW_CAPS:
-                        x_tap_state.cw_mode_active = true;
+                        runtime->cw_mode_active = true;
                         toggle_caps_word_mode(CWMODE_CONSTANT_CASE);
                         print("33: Caps Word Mode: ON\n");
                         break;
@@ -331,9 +354,13 @@ void x_mod_reset(tap_dance_state_t *state, void *user_data) {
             break;
     }
 
-    // Reset tap dance state
-    x_tap_state.state = TD_NONE;
-    active_hold_mods  = 0;
+    if (runtime->hold_registered) {
+        unregister_hold_mods(config->hold_mods);
+        runtime->hold_registered = false;
+    }
+
+    runtime->state      = TD_NONE;
+    runtime->is_pressed = false;
 
     printf("30: Tap Dance Reset: %d\n", timer_read());
 }
@@ -343,8 +370,8 @@ void x_mod_reset(tap_dance_state_t *state, void *user_data) {
 */
 
 void x_layer_finished(tap_dance_state_t *state, void *user_data, uint16_t keycode, uint16_t layer, uint16_t dt_layer) {
-    x_tap_state.state = evaluate_tap_dance_state(state);
-    switch (x_tap_state.state) {
+    layer_tap_state.state = evaluate_tap_dance_state(state);
+    switch (layer_tap_state.state) {
         case TD_SINGLE_HOLD:
             layer_on(layer);
             break;
@@ -358,7 +385,7 @@ void x_layer_finished(tap_dance_state_t *state, void *user_data, uint16_t keycod
 }
 
 void x_layer_reset(tap_dance_state_t *state, void *user_data, uint16_t layer, uint16_t dt_layer) {
-    switch (x_tap_state.state) {
+    switch (layer_tap_state.state) {
         case TD_DOUBLE_HOLD:
             layer_off(dt_layer);
             break;
@@ -366,5 +393,5 @@ void x_layer_reset(tap_dance_state_t *state, void *user_data, uint16_t layer, ui
             layer_off(layer);
             break;
     }
-    x_tap_state.state = TD_NONE;
+    layer_tap_state.state = TD_NONE;
 }

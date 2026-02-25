@@ -175,7 +175,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_ENTER] =
         {// fn { on_each, finished, reset, release }
          .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
-         .user_data = &(tap_dance_config_t){.keycode = CK__ENT, .hold_mods = MOD_BIT(KC_LSFT), .dt_keycode = CW_CAPS, .has_dt_keycode = true, .dt_layer = _CAPS, .has_dt_layer = true}},
+         .user_data = &(tap_dance_config_t){.keycode = CK__ENT, .hold_mods = MOD_BIT(KC_LSFT), .retro_enabled = true, .dt_keycode = CW_CAPS, .has_dt_keycode = true, .dt_layer = _CAPS, .has_dt_layer = true}},
     [TD_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
 };
 
