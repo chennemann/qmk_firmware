@@ -37,10 +37,10 @@ enum {
 enum {
     TD_ENTER = 101,
     TD_SPACE,
-    TD_MOD_SFT,
-    TD_MOD_CTL,
-    TD_MOD_ALT,
-    TD_MOD_GUI,
+    TD_NAV_SFT,
+    TD_NAV_CTL,
+    TD_NAV_ALT,
+    TD_NAV_GUI,
     TD_ENTER_SHIFT,
     TD_ENTER_NUM,
     TD_SPACE_SHIFT,
@@ -50,10 +50,10 @@ enum {
 // Keycode Aliases for easy access
 #define TD__SPC TD(TD_SPACE) // Tap-Dance Space
 #define TD__SFT TD(TD_ENTER) // Tap-Dance Enter
-#define TDM_SFT TD(TD_MOD_SFT) // Tap-Dance Shift mod
-#define TDM_CTL TD(TD_MOD_CTL) // Tap-Dance Ctrl mod
-#define TDM_ALT TD(TD_MOD_ALT) // Tap-Dance Alt mod
-#define TDM_GUI TD(TD_MOD_GUI) // Tap-Dance Gui mod
+#define NAV_H_S TD(TD_NAV_SFT) // Nav home shift mod
+#define NAV_H_C TD(TD_NAV_CTL) // Nav home ctrl mod
+#define NAV_H_A TD(TD_NAV_ALT) // Nav home alt mod
+#define NAV_H_G TD(TD_NAV_GUI) // Nav home gui mod
 
 #define TD_SENT TD(TD_ENTER_SHIFT) // Tap-Dance Shift/Enter
 #define TD_NENT TD(TD_ENTER_NUM)   // Tap-Dance Num/Enter
