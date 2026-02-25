@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__H, CK_CS_H,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__F, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
+        TDM_SFT, TDM_CTL, TDM_ALT, TDM_GUI, CK_C__F, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------j+--------+--------|
@@ -177,6 +177,22 @@ tap_dance_action_t tap_dance_actions[] = {
          .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
          .user_data = &(tap_dance_config_t){.keycode = CK__ENT, .hold_mods = MOD_BIT(KC_LSFT), .retro_enabled = true, .dt_keycode = CW_CAPS, .has_dt_keycode = true, .dt_layer = _CAPS, .has_dt_layer = true}},
     [TD_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space_sym_finished, x_sym_reset),
+    [TD_MOD_SFT] =
+        {// fn { on_each, finished, reset, release }
+         .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
+         .user_data = &(tap_dance_config_t){.keycode = KC_NO, .hold_mods = MOD_BIT(KC_LSFT), .retro_enabled = false}},
+    [TD_MOD_CTL] =
+        {// fn { on_each, finished, reset, release }
+         .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
+         .user_data = &(tap_dance_config_t){.keycode = KC_NO, .hold_mods = MOD_BIT(KC_LCTL), .retro_enabled = false}},
+    [TD_MOD_ALT] =
+        {// fn { on_each, finished, reset, release }
+         .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
+         .user_data = &(tap_dance_config_t){.keycode = KC_NO, .hold_mods = MOD_BIT(KC_LALT), .retro_enabled = false}},
+    [TD_MOD_GUI] =
+        {// fn { on_each, finished, reset, release }
+         .fn        = {x_mod_on_each_tap, x_mod_finished, x_mod_reset, x_mod_on_each_release},
+         .user_data = &(tap_dance_config_t){.keycode = KC_NO, .hold_mods = MOD_BIT(KC_LGUI), .retro_enabled = false}},
 };
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT('L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 'L', 'L', 'L', 'R', 'R', 'R');
