@@ -132,7 +132,6 @@ const key_override_t ques_key_override = ko_make_basic(MOD_MASK_SHIFT, CK_QUES, 
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
-	&delete_key_override,
 	&quot_key_override,
 	&ques_key_override,
 	
