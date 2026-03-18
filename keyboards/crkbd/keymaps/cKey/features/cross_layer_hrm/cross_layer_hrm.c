@@ -23,11 +23,10 @@ static int8_t cross_layer_hrm_find_index(uint16_t keycode) {
         return -1;
     }
 
-    uint8_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-    uint8_t count       = cross_layer_hrm_registry_count();
+    uint8_t count = cross_layer_hrm_registry_count();
 
     for (uint8_t i = 0; i < count; i++) {
-        if (cross_layer_hrm_registry[i]->tap_keycode == tap_keycode) {
+        if (cross_layer_hrm_registry[i]->mt_keycode == keycode) {
             return i;
         }
     }
