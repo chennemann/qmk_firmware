@@ -1,51 +1,33 @@
 #include "cross_layer_hrm.h"
-#include "../tap_dance/tap_dance.h"
 
-#define DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(slot) \
-    const cross_layer_hrm_config_t cross_layer_hrm_slot_##slot __attribute__((weak)) = {0}
+static uint8_t cross_layer_hrm_registry_count(void) {
+    uint8_t count = 0;
 
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(0);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(1);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(2);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(3);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(4);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(5);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(6);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(7);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(8);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(9);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(10);
-DEFINE_EMPTY_CROSS_LAYER_HRM_SLOT(11);
+    while (count < CROSS_LAYER_HRM_MAX_CONFIGS && cross_layer_hrm_registry[count] != NULL) {
+        count++;
+    }
 
-static const cross_layer_hrm_config_t *const cross_layer_hrm_slots[CROSS_LAYER_HRM_SLOT_COUNT] = {
-    &cross_layer_hrm_slot_0,
-    &cross_layer_hrm_slot_1,
-    &cross_layer_hrm_slot_2,
-    &cross_layer_hrm_slot_3,
-    &cross_layer_hrm_slot_4,
-    &cross_layer_hrm_slot_5,
-    &cross_layer_hrm_slot_6,
-    &cross_layer_hrm_slot_7,
-    &cross_layer_hrm_slot_8,
-    &cross_layer_hrm_slot_9,
-    &cross_layer_hrm_slot_10,
-    &cross_layer_hrm_slot_11,
-};
+    return count;
+}
 
-static uint16_t     cross_layer_hrm_pressed_keycodes[CROSS_LAYER_HRM_SLOT_COUNT] = {0};
-static layer_state_t cross_layer_hrm_pressed_layers[CROSS_LAYER_HRM_SLOT_COUNT]   = {0};
-static bool          cross_layer_hrm_registered[CROSS_LAYER_HRM_SLOT_COUNT]       = {0};
+typedef struct {
+    uint16_t      keycode;
+    layer_state_t layer_snapshot;
+    bool          registered;
+} cross_layer_hrm_runtime_t;
 
-static int8_t cross_layer_hrm_find_slot(uint16_t keycode) {
+static cross_layer_hrm_runtime_t cross_layer_hrm_runtime[CROSS_LAYER_HRM_MAX_CONFIGS] = {0};
+
+static int8_t cross_layer_hrm_find_index(uint16_t keycode) {
     if (!IS_QK_MOD_TAP(keycode)) {
         return -1;
     }
 
     uint8_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    uint8_t count       = cross_layer_hrm_registry_count();
 
-    for (uint8_t i = 0; i < CROSS_LAYER_HRM_SLOT_COUNT; i++) {
-        const cross_layer_hrm_config_t *config = cross_layer_hrm_slots[i];
-        if (config->placeholder != 0 && tap_keycode == config->placeholder) {
+    for (uint8_t i = 0; i < count; i++) {
+        if (cross_layer_hrm_registry[i]->tap_keycode == tap_keycode) {
             return i;
         }
     }
@@ -68,56 +50,44 @@ static uint16_t cross_layer_hrm_resolve_keycode(const cross_layer_hrm_config_t *
     return KC_NO;
 }
 
-bool is_cross_layer_hrm_key(uint16_t keycode) {
-    return cross_layer_hrm_find_slot(keycode) >= 0;
-}
-
 bool process_cross_layer_hrm(uint16_t keycode, keyrecord_t *record) {
-    int8_t slot = cross_layer_hrm_find_slot(keycode);
-    if (slot < 0) {
+    int8_t index = cross_layer_hrm_find_index(keycode);
+    if (index < 0) {
         return true;
     }
 
+    cross_layer_hrm_runtime_t *runtime = &cross_layer_hrm_runtime[index];
+    const cross_layer_hrm_config_t *config = cross_layer_hrm_registry[index];
+
     if (record->event.pressed) {
-        cross_layer_hrm_pressed_layers[slot] = layer_state | default_layer_state;
+        runtime->layer_snapshot = layer_state | default_layer_state;
     }
 
     if (record->tap.count == 0) {
         if (!record->event.pressed) {
-            cross_layer_hrm_pressed_keycodes[slot] = KC_NO;
-            cross_layer_hrm_pressed_layers[slot]   = 0;
-            cross_layer_hrm_registered[slot]       = false;
+            runtime->keycode        = KC_NO;
+            runtime->layer_snapshot = 0;
+            runtime->registered     = false;
         }
         return true;
     }
 
     if (record->event.pressed) {
-        uint16_t resolved_keycode = cross_layer_hrm_resolve_keycode(cross_layer_hrm_slots[slot], cross_layer_hrm_pressed_layers[slot]);
-        cross_layer_hrm_pressed_keycodes[slot] = resolved_keycode;
+        runtime->keycode = cross_layer_hrm_resolve_keycode(config, runtime->layer_snapshot);
+        runtime->registered = false;
 
-        cross_layer_hrm_registered[slot] = false;
-
-        if (resolved_keycode != KC_NO) {
-            if (is_retroactive_mod_enabled()) {
-                tap_code16_with_mods(resolved_keycode, get_active_tap_dance_mods());
-                consume_retroactive_mod();
-            } else if (get_active_tap_dance_mods()) {
-                tap_code16_with_mods(resolved_keycode, get_active_tap_dance_mods());
-            } else {
-                register_code16(resolved_keycode);
-                cross_layer_hrm_registered[slot] = true;
-            }
+        if (runtime->keycode != KC_NO) {
+            register_code16(runtime->keycode);
+            runtime->registered = true;
         }
     } else {
-        uint16_t resolved_keycode = cross_layer_hrm_pressed_keycodes[slot];
-        bool     registered       = cross_layer_hrm_registered[slot];
-        cross_layer_hrm_pressed_keycodes[slot] = KC_NO;
-        cross_layer_hrm_pressed_layers[slot]   = 0;
-        cross_layer_hrm_registered[slot]       = false;
-
-        if (resolved_keycode != KC_NO && registered) {
-            unregister_code16(resolved_keycode);
+        if (runtime->keycode != KC_NO && runtime->registered) {
+            unregister_code16(runtime->keycode);
         }
+
+        runtime->keycode        = KC_NO;
+        runtime->layer_snapshot = 0;
+        runtime->registered     = false;
     }
 
     return false;

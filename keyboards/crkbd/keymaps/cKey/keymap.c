@@ -29,53 +29,74 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef HOME_AR
 #undef HOME_GR
 
-CROSS_LAYER_HRM_FACTORY(0, HOME_GL, MOD_LGUI,
-    [_BYOU]      = CK____C,
-    [_NUM]       = CK____I,
-    [_NAV]       = KC_NO
+#define HOME_GL MT(MOD_LGUI, KC_F13)
+#define HOME_AL MT(MOD_LALT, KC_F14)
+#define HOME_SL MT(MOD_LSFT, KC_F15)
+#define HOME_CL MT(MOD_LCTL, KC_F16)
+#define HOME_CR MT(MOD_LCTL, KC_F17)
+#define HOME_SR MT(MOD_LSFT, KC_F18)
+#define HOME_AR MT(MOD_LALT, KC_F19)
+#define HOME_GR MT(MOD_LGUI, KC_F20)
+
+CROSS_LAYER_HRM_FACTORY(HOME_GL, KC_F13,
+    [_BYOU] = CK____C,
+    [_NUM]  = CK____I,
+    [_NAV]  = KC_NO
 );
 
-CROSS_LAYER_HRM_FACTORY(1, HOME_AL, MOD_LALT,
-    [_BYOU]      = CK____I,
-    [_NUM]       = CK____H,
-    [_NAV]       = KC_NO
+CROSS_LAYER_HRM_FACTORY(HOME_AL, KC_F14,
+    [_BYOU] = CK____I,
+    [_NUM]  = CK____H,
+    [_NAV]  = KC_NO
 );
 
-CROSS_LAYER_HRM_FACTORY(2, HOME_SL, MOD_LSFT,
-    [_BYOU]      = CK____E,
-    [_NUM]       = CK____J,
-    [_NAV]       = CK_C__E
+CROSS_LAYER_HRM_FACTORY(HOME_SL, KC_F15,
+    [_BYOU] = CK____E,
+    [_NUM]  = CK____J,
+    [_NAV]  = CK_C__E
 );
 
-CROSS_LAYER_HRM_FACTORY(3, HOME_CL, MOD_LCTL,
-    [_BYOU]      = CK____A,
-    [_NUM]       = CK____L,
-    [_NAV]       = CK_C__F
+CROSS_LAYER_HRM_FACTORY(HOME_CL, KC_F16,
+    [_BYOU] = CK____A,
+    [_NUM]  = CK____L,
+    [_NAV]  = CK_C__F
 );
 
-CROSS_LAYER_HRM_FACTORY(4, HOME_CR, MOD_LCTL,
-    [_BYOU]      = CK____H,
-    [_NUM]       = CK____4,
-    [_NAV]       = CK_LEFT
+CROSS_LAYER_HRM_FACTORY(HOME_CR, KC_F17,
+    [_BYOU] = CK____H,
+    [_NUM]  = CK____4,
+    [_NAV]  = CK_LEFT
 );
 
-CROSS_LAYER_HRM_FACTORY(5, HOME_SR, MOD_LSFT,
-    [_BYOU]      = CK____T,
-    [_NUM]       = CK____5,
-    [_NAV]       = CK_DOWN
+CROSS_LAYER_HRM_FACTORY(HOME_SR, KC_F18,
+    [_BYOU] = CK____T,
+    [_NUM]  = CK____5,
+    [_NAV]  = CK_DOWN
 );
 
-CROSS_LAYER_HRM_FACTORY(6, HOME_AR, MOD_LALT,
-    [_BYOU]      = CK____S,
-    [_NUM]       = CK____6,
-    [_NAV]       = CK_RGHT
+CROSS_LAYER_HRM_FACTORY(HOME_AR, KC_F19,
+    [_BYOU] = CK____S,
+    [_NUM]  = CK____6,
+    [_NAV]  = CK_RGHT
 );
 
-CROSS_LAYER_HRM_FACTORY(7, HOME_GR, MOD_LGUI,
-    [_BYOU]      = CK____N,
-    [_NUM]       = KC_NO,
-    [_NAV]       = CK__END
+CROSS_LAYER_HRM_FACTORY(HOME_GR, KC_F20,
+    [_BYOU] = CK____N,
+    [_NUM]  = KC_NO,
+    [_NAV]  = CK__END
 );
+
+const cross_layer_hrm_config_t *const cross_layer_hrm_registry[] = {
+    &HOME_GL_cross_layer_hrm,
+    &HOME_AL_cross_layer_hrm,
+    &HOME_SL_cross_layer_hrm,
+    &HOME_CL_cross_layer_hrm,
+    &HOME_CR_cross_layer_hrm,
+    &HOME_SR_cross_layer_hrm,
+    &HOME_AR_cross_layer_hrm,
+    &HOME_GR_cross_layer_hrm,
+    NULL,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 

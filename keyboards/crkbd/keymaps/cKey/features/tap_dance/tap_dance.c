@@ -112,10 +112,6 @@ void tap_code16_with_mods(uint16_t keycode, uint8_t mods) {
 }
 
 static bool is_retroactive_target_key(uint16_t keycode) {
-    if (is_cross_layer_hrm_key(keycode)) {
-        return true;
-    }
-
     switch (keycode) {
         case HOME_CA ... HOME_CZ:
         case HOME_SA ... HOME_SZ:
