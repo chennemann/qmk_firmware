@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keymap_extras/keymap_ckey.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
     [_BYOU] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, XXXXXXX,                      CK_COMM, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            MO__NAV, MO__NUM, TD__SFT,    CK__ENT, CK__SPC, MO__DIA
+                                            MO__NAV, MO__NUM, CK_LSFT,    CK__ENT, CK__SPC, MO__DIA
                                         //`--------------------------'  `--------------------------'
     ),
 
@@ -41,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, CK____Y, CK____D, CK____C, CK____F, CK____T,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, PRESSED, XXXXXXX,    _______, LT_FN_0, CK__SPC
+                                            XXXXXXX, PRESSED, _______,    _______, LT_FN_0, CK__SPC
                                         //`--------------------------'  `--------------------------'
     ),
 
@@ -53,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------j+--------+--------|
-                                            PRESSED, XXXXXXX, XXXXXXX,    CK_LSFT, CK_LCTL, XXXXXXX
+                                            PRESSED, XXXXXXX, _______,    CK_LSFT, CK_LCTL, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
 
@@ -65,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, XXXXXXX, CK_ITRM, CK_EGRV, CK_ABRV, CK_ADEG,                      XXXXXXX, XXXXXXX, XXXXXXX, CK_SCED, XXXXXXX, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                            XXXXXXX, CK__SPC, MO___FN,    PRESSED, XXXXXXX, XXXXXXX
+                                            XXXXXXX, CK__SPC, _______,    PRESSED, XXXXXXX, XXXXXXX
                                         //`--------------------------'  `--------------------------'
     ),
 
