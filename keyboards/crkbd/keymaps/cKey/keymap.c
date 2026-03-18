@@ -20,13 +20,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "keymap_extras/keymap_ckey.h"
 
+#undef HOME_GL
+#undef HOME_AL
+#undef HOME_SL
+#undef HOME_CL
+#undef HOME_CR
+#undef HOME_SR
+#undef HOME_AR
+#undef HOME_GR
+
+CROSS_LAYER_HRM_FACTORY(0, HOME_GL, MOD_LGUI,
+    [_BYOU]      = CK____C,
+    [_NUM]       = CK____I,
+    [_NAV]       = KC_NO
+);
+
+CROSS_LAYER_HRM_FACTORY(1, HOME_AL, MOD_LALT,
+    [_BYOU]      = CK____I,
+    [_NUM]       = CK____H,
+    [_NAV]       = KC_NO
+);
+
+CROSS_LAYER_HRM_FACTORY(2, HOME_SL, MOD_LSFT,
+    [_BYOU]      = CK____E,
+    [_NUM]       = CK____J,
+    [_NAV]       = CK_C__E
+);
+
+CROSS_LAYER_HRM_FACTORY(3, HOME_CL, MOD_LCTL,
+    [_BYOU]      = CK____A,
+    [_NUM]       = CK____L,
+    [_NAV]       = CK_C__F
+);
+
+CROSS_LAYER_HRM_FACTORY(4, HOME_CR, MOD_LCTL,
+    [_BYOU]      = CK____H,
+    [_NUM]       = CK____4,
+    [_NAV]       = CK_LEFT
+);
+
+CROSS_LAYER_HRM_FACTORY(5, HOME_SR, MOD_LSFT,
+    [_BYOU]      = CK____T,
+    [_NUM]       = CK____5,
+    [_NAV]       = CK_DOWN
+);
+
+CROSS_LAYER_HRM_FACTORY(6, HOME_AR, MOD_LALT,
+    [_BYOU]      = CK____S,
+    [_NUM]       = CK____6,
+    [_NAV]       = CK_RGHT
+);
+
+CROSS_LAYER_HRM_FACTORY(7, HOME_GR, MOD_LGUI,
+    [_BYOU]      = CK____N,
+    [_NUM]       = KC_NO,
+    [_NAV]       = CK__END
+);
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BYOU] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         CK__ESC, CK____B, CK____Y, CK____O, CK____U, CK____Z,                      CK____Q, CK____L, CK____D, CK____W, CK____V, CK_BSPC,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        CK__TAB, HOME_GC, HOME_AI, HOME_SE, HOME_CA, XXXXXXX,                      CK__DOT, HOME_CH, HOME_ST, HOME_AS, HOME_GN, CK__QUO,
+        CK__TAB, HOME_GL, HOME_AL, HOME_SL, HOME_CL, XXXXXXX,                      CK__DOT, HOME_CR, HOME_SR, HOME_AR, HOME_GR, CK__QUO,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         XXXXXXX, CK____G, CK____X, CK____J, CK____K, XXXXXXX,                      CK_COMM, CK____R, CK____M, CK____F, CK____P, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -38,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, CK____A, CK____B, CK____K, CK____W, CK____E,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, HOME_GI, HOME_AH, HOME_SJ, HOME_CL, CK____O,                      _______, HOME_C4, HOME_S5, HOME_A6, XXXXXXX, _______,
+        _______, _______, _______, _______, _______, CK____O,                      _______, _______, _______, _______, _______, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, CK____Y, CK____D, CK____C, CK____F, CK____T,                      _______, CK____1, CK____2, CK____3, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -50,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__H, CK_CS_H,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-        _______, NHG__NO, NHA__NO, NHS__CE, NHC__CF, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
+        _______, _______, _______, _______, _______, CK_CS_F,                      CK_HOME, _______, _______, _______, _______, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------j+--------+--------|
@@ -96,6 +153,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_cross_layer_hrm(keycode, record)) {
+        return false;
+    }
+
     if (!process_td_user(keycode, record)) {
         return false;
     }
