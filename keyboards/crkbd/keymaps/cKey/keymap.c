@@ -58,19 +58,16 @@ DECLARE_CROSS_LAYER_HRM(HOME_CL, MOD_LCTL,
 DECLARE_CROSS_LAYER_HRM(HOME_CR, MOD_LCTL,
     [_BYOU] = CK____H,
     [_NUM]  = CK____4,
-    [_NAV]  = CK_LEFT
 );
 
 DECLARE_CROSS_LAYER_HRM(HOME_SR, MOD_LSFT,
     [_BYOU] = CK____T,
     [_NUM]  = CK____5,
-    [_NAV]  = CK_DOWN
 );
 
 DECLARE_CROSS_LAYER_HRM(HOME_AR, MOD_LALT,
     [_BYOU] = CK____S,
     [_NUM]  = CK____6,
-    [_NAV]  = CK_RGHT
 );
 
 DECLARE_CROSS_LAYER_HRM(HOME_GR, MOD_LGUI,
@@ -133,9 +130,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, XXXXXXX, XXXXXXX, XXXXXXX, CK_C__H, CK_CS_H,                      XXXXXXX, CK_PGUP, CK___UP, CK_PGDN, XXXXXXX, _______,
     //|--------+--------+--------+--------+--------+--------|                    |--------+ -------+--------+--------+--------+---------|
-        _______, _______, _______, _______, _______, CK_CS_F,                      CK_HOME, _______, _______, _______, _______, XXXXXXX,
+        _______, _______, _______, _______, _______, CK_CS_F,                      CK_HOME, CK_LEFT, CK_DOWN, CK_RGHT, CK__END, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      XXXXXXX, CK_BSEL, CK_SELB, CK_SELW, CK_LSEL, XXXXXXX,
+        _______, XXXXXXX, XXXXXXX, CK_C__D, CK_UNDO, CK_REDO,                      CK_BSEL, CK_SELB, CK_CSAN, CK_SELW, CK_LSEL, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------j+--------+--------|
                                             PRESSED, XXXXXXX, _______,    CK_LSFT, CK_LCTL, XXXXXXX
                                         //`--------------------------'  `--------------------------'
