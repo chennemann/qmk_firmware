@@ -6,6 +6,7 @@
 enum layers {
     _BYOU = 0,
     _COMBO_REF,
+    _QWERTZ,
     _NUM,
     _FN,
     _DIA,

@@ -105,6 +105,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         //`--------------------------'  `--------------------------'
     ),
 
+    [_QWERTZ] = LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        CK__ESC, CK____Q, CK____W, CK____E, CK____R, CK____T,                      CK____Z, CK____U, CK____I, CK____O, CK____P, CK_BSPC,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK__TAB, CK____A, CK____S, CK____D, CK____F, CK____G,                      CK____H, CK____J, CK____K, CK____L, CK__DOT, CK__QUO,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        CK_LSFT, CK____Y, CK____X, CK____C, CK____V, CK____B,                      CK____N, CK____M, CK_COMM, CK__DOT, CK_SLSH, CK__ENT,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            MO__NAV, MO__NUM, CK_LSFT,    CK__ENT, CK__SPC, MO__DIA
+                                        //`--------------------------'  `--------------------------'
+    ),
+
     [_NUM] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         _______, CK____A, CK____B, CK____K, CK____W, CK____E,                      XXXXXXX, CK____7, CK____8, CK____9, XXXXXXX, _______,
@@ -310,6 +322,7 @@ DEFINE_COMBO(select_all, CK_C__A, CMB_LL2, CMB_LR2);                        // c
 DEFINE_COMBO(copy, CK_C__C, CMB_LR2, CMB_LM2);                              // ctrl + c
 DEFINE_COMBO(paste, CK_C__V, CMB_LM2, CMB_LI2);                             // ctrl + v
 DEFINE_COMBO(cut, CK_C__X, CMB_LL2, CMB_LR2, CMB_LM2, CMB_LI2);             // ctrl + x
+DEFINE_COMBO(qwertz_toggle, TG(_QWERTZ), CMB_LL1, CMB_LR1, CMB_LM1, CMB_LI1); // toggle QWERTZ gaming layer
 
 // Right hand combos
 
@@ -360,6 +373,7 @@ combo_t key_combos[] = {
     copy,
     paste,
     cut,
+    qwertz_toggle,
 
     plus,
     minus,
