@@ -5,3 +5,4 @@
 #include "features/selection/select_word.h"
 #include "features/caps_word/caps_word.h"
 #include "features/cross_layer_hrm/cross_layer_hrm.h"
+#include "features/home_row_mods/home_row_mods.h"

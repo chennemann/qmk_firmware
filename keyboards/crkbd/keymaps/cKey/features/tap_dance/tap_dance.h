@@ -1,6 +1,7 @@
 #pragma once
 
 #include "quantum.h"
+#include "../../keymap_extras/keycodes.h"
 
 // Tap Dance States
 typedef enum {
@@ -34,6 +35,13 @@ typedef struct {
     bool has_dt_layer;    // Flag to check if dt_keycode is set
     tap_dance_runtime_t runtime;
 } tap_dance_config_t;
+
+/*
+ * QMK's keymap introspection includes keymap.c directly and uses ARRAY_SIZE()
+ * on this table, so its complete size must remain visible from the keymap
+ * translation unit even though the definition lives in tap_dance_config.c.
+ */
+extern tap_dance_action_t tap_dance_actions[TD_NAV_HOME_GUI + 1];
 
 td_state_t evaluate_tap_dance_state(tap_dance_state_t *state);
 

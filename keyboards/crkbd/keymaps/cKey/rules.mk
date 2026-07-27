@@ -32,8 +32,12 @@ COMBO_REF_ENABLE = yes
 
 SRC += keymap_extras/keymap_ckey.c
 SRC += features/tap_dance/tap_dance.c
+SRC += features/tap_dance/tap_dance_config.c
 SRC += features/selection/select_word.c
 SRC += features/cross_layer_hrm/cross_layer_hrm.c
+SRC += features/home_row_mods/home_row_mods.c
+SRC += features/key_processing/key_processing.c
+SRC += features/chordal_hold/chordal_hold.c
 
 CAPS_WORD_ENABLE = yes
 SRC += features/caps_word/caps_word.c
