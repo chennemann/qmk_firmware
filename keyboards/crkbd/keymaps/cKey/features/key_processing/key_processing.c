@@ -1,7 +1,7 @@
 #include "../../keymap_extras/keymap_ckey.h"
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_cross_layer_hrm(keycode, record) || !process_td_user(keycode, record)) {
+    if (!process_home_row_mods(keycode, record) || !process_td_user(keycode, record)) {
         return false;
     }
 
