@@ -88,6 +88,81 @@ const cross_layer_hrm_config_t *const cross_layer_hrm_registry[] = {
     NULL,
 };
 
+void keyboard_post_init_user(void) {
+    // Temporary input diagnostics: print every USB keyboard report to the
+    // QMK console so physical HID behavior can be compared with Windows logs.
+    debug_enable   = true;
+    debug_keyboard = true;
+}
+
+/*
+ * When an interrupt resolves a home-row mod as a hold, give the host a short
+ * modifier-only lead-in before QMK reports the interrupting key. This mirrors
+ * a conventional physical modifier chord instead of introducing both keys in
+ * one HID report. Key and modifier releases then use QMK's normal behavior.
+ *
+ * A home-row mod resolved by the tapping-term timeout is unaffected.
+ */
+static matrix_row_t pending_hrm_rows[MATRIX_ROWS] = {0};
+static bool         batch_interrupted_hrm_report  = false;
+
+static bool is_cross_layer_hrm_keycode(uint16_t keycode) {
+    switch (keycode) {
+        case HOME_GL:
+        case HOME_AL:
+        case HOME_SL:
+        case HOME_CL:
+        case HOME_CR:
+        case HOME_SR:
+        case HOME_AR:
+        case HOME_GR:
+            return true;
+        default:
+            return false;
+    }
+}
+
+static bool has_pending_cross_layer_hrm(void) {
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        if (pending_hrm_rows[row]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (is_cross_layer_hrm_keycode(keycode)) {
+        if (record->event.pressed) {
+            pending_hrm_rows[record->event.key.row] |= (matrix_row_t)1 << record->event.key.col;
+        } else {
+            pending_hrm_rows[record->event.key.row] &= ~((matrix_row_t)1 << record->event.key.col);
+        }
+    } else if (record->event.pressed && has_pending_cross_layer_hrm()) {
+        batch_interrupted_hrm_report = true;
+    }
+
+    return true;
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    batch_interrupted_hrm_report = false;
+}
+
+void register_mods(uint8_t mods) {
+    if (!mods) {
+        return;
+    }
+
+    add_mods(mods);
+    send_keyboard_report();
+
+    if (batch_interrupted_hrm_report) {
+        wait_ms(10);
+    }
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BYOU] = LAYOUT_split_3x6_3(
